@@ -49,9 +49,9 @@ fetchSecret InstrumentationKey > ${KV_DIR}/secrets/InstrumentationKey
 fetchSecret MFAKey > ${KV_DIR}/secrets/MFAKey
 
 # Get the "salt"
-salt=$(fetchSecret salt)
+salt=$(fetchSecret MFAsalt)
 if [ "$salt" != "undefined" ] ; then
-   echo "encodeSalt =" $(fetchSecret salt) > ${KV_DIR}/secrets/salt
+   echo "encodeSalt = $salt" > ${KV_DIR}/secrets/salt
    ln -s -f ${KV_DIR}/secrets/salt /etc/gluu/conf/salt
 
    # Get the Couchbase admin password
