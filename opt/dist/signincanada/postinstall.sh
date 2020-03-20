@@ -16,7 +16,7 @@ chmod 755 $(find /opt/gluu/jetty/oxauth/custom -type d -print)
 chmod 644 $(find /opt/gluu/jetty/oxauth/custom -type f -print)
 
 echo "Configuring httpd chain certificate..."
-sed -i "17i\ \ \ \ \ \ \ \ SSLCertificateChainFile /etc/certs/httpd.chain" /etc/httpd/conf.d/https_gluu.conf
+sed -i "22i\ \ \ \ \ \ \ \ SSLCertificateChainFile /etc/certs/httpd.chain" /etc/httpd/conf.d/https_gluu.conf
 
 echo 'Done.'
 echo
