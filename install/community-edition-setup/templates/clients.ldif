@@ -41,7 +41,6 @@ oxAuthResponseType: code
 oxAuthGrantType: authorization_code
 oxAuthGrantType: refresh_token
 oxAuthScope: inum=F0C4,ou=scopes,o=gluu
-oxAuthRedirectURI: https://auth.%(domainname)s/passport/auth/mfa/callback
 oxAuthTokenEndpointAuthMethod: client_secret_post
 oxAuthIdTokenSignedResponseAlg: RS256
 oxAccessTokenSigningAlg: RS256
