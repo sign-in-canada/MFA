@@ -39,7 +39,6 @@ oxAuthClientSecret: %(idpClient_encoded_pw)s
 oxAuthAppType: web
 oxAuthResponseType: code
 oxAuthGrantType: authorization_code
-oxAuthGrantType: refresh_token
 oxAuthScope: inum=F0C4,ou=scopes,o=gluu
 oxAuthTokenEndpointAuthMethod: client_secret_post
 oxAuthIdTokenSignedResponseAlg: RS256
@@ -47,4 +46,4 @@ oxAccessTokenSigningAlg: RS256
 oxAuthTrustedClient: true
 oxAuthSubjectType: pairwise
 oxPersistClientAuthorizations: false
-oxAuthLogoutSessionRequired: true
+oxAuthLogoutSessionRequired: false
