@@ -9,7 +9,7 @@ gluuManageIdentityPermission: true
 gluuFederationHostingEnabled: disabled
 gluuVdsCacheRefreshEnabled: false
 gluuScimEnabled: false
-oxAuthenticationMode: simple_password_auth
+oxAuthenticationMode: select_mfa
 oxTrustAuthenticationMode: simple_password_auth
 gluuPassportEnabled: %(gluuPassportEnabled)s
 gluuRadiusEnabled: %(gluuRadiusEnabled)s
