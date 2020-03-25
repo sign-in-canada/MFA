@@ -358,7 +358,7 @@ class PersonAuthentication(PersonAuthenticationType):
             if locale == "en":
                 return "/en/verify/app.xhtml"
             if locale == "fr":
-                return "/en/verifier/app.xhtml"
+                return "/fr/verifier/app.xhtml"
 
         # continue onto registration pages
         if step == 1:
