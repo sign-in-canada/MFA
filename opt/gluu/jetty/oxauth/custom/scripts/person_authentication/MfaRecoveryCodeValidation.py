@@ -1,5 +1,5 @@
 # oxAuth is available under the MIT License (2008). See http://opensource.org/licenses/MIT for full text.
-# Copyright (c) 2016, Gluu
+# Copyright (c) 2021, Gluu
 #
 # Author: Pawel Pietrzynski
 #
@@ -12,11 +12,14 @@ from org.gluu.oxauth.util import ServerUtil
 from org.gluu.oxauth.service import AuthenticationService, UserService, SessionIdService
 from org.gluu.oxauth.i18n import LanguageBean
 from org.gluu.oxauth.model.common import User
+from org.gluu.jsf2.message import FacesMessages
+from javax.faces.application import FacesMessage
 from java.util import Arrays
 from java.security import Key
 from javax.crypto import Cipher
 from javax.crypto.spec import SecretKeySpec, IvParameterSpec
 from org.bouncycastle.jce.provider import BouncyCastleProvider
+
 
 import sys
 import java
@@ -133,20 +136,70 @@ class PersonAuthentication(PersonAuthenticationType):
             return False
 
         ########################################################################################
-        # 3. get the code from the user profile and validate the recovery code
-        userCode = identity.getWorkingParameter("user_code")
+        # 3. get the code from the user profile
+        facesMessages = CdiUtil.bean(FacesMessages)
+        # get the code from the user profile
+        userCodeOrig = self.findExistingCode(authenticated_user)
+        if (userCodeOrig == None):
+            print "MFA Recovery. authenticate. Did not find code in user profile, cannot recover"
+            facesMessages.add( FacesMessage.SEVERITY_ERROR, "Did not find recovery code in you profile, cannot recover" )
+            return False
+            
+        ########################################################################################
+        # 4. load code, lockout and attemps 
+        userService = CdiUtil.bean(UserService)
+        # check for retries
+        lockoutTs = None
+        attemptsCount = 0
+        userCode = userCodeOrig
+        if (userCode.find("|") > 0):
+            attemptsCount = userCode.split('|')[1]
+            userCode      = userCode.split('|')[0]
+            attemptsCount = int(attemptsCount)
+            # the attemptsCount could potentially be a lockout timestamp in seconds if > 10
+            if ( attemptsCount > 10 ):
+                lockoutTs = attemptsCount
+                attemptsCount = 0
+        
+        ########################################################################################
+        # 4. check for active lockout
+        if ( lockoutTs != None ):
+            # lockout is for 10 hours (36000 seconds)
+            if ( time.time() < lockoutTs + 36000 ):
+                facesMessages.add(FacesMessage.SEVERITY_ERROR, "Too many failed attempts, you are within a 10 hour recovery lockout until next recovery attempt.")
+                return False
+            else:
+                lockoutTs = None
+
+        ########################################################################################
+        # 5. process code check, if fails process attemps and lockout
         userCodeDecrypted = self.decryptAES( self.aesKey, userCode )
         if (userCodeDecrypted != requestCode.lower()):
-            print "MFA Recovery. authenticate. Recovery codes do not match"
+            print "MFA Recovery. authenticate. Recovery codes do not match, previous failed attempts = %s" % attemptsCount
+            attemptsCount = attemptsCount + 1
+            message = "Recovery attempt, bad code. Failed attempt %s out of 10" % attemptsCount
+            # set attributes for saving
+            userCodeNew = "%s|%s" % ( userCode, attemptsCount )
+            # check lockout count
+            if ( attemptsCount > 10 ):
+                # set lockout message and adjust count to 0 and set lockout attribute
+                message = "Recovery attempt, bad code. Too many attempts. You need to wait 10 hours to try again."
+                attemptsCount = 0
+                lockoutTs = int( round( time.time() ) )
+                # update the new code to include lockout
+                userCodeNew = "%s|%s" % ( userCode, lockoutTs )
+            # udpate attempts with new value or lockout timestamp in the user profile
+            userService.replaceUserAttribute( authenticated_user.getUserId() , "secretAnswer", userCodeOrig, userCodeNew )
+            # set the failure message and exit
+            facesMessages.add( FacesMessage.SEVERITY_ERROR, message )
             return False
         else:
             print "MFA Recovery. authenticate. Recovery code successfully verified."
             identity.setWorkingParameter("user_code", None)
 
         ########################################################################################
-        # 4. Remove the recovery code from the user profile and redirect
+        # 6. Remove the recovery code from the user profile and redirect
         #    to mfa selection module to erase MFA enrollments and start over
-        userService = CdiUtil.bean(UserService)
         removed = userService.removeUserAttribute( authenticated_user.getUserId(), "secretAnswer", userCode)
         if not removed:
             print "MFA Recovery. authenticate. Failed removing code"
@@ -181,10 +234,8 @@ class PersonAuthentication(PersonAuthenticationType):
         # 2. get the recovery code from the form user profile and save it in the session
         userCode = self.findExistingCode(authenticated_user)
         if (userCode == None):
-            print "MFA Recovery. prepareForStep. Did not receive code from user, cannot recover"
+            print "MFA Recovery. prepareForStep. Did not find code in user profile, cannot recover"
             return False
-        else:
-            identity.setWorkingParameter("user_code", userCode)
 
         return True
 
@@ -194,7 +245,7 @@ class PersonAuthentication(PersonAuthenticationType):
 
     def getExtraParametersForStep(self, configurationAttributes, step):
         print "MFA Recovery. getExtraParametersForStep called for step '%s'" % step
-        return Arrays.asList("user_code", "user_code_success")
+        return Arrays.asList("user_code", "user_code_orig", "user_code_attempts", "user_code_lockout_ts", "user_code_success")
 
     def getCountAuthenticationSteps(self, configurationAttributes):
         print "MFA Recovery. getCountAuthenticationSteps called"
@@ -293,4 +344,3 @@ class PersonAuthentication(PersonAuthenticationType):
         decodedBytes = cipher.doFinal( encodedBytes )
         plaintext    = ''.join(chr(i) for i in decodedBytes)
         return plaintext
-
