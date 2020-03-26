@@ -1,5 +1,5 @@
 # oxAuth is available under the MIT License (2008). See http://opensource.org/licenses/MIT for full text.
-# Copyright (c) 2021, Gluu
+# Copyright (c) 2016, Gluu
 #
 # Author: Pawel Pietrzynski
 #
@@ -164,9 +164,9 @@ class PersonAuthentication(PersonAuthenticationType):
         ########################################################################################
         # 4. check for active lockout
         if ( lockoutTs != None ):
-            # lockout is for 10 hours (36000 seconds)
-            if ( time.time() < lockoutTs + 36000 ):
-                facesMessages.add(FacesMessage.SEVERITY_ERROR, "Too many failed attempts, you are within a 10 hour recovery lockout until next recovery attempt.")
+            # lockout is for 72 hours (259200 seconds)
+            if ( time.time() < lockoutTs + 259200 ):
+                facesMessages.add(FacesMessage.SEVERITY_ERROR, "Too many failed attempts, you are within a 72 hour recovery lockout until next recovery attempt.")
                 return False
             else:
                 lockoutTs = None
@@ -183,7 +183,7 @@ class PersonAuthentication(PersonAuthenticationType):
             # check lockout count
             if ( attemptsCount > 10 ):
                 # set lockout message and adjust count to 0 and set lockout attribute
-                message = "Recovery attempt, bad code. Too many attempts. You need to wait 10 hours to try again."
+                message = "Recovery attempt, bad code. Too many attempts. You need to wait 72 hours to try again."
                 attemptsCount = 0
                 lockoutTs = int( round( time.time() ) )
                 # update the new code to include lockout
