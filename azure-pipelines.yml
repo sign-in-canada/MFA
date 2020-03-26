@@ -38,12 +38,12 @@ steps:
     chmod 644 $(find . -type f -print)
     chmod 700 opt/dist/signincanada/postinstall.sh
     chmod 700 opt/dist/scripts/azure/keyvault.sh
-    tar -czv --owner=root --group=root -f $(Pipeline.Workspace)/SIC-MFA-0.0.$(minor).tgz --exclude='opt/gluu' etc install opt
+    tar -czv --owner=root --group=root -f $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz --exclude='opt/gluu' etc install opt
   displayName: 'Packaging tarball'
   continueOnError: true
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)'
+    targetPath: '$(Build.ArtifactStagingDirectory)'
     artifact: 'mfa'
     publishLocation: 'pipeline'
