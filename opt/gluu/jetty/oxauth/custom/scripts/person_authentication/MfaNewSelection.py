@@ -78,15 +78,6 @@ class PersonAuthentication(PersonAuthenticationType):
         sessionId = identity.getSessionId()
         sessionAttributes = sessionId.getSessionAttributes()
 
-        # Customization values for all the authentication pages
-        entityId = sessionAttributes.get("mfaExternalApp")
-        if (sessionAttributes.get("pageContent") == None):
-            pageContent = self.customPageContent.get(entityId)
-            if ( self.customPageContent.get(entityId) != None ):
-                sessionAttributes.put("pageContent", self.customPageContent[entityId])
-            else:
-                sessionAttributes.put("pageContent", self.customPageContent["_default"])
-
         # - NEW REGISTRATION - select MFA credential set in "new_acr_value"
         #   - when mfaPai does not exist (set "authenticationFlow" flag to NEW_USER show recovery codes)
         #   - when mfaPai exists but there are no credentials on the account, display select page
@@ -130,6 +121,15 @@ class PersonAuthentication(PersonAuthenticationType):
             CdiUtil.bean(SessionIdService).updateSessionId(sessionId)
             print "MFA Chooser. isValidAuthenticationMethod: MFA user from hint not found, going to registration flow"
             return True
+
+        # Customization values for all the authentication pages
+        entityId = sessionAttributes.get("mfaExternalApp")
+        if (sessionAttributes.get("pageContent") == None):
+            pageContent = self.customPageContent.get(entityId)
+            if ( self.customPageContent.get(entityId) != None ):
+                sessionAttributes.put("pageContent", self.customPageContent[entityId])
+            else:
+                sessionAttributes.put("pageContent", self.customPageContent["_default"])
 
         # Thirdly check if the user has a recovery code registered
         userService = CdiUtil.bean(UserService)
@@ -208,7 +208,7 @@ class PersonAuthentication(PersonAuthenticationType):
             newUser = userService.addUser(newUser, True)
 
             # now that the user is added create a PairwiseIdentifier for the OIDC Client
-            pairwiseIdentifierService = userService = CdiUtil.bean(PairwiseIdentifierService)
+            pairwiseIdentifierService = CdiUtil.bean(PairwiseIdentifierService)
             userInum = newUser.getAttribute("inum");
             oidcClientId = sessionAttributes.get("client_id");
             sectorIdentifierUri = sessionAttributes.get("redirect_uri");
