@@ -7,7 +7,7 @@
         "client.longname.fr" : "Le Client Application",
         "client.shortname.fr" : "L'APP"
     },
-    "oidc:tbs_aors_*" : {
+    "oidc:tbs_aors_" : {
         "client.header.en" : "<abbr title=\"Access to Information and Privacy\">ATIP</abbr> Online Request Service (AORS)",
         "client.longname.en" : "ATIP Online Request Service (AORS)",
         "client.shortname.en" : "AORS",
@@ -15,7 +15,7 @@
         "client.longname.fr" : "Le ATIP Online Request Service (AORS)",
         "client.shortname.fr" : "L'AORS"
     },
-    "oidc:tbs_aomt_*" : {
+    "oidc:tbs_aomt_" : {
         "client.header.en" : "<abbr title=\"Access to Information and Privacy\">ATIP</abbr> Online Management Tool (AOMT)",
         "client.longname.en" : "ATIP Online Management Tool (AOMT)",
         "client.shortname.en" : "AOMT",
