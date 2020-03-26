@@ -200,7 +200,7 @@ class PersonAuthentication(PersonAuthenticationType):
         ########################################################################################
         # 6. Remove the recovery code from the user profile and redirect
         #    to mfa selection module to erase MFA enrollments and start over
-        removed = userService.removeUserAttribute( authenticated_user.getUserId(), "secretAnswer", userCode)
+        removed = userService.removeUserAttribute( authenticated_user.getUserId(), "secretAnswer", userCodeOrig)
         if not removed:
             print "MFA Recovery. authenticate. Failed removing code"
             return False
