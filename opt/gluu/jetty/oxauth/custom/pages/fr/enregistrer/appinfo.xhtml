@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
-<html lang="en" xml:lang="en"
+<html lang="en" xml:lang="fr"
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:a4j="http://richfaces.org/a4j"
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -7,7 +7,7 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html">
 
   <f:view locale="#{language.localeCode}">
-    <h:head lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+    <h:head lang="fr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
       <f:metadata>
         <f:viewAction action="#{authenticator.prepareAuthenticationForStep}"/>
       </f:metadata>
@@ -18,7 +18,7 @@
       <meta name="keywords" content="Data Transfer" />
       <meta name="author" content="Treasury Board of Canada-ATIP Online Request Service (AORS)" />
       <meta name="dcterms.creator" content="Treasury Board of Canada"/>
-      <meta name="dcterms.language" content="eng"/>
+      <meta name="dcterms.language" content="fra"/>
       <meta name="dcterms.subject" content="ATIP Online Request Service (AORS)"/>
       <meta name="dcterms.issued" content="2020-02-21"/>
       <meta name="dcterms.modified" content="2020-02-21"/>
@@ -26,7 +26,7 @@
       <meta name="dcterms.type" content="navigation page - topic page"/>
       <meta name="dcterms.source" content="aem"/>
       <meta name="dcterms.identifier" content="ATIP Online Request Service (AORS)"/>
-      <title>Sign in to <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.longname.en']}" /> - Select 2-Factor Authentication Method</title>
+      <title>Sign in to <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.longname.fr']}" /> - Select a smartphone authenticator application</title>
 
       <link href="https://www.canada.ca/etc/designs/canada/wet-boew/assets/favicon.ico" rel="icon" type="image/x-icon" />
       <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/wet-boew/css/theme.min.css" />
@@ -36,27 +36,6 @@
       </noscript>
 
       <link property="logo" href="https://www.canada.ca/etc/designs/canada/wet-boew/assets/wmms-blk.svg" />
-
-      <style>
-        #help {
-          width: 100%;
-          padding: 50px 0;
-          text-align: center;
-          background-color: #fff;
-          margin-top: 20px;
-       }
-     </style>
-     <script>
-       function help() {
-         var x = document.getElementById("help");
-         if (x.style.display === "none") {
-           x.style.display = "block";
-         } else {
-           x.style.display = "none";
-         }
-       }
-      </script>
-
     </h:head>
     <h:body class="page-type-nav" vocab="http://schema.org/" typeof="WebPage">
        <div class="global-header">
@@ -72,7 +51,7 @@
           <section id="wb-lng" class="text-right">
           <h2 class="wb-inv">Language selection</h2>
           <ul class="list-inline margin-bottom-none">
-            <li><a lang="fr" xml:lang="fr" href="/oxauth/fr/enregistrer/nouveau.htm">Fran&ccedil;ais</a></li>
+            <li><a lang="en" xml:lang="en" href="/oxauth/en/register/appinfo.htm">English</a></li>
           </ul>
           </section>
           <div class="row">
@@ -87,98 +66,51 @@
         </div>
       </header>
 
-
       <main property="mainContentOfPage" class="container" typeof="WebPageElement">
-        <div style="margin-top: 20px; float: right;">
-          <a onclick="help()" class="btn btn-primary" style="color:#FFF"> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" style="padding-right: 5px;"></span>&nbsp;Help</a>
+        <div style="float:right; margin-top:20px;">
+          <a href="help.htm" class="btn btn-primary"><span style="padding-right:5px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Help</a>
         </div>
-        <div style="display:none; border:thin; border-color:#000; z-index:1000;" id="help">
-          <h2>Help Files:</h2>
-          <hr/>
-          <ul>
-            <li>Link 1 ...</li>
-            <li>Link 2 ...</li>
-            <li>Link 3 ...</li>
-            <li>Link 4 ...</li>
-          </ul>
-        </div>
-        <h1 property="name" id="wb-cont"><h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.header.en']}" /></h1>
-        <h2>Select 2-Factor Authentication Method</h2>
-        <p>To protect your security and privacy of Canadians, <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.shortname.en']}" /> uses secure 2-factor authentication (2FA).</p>
-        <p>You must add 2FA to your account to: </p>
-        <ul>
-          <li>Receive your requests electronically online</li>
-          <li>Track the status of your request(s) </li>
-          <li>Deliver your request reply electronically </li>
-        </ul>
-        <p>You may use either a  hardware USB token  or set up your smartphone to serve as a token</p>
+        <h1 property="name" id="wb-cont"><h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.header.fr']}" /></h1>
+        <h2>Select a smartphone authenticator application</h2>
+        <p>You  must either have a smartphone authenticator application already installed or  download one.</p>
+        <h3 class="h3">Already have an application installed? </h3>
+        <p>Open the authenticator to create a new token</p>
         <ul class="list-unstyled">
           <li>
             <details>
-              <summary>What is 2-factor authentication?</summary>
-              <p><b>Two-step authentication is a type of multi-factor authentication</b>. It’s a way to confirm users by using a combination of two different factors: </p>
-              <ul>
-                <li><b>something they know</b> (for example a password)</li>
-                <li><b>something they have</b> (a physical token)</li>
-              </ul>
-              <p>Think of it like a locked door that can only be opened with both a key and a secret code on a keypad. Someone pretending to be you should never be able to get both those things.</p>
-              <p>For this application we use either a USB hardware token or you can set up your smartphone to act as a token.</p>
-              <p>USB Hardware tokens are available through a variety of sources but you will usually need to purchase one. If you don’t have a smartphone then this is your best option.</p>
-              <p><b>Can’t use either of these options?</b></p>
-              <p>You can still submit an online request without setting up 2-step authentication.</p>
-              <p>It’s up to you to decide if you want to go through the process of setting up 2-step authentication, however if you want e-delivery or to track your request(s) it is required you use one of the above methods.</p>
-              <p>If you do not have an app installed you will need to download one (from the appropriate App store depending on whether you are using an Android or iPhone).</p>
+              <summary>What smartphone apps do we suggest?</summary>
+              <p>There are a variety of smartphone apps (such as Google Authenticator, Microsoft Authenticator and Authy) that you can set up on your phone for free to act as a token.</p>
             </details>
           </li>
         </ul>
+        <h3 class="h3">Need to install an application?</h3>
+        <p>Select and install an authenticator application</p>
+        <ul class="list-unstyled">
+          <li>
+            <details>
+              <summary>How to find an authenticator application</summary>
+              <p>There are a number of apps which provide this service and while we suggest Google Authenticator, Microsoft Authenticator or Authy, you may use any similar app. These apps should be free of charge.</p>
+              <p>If you do not have an app installed you will need to download one (from the appropriate app store depending on whether you are using an Android or iPhone).</p>
+            </details>
+          </li>
+        </ul>
+        <h4>Once you are ready generate a QR code to scan continue to the next page.</h4>
+        <h:messages style="color:red;"/>
+        <h:form id="loginForm" class="form-horizontal" action="#{authenticator.authenticate}" >
+          <h:inputHidden id="action" styleClass="form-control" autocomplete="off" />
+          <nav class="mrgn-bttm-lg" role="navigation">
+            <h2 class="wb-inv">Document navigation</h2>
+            <ul class="pager"><br />
+              <li class="pull-left">
+                <h:commandButton id="cancelButton" styleClass="btn btn-default" role="button" value="Cancel App Registration" action="#{authenticator.authenticate}" onclick="fillInCancel()"/>
+              </li>
+              <li class="pull-right">
+                <h:commandButton id="loginButton1" styleClass="btn btn-primary" role="button" value="Generate QR code" action="#{authenticator.authenticate}" onclick="fillInContinue()"/>
+              </li>
+            </ul>
+          </nav>
+        </h:form>
 
-
-        <div class="row wb-eqht">
-          <h:messages style="color:red;"/>
-          <h:form id="loginForm" class="form-horizontal" >
-            <div class="cddol-lg-12">
-              <h:inputHidden id="mfachoice" value="#{acrname}" styleClass="form-control" autocomplete="off" />
-
-              <div class="col-md-6">
-                <section class="panel panel-default hght-inhrt">
-                  <header class="panel-heading">
-                    <h2 class="h3 mrgn-tp-sm text-center">Use your smartphone application</h2>
-                  </header>
-                  <div class="panel-body">
-                    <p class="text-center"><img src="/oxauth/ext/resources/smartphone.png" alt="Phone" /></p>
-                    <p class="text-center">
-                      <h:commandButton id="loginButton1" value="Proceed with your smartphone" type="submit"
-                          styleClass="btn-primary" role="button" onclick="fillInAcrOnSubmit('mfa_otp')" action="#{authenticator.authenticate}">
-                      </h:commandButton>
-                    </p>
-                  </div>
-                </section>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <section class="panel panel-default hght-inhrt">
-                <header class="panel-heading">
-                  <h2 class="h3 mrgn-tp-sm text-center">Use your hardware USB token </h2>
-                </header>
-                <div class="panel-body">
-                  <p class="text-center"><img src="/oxauth/ext/resources/yubikey.png" alt="Token" /></p>
-                  <p class="text-center">
-                    <h:commandButton id="loginButton2" value="Proceed with your token" type="submit"
-                        styleClass="btn-primary" role="button" onclick="fillInAcrOnSubmit('mfa_u2f')" action="#{authenticator.authenticate}">
-                    </h:commandButton>
-                  </p>
-                </div>
-              </section>
-            </div>
-          </h:form>
-        </div>
-
-        <nav class="mrgn-bttm-lg" role="navigation">
-          <h2 class="wb-inv">Document navigation</h2>
-          <ul class="pager">
-            <li class="pull-left"><a href="#" class="btn btn-default" rel="prev">Back to <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.shortname.en']}" /></a></li>
-          </ul>
-        </nav>
         <div class="pagedetails">
           <div class="row">
             <div class="col-sm-6 col-md-5 col-lg-4">
@@ -190,7 +122,7 @@
                       <form id="gc-rprt-prblm-form" action="/gc/services/generateemail" method="post">
                         <input type="hidden" name="pageTitle" value="Immigration and citizenship" />
                         <input type="hidden" name="submissionPage" value="/content/canadasite/en/services/immigration-citizenship.html" />
-                        <input type="hidden" name="lang" value="en" />
+                        <input type="hidden" name="lang" value="fr" />
                         <input type="hidden" name="pageOwner" value="gc:institutions/department-of-citizenship-and-immigration" />
                         <input id="emailTemplate" name="emailTemplate" type="hidden" value="reportaproblem/rap" />
                         <input name="subject" type="hidden" value="Report a problem or mistake on this page" />
@@ -321,29 +253,19 @@
       <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/wet-boew.min.js"></script>
       <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/theme.min.js" type="text/x-javascript"></script>
       <script  type="text/x-javascript">
-        function fillInAcrOnSubmit(acrButtonValue){
-          document.getElementById("loginForm:mfachoice").value = acrButtonValue;
+        function fillInContinue(){
+          document.getElementById("loginForm:action").value = "continue";
         }
-
-        function fillPlatformField() {
-          try {
-            re = /^([^\.]+\.[^\.]+)\..+/;
-            result = re.exec(platform.version);
-            if (result != null) {
-              platform.version=result[1];
-            }
-              document.getElementById("loginForm:platform").value = JSON.stringify(platform);
-            } catch (e) {
-          }
+        function fillInCancel(){
+          document.getElementById("loginForm:action").value = "cancel";
         }
-
         $(document).ready(function() {
           $.ajax({
              url: 'https://lang-canada.fjgc-gccf.gc.ca/v1/lang',
              type: 'PUT',
              datatype: 'application/json',
              contentType: 'application/json',
-             data: '{"lang": "eng"}',
+             data: '{"lang": "fra"}',
              xhrFields: {withCredentials: true}
              });
           })

@@ -52,7 +52,7 @@
         <section id="wb-lng" class="text-right">
         <h2 class="wb-inv">Language selection</h2>
         <ul class="list-inline margin-bottom-none">
-          <li><a lang="fr" xml:lang="fr" href="/fr/#.html">Fran&ccedil;ais</a></li>
+          <li><a lang="fr" xml:lang="fr" href="/oxauth/fr/recuperer/code.htm">Fran&ccedil;ais</a></li>
         </ul>
         </section>
         <div class="row">
@@ -84,7 +84,9 @@
           <span class="field-name">Recovery code</span><strong class="required">(required)</strong>
         </label>
         <ul class="list-unstyled">
-          <h:inputText placeholder="Recovery Code" id="recoveryCode" autocomplete="off" styleClass="form-control" />
+          <h:inputText placeholder="Recovery Code" id="recoveryCode1" size="4" maxlength="4" autocomplete="off" styleClass="display: inline-block" />-
+          <h:inputText placeholder="Recovery Code" id="recoveryCode2" size="4" maxlength="4" autocomplete="off" styleClass="display: inline-block" />-
+          <h:inputText placeholder="Recovery Code" id="recoveryCode3" size="4" maxlength="4" autocomplete="off" styleClass="display: inline-block" />
           <li>
             <details>
               <summary>How do I get this code?</summary>
@@ -258,7 +260,7 @@
         }
         $(document).ready(function() {
           $.ajax({
-             url: 'https://te-lang-tbs.fjgc-gccf.gc.ca/v1/lang',
+             url: 'https://lang-canada.fjgc-gccf.gc.ca/v1/lang',
              type: 'PUT',
              datatype: 'application/json',
              contentType: 'application/json',

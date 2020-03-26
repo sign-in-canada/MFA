@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
-<html lang="en" xml:lang="en"
+<html lang="fr" xml:lang="fr"
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:a4j="http://richfaces.org/a4j"
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -7,7 +7,7 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html">
 
   <f:view locale="#{language.localeCode}">
-  <h:head lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+  <h:head lang="fr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
     <f:metadata>
       <f:viewAction action="#{authenticator.prepareAuthenticationForStep}"/>
     </f:metadata>
@@ -18,7 +18,7 @@
     <meta name="keywords" content="Data Transfer" />
     <meta name="author" content="Treasury Board of Canada-ATIP Online Request Service (AORS)" />
     <meta name="dcterms.creator" content="Treasury Board of Canada"/>
-    <meta name="dcterms.language" content="eng"/>
+    <meta name="dcterms.language" content="fra"/>
     <meta name="dcterms.subject" content="ATIP Online Request Service (AORS)"/>
     <meta name="dcterms.issued" content="2020-02-21"/>
     <meta name="dcterms.modified" content="2020-02-21"/>
@@ -26,48 +26,7 @@
     <meta name="dcterms.type" content="navigation page - topic page"/>
     <meta name="dcterms.source" content="aem"/>
     <meta name="dcterms.identifier" content="ATIP Online Request Service (AORS)"/>
-    <title>Sign in to <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.longname.en']}" /> - Plug in your hardware USB token</title>
-
-    <script src="/oxauth/auth/u2f/scripts/u2f-api.js" />
-    <script>
-        var auth_request = ${identity.getWorkingParameter('fido_u2f_authentication_request')};
-        var register_request = ${identity.getWorkingParameter('fido_u2f_registration_request')};
-
-        function startRegistration() {
-            u2fApi.register(register_request.registerRequests)
-                .then( function(data) {
-                    document.getElementById('tokenResponse').value = JSON.stringify(data);
-                    document.getElementById('authMethod').value = 'enroll';
-
-                    document.getElementById('u2f_form').submit();
-                })
-                .catch( function(msg) {
-                    alert("U2F failed. " + msg);
-                    return;
-                });
-        }
-
-        function startAuthentication() {
-            u2fApi.sign(auth_request.authenticateRequests)
-                .then( function( data ) {
-                    document.getElementById('tokenResponse').value = JSON.stringify(data);
-                    document.getElementById('authMethod').value = 'authenticate';
-
-                    document.getElementById('u2f_form').submit();
-                })
-                .catch( function(msg) {
-                    alert("U2F failed. " + msg);
-                    return;
-                });
-        }
-
-        if (auth_request != null) {
-            setTimeout(startAuthentication(), 5000);
-        } else {
-            setTimeout(startRegistration(), 5000);
-        }
-
-    </script>
+    <title>Sign in to <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.longname.fr']}" /> - Enter Verification Code</title>
 
     <link href="https://www.canada.ca/etc/designs/canada/wet-boew/assets/favicon.ico" rel="icon" type="image/x-icon" />
     <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/wet-boew/css/theme.min.css" />
@@ -77,11 +36,12 @@
     </noscript>
 
     <link property="logo" href="https://www.canada.ca/etc/designs/canada/wet-boew/assets/wmms-blk.svg" />
+
   </h:head>
   <h:body class="page-type-nav" vocab="http://schema.org/" typeof="WebPage">
-    <div class="global-header">
-      <nav>
-        <ul id="wb-tphp">
+     <div class="global-header">
+       <nav>
+         <ul id="wb-tphp">
           <li class="wb-slc"><a class="wb-sl" href="#wb-cont">Skip to main content</a></li>
           <li class="wb-slc"><a class="wb-sl" href="#wb-info">Skip to &#34;About government&#34;</a></li>
         </ul>
@@ -92,7 +52,7 @@
         <section id="wb-lng" class="text-right">
         <h2 class="wb-inv">Language selection</h2>
         <ul class="list-inline margin-bottom-none">
-          <li><a lang="fr" xml:lang="fr" href="/oxauth/fr/verifier/jeton.htm">Fran&ccedil;ais</a></li>
+          <li><a lang="en" xml:lang="en" href="/oxauth/en/register/appcode.htm">English</a></li>
         </ul>
         </section>
         <div class="row">
@@ -111,30 +71,51 @@
       <div style="float:right; margin-top:20px;">
         <a href="help.htm" class="btn btn-primary"><span style="padding-right:5px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Help</a>
       </div>
-      <h1 property="name" id="wb-cont"><h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.header.en']}" /></h1>
-      <h2>Plug in your hardware USB token now</h2>
-      <p>Insert the hardware USB token into your computer and push the button on the token to authenticate</p>
+      <h1 property="name" id="wb-cont"><h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.header.fr']}" /></h1>
+      <h2>Enter Verification Code</h2>
+      <p>The code in the smartphone application changes and is valid for only 30 seconds so please wait until a new code is generated so you have enough time to enter and submit it.</p>
+      <ul class="list-unstyled">
+        <li>
+          <details>
+            <summary>How do I get this code?</summary>
+            <p>You must have set up your smartphone with an authenticator application.</p>
+            <ul>
+              <li>Open the application</li>
+              <li>Select the token for ATIP</li>
+              <li>Enter the code it displays (note the code is designed to change frequently, you will get a new code every few seconds)</li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+
       <h:messages style="color:red;"/>
-      <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false;">
-        <input type="hidden" name="username" value="${credentials.username}" />
-        <input type="hidden" name="authMethod" id="authMethod" />
-        <input type="hidden" name="tokenResponse" id="tokenResponse" />
-      </form>
       <h:form id="loginForm" class="form-horizontal" action="#{authenticator.authenticate}" >
         <h:inputHidden id="action" styleClass="form-control" autocomplete="off" />
-        <div class="row">
-          <div class="col-md-5"><img src="/oxauth/ext/resources/yubikeyincomputer.png" alt="" /></div>
-          <div class="login-panel">
-            <h:panelGroup rendered="#{fido_u2f_authentication_request != 'null'}">
-            </h:panelGroup>
-          </div>
-          <div class="col-md-7">
-            <h2 class="h5">Was your token not recognised?</h2>
-            <input class="btn btn-default" role="button" type="submit" value="Refresh" />
-            <h2 class="h5 mrgn-tp-lg">Lost or replaced your token?</h2>
-            <h:commandButton id="recoverButton" styleClass="btn btn-default" role="button" value="Recover" action="#{authenticator.authenticate}" onclick="fillInRecovery()"/>
-          </div>
+        <div class="col-md-12">
+          <section class="panel panel-default">
+            <header class="panel-heading">
+              <h2 class="h3 mrgn-tp-sm text-center">Enter the code from your smartphone application</h2>
+            </header>
+            <div class="panel-body">
+              <p>Copy the code below and enter it into your authentication app.</p>
+              <p class="text-center"><img src="/oxauth/ext/resources/smartphonecode.png" width="165" height="265" alt="scan code"/></p>
+              <p class="text-center"><label for="code"> Verification code:
+                <input class="form-control" id="loginForm:otpCode" style="text-align:center" data-rule-digits="true" maxlength="6" name="loginForm:otpCode" type="text" autocomplete="off" value=""/>
+              </label></p>
+            </div>
+          </section>
         </div>
+        <nav class="mrgn-bttm-lg" role="navigation">
+          <h2 class="wb-inv">Document navigation</h2>
+          <ul class="pager"><br />
+            <li class="pull-left">
+              <h:commandButton id="cancelButton"  styleClass="btn btn-default" role="button" value="Cancel App Registration" action="#{authenticator.authenticate}" onclick="fillInCancel()"/>
+            </li>
+            <li class="pull-right">
+              <h:commandButton id="loginButton1" styleClass="btn btn-primary" role="button" value="Continue" action="#{authenticator.authenticate}"/>
+            </li>
+          </ul>
+        </nav>
       </h:form>
 
       <div class="pagedetails">
@@ -148,7 +129,7 @@
                     <form id="gc-rprt-prblm-form" action="/gc/services/generateemail" method="post">
                       <input type="hidden" name="pageTitle" value="Immigration and citizenship" />
                       <input type="hidden" name="submissionPage" value="/content/canadasite/en/services/immigration-citizenship.html" />
-                      <input type="hidden" name="lang" value="en" />
+                      <input type="hidden" name="lang" value="fr" />
                       <input type="hidden" name="pageOwner" value="gc:institutions/department-of-citizenship-and-immigration" />
                       <input id="emailTemplate" name="emailTemplate" type="hidden" value="reportaproblem/rap" />
                       <input name="subject" type="hidden" value="Report a problem or mistake on this page" />
@@ -291,7 +272,7 @@
              type: 'PUT',
              datatype: 'application/json',
              contentType: 'application/json',
-             data: '{"lang": "eng"}',
+             data: '{"lang": "fra"}',
              xhrFields: {withCredentials: true}
              });
           })

@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
-<html lang="en" xml:lang="en"
+<html lang="fr" xml:lang="fr"
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:a4j="http://richfaces.org/a4j"
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -7,7 +7,7 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html">
 
   <f:view locale="#{language.localeCode}">
-  <h:head lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+  <h:head lang="fr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
     <f:metadata>
       <f:viewAction action="#{authenticator.prepareAuthenticationForStep}"/>
     </f:metadata>
@@ -18,7 +18,7 @@
     <meta name="keywords" content="Data Transfer" />
     <meta name="author" content="Treasury Board of Canada-ATIP Online Request Service (AORS)" />
     <meta name="dcterms.creator" content="Treasury Board of Canada"/>
-    <meta name="dcterms.language" content="eng"/>
+    <meta name="dcterms.language" content="fra"/>
     <meta name="dcterms.subject" content="ATIP Online Request Service (AORS)"/>
     <meta name="dcterms.issued" content="2020-02-21"/>
     <meta name="dcterms.modified" content="2020-02-21"/>
@@ -26,48 +26,7 @@
     <meta name="dcterms.type" content="navigation page - topic page"/>
     <meta name="dcterms.source" content="aem"/>
     <meta name="dcterms.identifier" content="ATIP Online Request Service (AORS)"/>
-    <title>Sign in to <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.longname.en']}" /> - Plug in your hardware USB token</title>
-
-    <script src="/oxauth/auth/u2f/scripts/u2f-api.js" />
-    <script>
-        var auth_request = ${identity.getWorkingParameter('fido_u2f_authentication_request')};
-        var register_request = ${identity.getWorkingParameter('fido_u2f_registration_request')};
-
-        function startRegistration() {
-            u2fApi.register(register_request.registerRequests)
-                .then( function(data) {
-                    document.getElementById('tokenResponse').value = JSON.stringify(data);
-                    document.getElementById('authMethod').value = 'enroll';
-
-                    document.getElementById('u2f_form').submit();
-                })
-                .catch( function(msg) {
-                    alert("U2F failed. " + msg);
-                    return;
-                });
-        }
-
-        function startAuthentication() {
-            u2fApi.sign(auth_request.authenticateRequests)
-                .then( function( data ) {
-                    document.getElementById('tokenResponse').value = JSON.stringify(data);
-                    document.getElementById('authMethod').value = 'authenticate';
-
-                    document.getElementById('u2f_form').submit();
-                })
-                .catch( function(msg) {
-                    alert("U2F failed. " + msg);
-                    return;
-                });
-        }
-
-        if (auth_request != null) {
-            setTimeout(startAuthentication(), 5000);
-        } else {
-            setTimeout(startRegistration(), 5000);
-        }
-
-    </script>
+    <title>Sign in to <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.longname.fr']}" /> - Record your recovery code</title>
 
     <link href="https://www.canada.ca/etc/designs/canada/wet-boew/assets/favicon.ico" rel="icon" type="image/x-icon" />
     <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/wet-boew/css/theme.min.css" />
@@ -76,8 +35,48 @@
       <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/wet-boew/css/noscript.min.css" />
     </noscript>
 
+    <style>
+      #confirmDialogDiv {
+        width: auto%;
+        height:auto;
+        padding: 50px 50px;
+        text-align: center;
+        background-color: black;
+        opacity: 0.8;
+        z-index:4000;
+        margin-top:-100px;
+      }
+   </style>
+   <style>
+      .res-circle {
+        margin-top:25px;
+        width: 3%;
+        border-radius: 50%;
+        line-height: 0;
+        background: #bcd6ff;
+        /* NECESSARY FOR TEXT */
+        position: relative;
+      }
+      .res-circle:after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+      }
+      .circle-txt {
+        position: absolute;
+        bottom: 50%;
+        width: 100%;
+        text-align: center;
+        /* NOT IMPORTANT */
+        font-family: arial, sans-serif;
+        font-size: small;
+        font-weight: normal;
+      }
+    </style>
+
     <link property="logo" href="https://www.canada.ca/etc/designs/canada/wet-boew/assets/wmms-blk.svg" />
   </h:head>
+
   <h:body class="page-type-nav" vocab="http://schema.org/" typeof="WebPage">
     <div class="global-header">
       <nav>
@@ -92,14 +91,14 @@
         <section id="wb-lng" class="text-right">
         <h2 class="wb-inv">Language selection</h2>
         <ul class="list-inline margin-bottom-none">
-          <li><a lang="fr" xml:lang="fr" href="/oxauth/fr/verifier/jeton.htm">Fran&ccedil;ais</a></li>
+          <li><a lang="en" xml:lang="en" href="/oxauth/fr/enregistrer/code.htm">English</a></li>
         </ul>
         </section>
         <div class="row">
           <div class="brand col-xs-5 col-md-4" property="publisher" typeof="GovernmentOrganization">
             <a href="https://www.canada.ca/en.html" property="url">
               <img src="https://www.canada.ca/etc/designs/canada/wet-boew/assets/sig-blk-en.svg" alt="" property="logo" />
-                <span class="wb-inv" property="name"> Government of Canada / <span lang="fr" xml:lang="fr" >Gouvernement du Canada</span></span>
+              <span class="wb-inv" property="name"> Government of Canada / <span lang="fr" xml:lang="fr" >Gouvernement du Canada</span></span>
             </a>
             <meta property="areaServed" typeof="Country" content="Canada" />
           </div>
@@ -109,33 +108,73 @@
 
     <main property="mainContentOfPage" class="container" typeof="WebPageElement">
       <div style="float:right; margin-top:20px;">
-        <a href="help.htm" class="btn btn-primary"><span style="padding-right:5px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Help</a>
+        <a href="help.htm" class="btn btn-primary">
+          <span style="padding-right:5px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Help
+        </a>
       </div>
-      <h1 property="name" id="wb-cont"><h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.header.en']}" /></h1>
-      <h2>Plug in your hardware USB token now</h2>
-      <p>Insert the hardware USB token into your computer and push the button on the token to authenticate</p>
+      <h1 property="name" id="wb-cont"><h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.header.fr']}" /></h1>
+      <h2>Record Your Recovery Code</h2>
+      <p>You must record a recovery code to protect access to your account.</p>
+      <label for="recovery_code">This is your new recovery code:  <h:outputText escape="false" value="#{ identity.getWorkingParameter('new_code')}" /></label>
+      <h3>This is your new recovery code</h3>
+      <ul class="list-unstyled">
+        <li>
+          <details>
+            <summary>Why do you need a recovery code?</summary>
+            <p>If your token is lost or you use a new phone (for example if you lose or damage your phone) you will be unable to recover your ATIP account profile without a recovery code.</p>
+            <p><i>NOTE: if you are currently recovering an old account you will need to regenerate a new recovery code.</i></p>
+          </details>
+        </li>
+      </ul>
+
+      <p>Write this code down and store it in a secure location!</p>
+      <ul>
+        <li><b>Do Not share</b> this code</li>
+        <li><b>Do Not lose</b> this code</li>
+        <li>This code can be used to comprimise your account and you are responsible for its loss or misuse</li>
+        <li>You will lose your account and ability to recover tis account</li>
+      </ul>
       <h:messages style="color:red;"/>
-      <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false;">
-        <input type="hidden" name="username" value="${credentials.username}" />
-        <input type="hidden" name="authMethod" id="authMethod" />
-        <input type="hidden" name="tokenResponse" id="tokenResponse" />
-      </form>
-      <h:form id="loginForm" class="form-horizontal" action="#{authenticator.authenticate}" >
+      <h:form horizontal="true" id="loginForm" class="form-horizontal">
         <h:inputHidden id="action" styleClass="form-control" autocomplete="off" />
-        <div class="row">
-          <div class="col-md-5"><img src="/oxauth/ext/resources/yubikeyincomputer.png" alt="" /></div>
-          <div class="login-panel">
-            <h:panelGroup rendered="#{fido_u2f_authentication_request != 'null'}">
-            </h:panelGroup>
-          </div>
-          <div class="col-md-7">
-            <h2 class="h5">Was your token not recognised?</h2>
-            <input class="btn btn-default" role="button" type="submit" value="Refresh" />
-            <h2 class="h5 mrgn-tp-lg">Lost or replaced your token?</h2>
-            <h:commandButton id="recoverButton" styleClass="btn btn-default" role="button" value="Recover" action="#{authenticator.authenticate}" onclick="fillInRecovery()"/>
-          </div>
+        <h:selectBooleanCheckbox id="confirmCodeBox" styleClass="checkmark" style="position:relative !important;" type="checkbox"></h:selectBooleanCheckbox>
+        <label style="color:#000" for="saved">&nbsp;&nbsp;<strong>I confirm I wrote down the code above and stored it safely</strong></label>
+        <br />
+        <div class="cddol-lg-12">
+          <nav class="mrgn-bttm-lg" role="navigation">
+            <h2 class="wb-inv">Document navigation</h2>
+            <ul class="pager"><br />
+              <li class="pull-left">
+                <h:commandButton id="cancelButton" styleClass="btn btn-default" role="button" value="Cancel Registration" action="#{authenticator.authenticate}" onclick="fillInCancel()"/>
+              </li>
+              <li class="pull-right">
+                <h:commandButton id="loginButton1" styleClass="btn btn-primary" role="button" value="Continue" action="#{authenticator.authenticate}"/>
+              </li>
+            </ul>
+          </nav>
         </div>
       </h:form>
+
+      <div style="display:none" id="confirmDialogDiv">
+        <div class="center-block">
+          <div class="center-block" style=" margin-top:-30px; width:700px; height:200px; background-color:#FFF">
+            <section id="errors-fdbck-frm" class="alert alert-danger" tabindex="-1">
+              <h2>Did you record your recovery code?</h2>
+              <p style="background-color:#FFF" class="alert">You will not be shown this code again. You will need this code if you lose your token; without it you will lose access to your account and all account details.</p>
+              <ul  class="pager">
+                <li class="pull-left">
+                  <!-- Pawel closes box-->
+                  <button  onclick="checkDialogAnswer()" class="btn btn-danger" role="button" rel="next">No</button>
+                </li>
+                <li class="pull-right">
+                  <!-- Pawel link to next page-->
+                  <button  onclick="checkDialogAnswer()" class="btn btn-primary" role="button" rel="next">Yes</button>
+                </li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </div>
 
       <div class="pagedetails">
         <div class="row">
@@ -148,7 +187,7 @@
                     <form id="gc-rprt-prblm-form" action="/gc/services/generateemail" method="post">
                       <input type="hidden" name="pageTitle" value="Immigration and citizenship" />
                       <input type="hidden" name="submissionPage" value="/content/canadasite/en/services/immigration-citizenship.html" />
-                      <input type="hidden" name="lang" value="en" />
+                      <input type="hidden" name="lang" value="fr" />
                       <input type="hidden" name="pageOwner" value="gc:institutions/department-of-citizenship-and-immigration" />
                       <input id="emailTemplate" name="emailTemplate" type="hidden" value="reportaproblem/rap" />
                       <input name="subject" type="hidden" value="Report a problem or mistake on this page" />
@@ -228,6 +267,7 @@
               </div>
             </details>
           </div>
+          <h:outputText escape="false" value="&lt;div class=&quot;wb-share col-sm-4 col-md-3 col-sm-offset-2 col-md-offset-4 col-lg-offset-5&quot; data-wb-share='{&quot;lnkClass&quot;:&quot;btn btn-default btn-block&quot;}'&gt;&lt;/div&gt;" />
         </div>
         <dl id="wb-dtmd">
           <dt>Date modified:&#32;</dt>
@@ -279,9 +319,15 @@
     <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/wet-boew.min.js"></script>
     <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/theme.min.js" type="text/x-javascript"></script>
     <script  type="text/x-javascript">
-        function fillInRecovery(){
-          document.getElementById("loginForm:action").value = "recover";
+        function checkDialogAnswer() {
+          var x = document.getElementById("confirmDialogDiv");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
         }
+
         function fillInCancel(){
           document.getElementById("loginForm:action").value = "cancel";
         }
@@ -291,7 +337,7 @@
              type: 'PUT',
              datatype: 'application/json',
              contentType: 'application/json',
-             data: '{"lang": "eng"}',
+             data: '{"lang": "fra"}',
              xhrFields: {withCredentials: true}
              });
           })

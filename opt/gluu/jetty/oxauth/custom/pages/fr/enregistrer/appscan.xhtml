@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
-<html lang="en" xml:lang="en"
+<html lang="fr" xml:lang="fr"
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:a4j="http://richfaces.org/a4j"
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -7,7 +7,7 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html">
 
   <f:view locale="#{language.localeCode}">
-  <h:head lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+  <h:head lang="fr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
     <f:metadata>
       <f:viewAction action="#{authenticator.prepareAuthenticationForStep}"/>
     </f:metadata>
@@ -18,7 +18,7 @@
     <meta name="keywords" content="Data Transfer" />
     <meta name="author" content="Treasury Board of Canada-ATIP Online Request Service (AORS)" />
     <meta name="dcterms.creator" content="Treasury Board of Canada"/>
-    <meta name="dcterms.language" content="eng"/>
+    <meta name="dcterms.language" content="fra"/>
     <meta name="dcterms.subject" content="ATIP Online Request Service (AORS)"/>
     <meta name="dcterms.issued" content="2020-02-21"/>
     <meta name="dcterms.modified" content="2020-02-21"/>
@@ -26,52 +26,53 @@
     <meta name="dcterms.type" content="navigation page - topic page"/>
     <meta name="dcterms.source" content="aem"/>
     <meta name="dcterms.identifier" content="ATIP Online Request Service (AORS)"/>
-    <title>Sign in to <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.longname.en']}" /> - Plug in your hardware USB token</title>
 
-    <script src="/oxauth/auth/u2f/scripts/u2f-api.js" />
+    <script src="#{oxAuthConfigurationService.getJsLocation()}/gluu-auth.js" />
+    <script src="/oxauth/js/jquery-3.4.1.min.js"></script>
+    <script src="/oxauth/js/jquery-qrcode-0.17.0.min.js"></script>
+    <script src="/oxauth/js/gluu-auth.js"></script>
     <script>
-        var auth_request = ${identity.getWorkingParameter('fido_u2f_authentication_request')};
-        var register_request = ${identity.getWorkingParameter('fido_u2f_registration_request')};
-
-        function startRegistration() {
-            u2fApi.register(register_request.registerRequests)
-                .then( function(data) {
-                    document.getElementById('tokenResponse').value = JSON.stringify(data);
-                    document.getElementById('authMethod').value = 'enroll';
-
-                    document.getElementById('u2f_form').submit();
-                })
-                .catch( function(msg) {
-                    alert("U2F failed. " + msg);
-                    return;
-                });
+        function fillInCancel(){
+          document.getElementById("loginForm:action").value = "cancel";
         }
 
-        function startAuthentication() {
-            u2fApi.sign(auth_request.authenticateRequests)
-                .then( function( data ) {
-                    document.getElementById('tokenResponse').value = JSON.stringify(data);
-                    document.getElementById('authMethod').value = 'authenticate';
-
-                    document.getElementById('u2f_form').submit();
-                })
-                .catch( function(msg) {
-                    alert("U2F failed. " + msg);
-                    return;
-                });
+        var helper = (function() {
+                var authResult = undefined;
+                return {
+                        onSignInCallback: function(authResult) {
+                                console.log('Get authentication result: ' + authResult);
+                                helper.resumeAuthentication(authResult);
+                        },
+                        resumeAuthentication: function(authResult) {
+                                $('input#auth_result').val(authResult);
+                                $('form#response').submit();
+                        },
+                };
+        })();
+        function onSignInCallback(authResult) {
+                helper.onSignInCallback(authResult);
         }
+        var request = '${identity.getWorkingParameter('otp_enrollment_request')}';
+        var label = '${identity.getWorkingParameter('qr_label')}';
+        var qr_options = ${identity.getWorkingParameter('qr_options')};
 
-        if (auth_request != null) {
-            setTimeout(startAuthentication(), 5000);
-        } else {
-            setTimeout(startRegistration(), 5000);
-        }
+        $(document).ready(function() {
+              if (request == '') {
+                      onSignInCallback('error');
+              }
+              gluu_auth.renderQrCode('#container', request, qr_options, label);
+        });
 
     </script>
+    <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/wet-boew.min.js"></script>
+    <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/theme.min.js" type="text/x-javascript"></script>
+
+    <title>Sign in to <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.longname.fr']}" /> - Scan the QR code</title>
 
     <link href="https://www.canada.ca/etc/designs/canada/wet-boew/assets/favicon.ico" rel="icon" type="image/x-icon" />
     <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/wet-boew/css/theme.min.css" />
     <link rel="schema.dcterms" href="http://purl.org/dc/terms/"/>
+
     <noscript>
       <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/wet-boew/css/noscript.min.css" />
     </noscript>
@@ -79,9 +80,9 @@
     <link property="logo" href="https://www.canada.ca/etc/designs/canada/wet-boew/assets/wmms-blk.svg" />
   </h:head>
   <h:body class="page-type-nav" vocab="http://schema.org/" typeof="WebPage">
-    <div class="global-header">
-      <nav>
-        <ul id="wb-tphp">
+     <div class="global-header">
+       <nav>
+         <ul id="wb-tphp">
           <li class="wb-slc"><a class="wb-sl" href="#wb-cont">Skip to main content</a></li>
           <li class="wb-slc"><a class="wb-sl" href="#wb-info">Skip to &#34;About government&#34;</a></li>
         </ul>
@@ -92,7 +93,7 @@
         <section id="wb-lng" class="text-right">
         <h2 class="wb-inv">Language selection</h2>
         <ul class="list-inline margin-bottom-none">
-          <li><a lang="fr" xml:lang="fr" href="/oxauth/fr/verifier/jeton.htm">Fran&ccedil;ais</a></li>
+          <li><a lang="en" xml:lang="en" href="/oxauth/en/register/appscan.htm">English</a></li>
         </ul>
         </section>
         <div class="row">
@@ -107,34 +108,41 @@
       </div>
     </header>
 
+
     <main property="mainContentOfPage" class="container" typeof="WebPageElement">
       <div style="float:right; margin-top:20px;">
         <a href="help.htm" class="btn btn-primary"><span style="padding-right:5px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Help</a>
-      </div>
-      <h1 property="name" id="wb-cont"><h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.header.en']}" /></h1>
-      <h2>Plug in your hardware USB token now</h2>
-      <p>Insert the hardware USB token into your computer and push the button on the token to authenticate</p>
-      <h:messages style="color:red;"/>
-      <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false;">
-        <input type="hidden" name="username" value="${credentials.username}" />
-        <input type="hidden" name="authMethod" id="authMethod" />
-        <input type="hidden" name="tokenResponse" id="tokenResponse" />
-      </form>
+          </div>
+      <h1 property="name" id="wb-cont"><h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.header.fr']}" /></h1>
+      <h2>Scan the QR code</h2>
+      <p>The first part of the smartphone application account enrollment process is to synchronize your account data with your application using this QR code.</p>
       <h:form id="loginForm" class="form-horizontal" action="#{authenticator.authenticate}" >
+        <h:messages style="color:red;"/>
         <h:inputHidden id="action" styleClass="form-control" autocomplete="off" />
-        <div class="row">
-          <div class="col-md-5"><img src="/oxauth/ext/resources/yubikeyincomputer.png" alt="" /></div>
-          <div class="login-panel">
-            <h:panelGroup rendered="#{fido_u2f_authentication_request != 'null'}">
-            </h:panelGroup>
-          </div>
-          <div class="col-md-7">
-            <h2 class="h5">Was your token not recognised?</h2>
-            <input class="btn btn-default" role="button" type="submit" value="Refresh" />
-            <h2 class="h5 mrgn-tp-lg">Lost or replaced your token?</h2>
-            <h:commandButton id="recoverButton" styleClass="btn btn-default" role="button" value="Recover" action="#{authenticator.authenticate}" onclick="fillInRecovery()"/>
-          </div>
+        <div class="row wb-eqht">
+          <section class="panel panel-default">
+            <header class="panel-heading">
+               <h2 class="h3 mrgn-tp-sm text-center">Ready to scan?</h2>
+            </header>
+            <div class="panel-body text-center">
+              <p>Scan the QR code below with your smartphone application.</p>
+              <p class="text-center">
+                <div id="container"></div>
+              </p>
+            </div>
+          </section>
         </div>
+        <nav class="mrgn-bttm-lg" role="navigation">
+          <h2 class="wb-inv">Document navigation</h2>
+          <ul class="pager"><br />
+            <li class="pull-left">
+              <h:commandButton id="cancelButton" styleClass="btn btn-default" role="button" value="Cancel App Registration" action="#{authenticator.authenticate}" onclick="fillInCancel()"/>
+            </li>
+            <li class="pull-right">
+              <h:commandButton id="loginButton1" styleClass="btn btn-primary" role="button" value="Continue" action="#{authenticator.authenticate}"/>
+            </li>
+          </ul>
+        </nav>
       </h:form>
 
       <div class="pagedetails">
@@ -275,27 +283,6 @@
         </div>
       </div>
     </footer>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
-    <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/wet-boew.min.js"></script>
-    <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/theme.min.js" type="text/x-javascript"></script>
-    <script  type="text/x-javascript">
-        function fillInRecovery(){
-          document.getElementById("loginForm:action").value = "recover";
-        }
-        function fillInCancel(){
-          document.getElementById("loginForm:action").value = "cancel";
-        }
-        $(document).ready(function() {
-          $.ajax({
-             url: 'https://lang-canada.fjgc-gccf.gc.ca/v1/lang',
-             type: 'PUT',
-             datatype: 'application/json',
-             contentType: 'application/json',
-             data: '{"lang": "eng"}',
-             xhrFields: {withCredentials: true}
-             });
-          })
-    </script>
   </h:body>
   </f:view>
 </html>

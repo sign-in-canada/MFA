@@ -57,11 +57,12 @@
         var qr_options = ${identity.getWorkingParameter('qr_options')};
 
         $(document).ready(function() {
-                if (request == '') {
-                        onSignInCallback('error');
-                }
-                gluu_auth.renderQrCode('#container', request, qr_options, label);
+              if (request == '') {
+                      onSignInCallback('error');
+              }
+              gluu_auth.renderQrCode('#container', request, qr_options, label);
         });
+
     </script>
     <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/wet-boew.min.js"></script>
     <script src="https://www.canada.ca/etc/designs/canada/wet-boew/js/theme.min.js" type="text/x-javascript"></script>
@@ -92,7 +93,7 @@
         <section id="wb-lng" class="text-right">
         <h2 class="wb-inv">Language selection</h2>
         <ul class="list-inline margin-bottom-none">
-          <li><a lang="fr" xml:lang="fr" href="/fr/#.html">Fran&ccedil;ais</a></li>
+          <li><a lang="fr" xml:lang="fr" href="/oxauth/fr/enregistrer/appscan.htm">Fran&ccedil;ais</a></li>
         </ul>
         </section>
         <div class="row">

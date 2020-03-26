@@ -136,7 +136,7 @@ class PersonAuthentication(PersonAuthenticationType):
         # 3. get the code from the user profile and validate the recovery code
         userCode = identity.getWorkingParameter("user_code")
         userCodeDecrypted = self.decryptAES( self.aesKey, userCode )
-        if (userCodeDecrypted != requestCode.upper()):
+        if (userCodeDecrypted != requestCode.lower()):
             print "MFA Recovery. authenticate. Recovery codes do not match"
             return False
         else:
@@ -211,7 +211,7 @@ class PersonAuthentication(PersonAuthenticationType):
         if locale == "en":
             return "/en/recover/code.xhtml"
         if locale == "fr":
-            return "/en/recuperer/code.xhtml"
+            return "/fr/recuperer/code.xhtml"
 
     def logout(self, configurationAttributes, requestParameters):
         print "MFA Recovery. logout called"
@@ -229,12 +229,16 @@ class PersonAuthentication(PersonAuthenticationType):
     def getCodeFromRequest(self, requestParameters):
         print "MFA Recovery. getCodeFromRequest called"
         try:
-            toBeFetched = "loginForm:recoveryCode"
-            print "MFA Recovery. getCodeFromRequest: fetching '%s'" % toBeFetched
-            code = ServerUtil.getFirstValue(requestParameters, toBeFetched)
+            toBeFetched1 = "loginForm:recoveryCode1"
+            toBeFetched2 = "loginForm:recoveryCode2"
+            toBeFetched3 = "loginForm:recoveryCode3"
+            code1 = ServerUtil.getFirstValue(requestParameters, toBeFetched1)
+            code2 = ServerUtil.getFirstValue(requestParameters, toBeFetched2)
+            code3 = ServerUtil.getFirstValue(requestParameters, toBeFetched3)
 
-            print "MFA Recovery. getCodeFromRequest: fetched code '%s'" % code
-            if StringHelper.isNotEmpty(code):
+            print "MFA Recovery. getCodeFromRequest: fetched loginForm:recoveryCode(s) '%s-%s-%s'" % (code1, code2, code3)
+            if StringHelper.isNotEmpty(code1) and StringHelper.isNotEmpty(code2) and StringHelper.isNotEmpty(code3):
+                code = "%s-%s-%s" % (code1, code2, code3)
                 return code
             return Null
         except Exception, err:
@@ -289,3 +293,4 @@ class PersonAuthentication(PersonAuthenticationType):
         decodedBytes = cipher.doFinal( encodedBytes )
         plaintext    = ''.join(chr(i) for i in decodedBytes)
         return plaintext
+

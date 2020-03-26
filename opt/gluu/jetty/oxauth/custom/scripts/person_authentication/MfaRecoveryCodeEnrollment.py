@@ -187,11 +187,13 @@ class PersonAuthentication(PersonAuthenticationType):
             ########################################################################################
             # 3. Generate a recovery code with 128 bit strength
             #    - use Alphanumeric (A-Z,0-9)
-            #    - use size of 25 (to achieve 128 bits of entropy)
+            #    - use size of 12 (to achieve around 61 bits of entropy)
             #    - save it in "new_code"
-            alphanumeric = string.ascii_uppercase + string.digits
-            # TODO: do we remove 0 and O confusion somehow????
-            code = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 25 ))
+            alphanumeric = string.ascii_lowercase + string.digits
+            code1 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
+            code2 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
+            code3 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
+            code  = "%s-%s-%s" % (code1, code2, code3)
             identity.setWorkingParameter("new_code", code)
 
             print "MFA Enroll Recovery. prepareForStep. got session '%s'"  % identity.getSessionId().toString()
@@ -307,3 +309,4 @@ class PersonAuthentication(PersonAuthenticationType):
         encryptedBytes = cipher.doFinal( toEncrypt.encode('utf-8') )
         encryptedValue = base64.b64encode( encryptedBytes )
         return iv.encode("ascii") + encryptedValue
+
