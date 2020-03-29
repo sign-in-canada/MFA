@@ -90,17 +90,22 @@
 
       <main property="mainContentOfPage" class="container" typeof="WebPageElement">
         <div style="margin-top: 20px; float: right;">
-          <a onclick="help()" class="btn btn-primary" style="color:#FFF"> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" style="padding-right: 5px;"></span>&nbsp;Help</a>
+          <a onClick="help()" class="btn btn-primary" style="color:#FFF"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" style="padding-right: 5px;"></span>&nbsp;Help</a>
         </div>
         <div style="display:none; border:thin; border-color:#000; z-index:1000;" id="help">
-          <h2>Help Files:</h2>
-          <hr/>
-          <ul>
-            <li>Link 1 ...</li>
-            <li>Link 2 ...</li>
-            <li>Link 3 ...</li>
-            <li>Link 4 ...</li>
-          </ul>
+          <div class=" container-fluid">
+            <div style="background-image:url(/oxauth/ext/resources/help-banner.png); background-repeat:no-repeat; width:auto; height:132px; margin-left:8px; ">
+              <h2 style="margin-left:250px" class="mrgn-tp-md">Need Help?</h2>
+              <p style="margin-left:250px"  class="fontsize140"><strong>We may have the perfect answer for you</strong></p>
+            </div>
+            <hr/>
+            <ul>
+              <li>Link 1 ...</li>
+              <li>Link 2 ...</li>
+              <li>Link 3 ...</li>
+              <li>Link 4 ...</li>
+            </ul>
+          </div>
         </div>
         <h1 property="name" id="wb-cont"><h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.header.en']}" /></h1>
         <h2>Select 2-Factor Authentication Method</h2>

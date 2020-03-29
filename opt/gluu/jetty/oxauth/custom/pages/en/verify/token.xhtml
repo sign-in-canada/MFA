@@ -77,6 +77,25 @@
     </noscript>
 
     <link property="logo" href="https://www.canada.ca/etc/designs/canada/wet-boew/assets/wmms-blk.svg" />
+    <style>
+    #help {
+      width: 80%;
+      padding: 50px 0;
+      text-align: left;
+      background-color: #fff;
+      margin-top: 20px;
+    }
+    </style>
+    <script>
+      function help() {
+        var x = document.getElementById("help");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+    </script>
   </h:head>
   <h:body class="page-type-nav" vocab="http://schema.org/" typeof="WebPage">
     <div class="global-header">
@@ -108,8 +127,23 @@
     </header>
 
     <main property="mainContentOfPage" class="container" typeof="WebPageElement">
-      <div style="float:right; margin-top:20px;">
-        <a href="help.htm" class="btn btn-primary"><span style="padding-right:5px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Help</a>
+      <div style="margin-top: 20px; float: right;">
+        <a onClick="help()" class="btn btn-primary" style="color:#FFF"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" style="padding-right: 5px;"></span>&nbsp;Help</a>
+      </div>
+      <div style="display:none; border:thin; border-color:#000; z-index:1000;" id="help">
+        <div class=" container-fluid">
+          <div style="background-image:url(/oxauth/ext/resources/help-banner.png); background-repeat:no-repeat; width:auto; height:132px; margin-left:8px; ">
+            <h2 style="margin-left:250px" class="mrgn-tp-md">Need Help?</h2>
+            <p style="margin-left:250px"  class="fontsize140"><strong>We may have the perfect answer for you</strong></p>
+          </div>
+          <hr/>
+          <ul>
+            <li>Link 1 ...</li>
+            <li>Link 2 ...</li>
+            <li>Link 3 ...</li>
+            <li>Link 4 ...</li>
+          </ul>
+        </div>
       </div>
       <h1 property="name" id="wb-cont"><h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.header.en']}" /></h1>
       <h2>Plug in your hardware USB token now</h2>
