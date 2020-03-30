@@ -159,10 +159,6 @@ class PersonAuthentication(PersonAuthenticationType):
 
         if (step == 1):
             identity = CdiUtil.bean(Identity)
-            if (identity.getWorkingParameter("new_code") != None):
-                print "MFA Enroll Recovery. prepareForStep. A code has already been generated and not confirmed"
-                return False
-
             ########################################################################################
             # 1. Make sure we have a session
             session_id_validation = self.validateSessionId(identity)
@@ -189,12 +185,15 @@ class PersonAuthentication(PersonAuthenticationType):
             #    - use Alphanumeric (A-Z,0-9)
             #    - use size of 12 (to achieve around 61 bits of entropy)
             #    - save it in "new_code"
-            alphanumeric = string.ascii_lowercase + string.digits
-            code1 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
-            code2 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
-            code3 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
-            code  = "%s-%s-%s" % (code1, code2, code3)
-            identity.setWorkingParameter("new_code", code)
+            if (identity.getWorkingParameter("new_code") == None):
+                alphanumeric = string.ascii_lowercase + string.digits
+                code1 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
+                code2 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
+                code3 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
+                code  = "%s-%s-%s" % (code1, code2, code3)
+                identity.setWorkingParameter("new_code", code)
+            else:
+                print "MFA Enroll Recovery. prepareForStep. A code has already been generated and not confirmed"
 
             print "MFA Enroll Recovery. prepareForStep. got session '%s'"  % identity.getSessionId().toString()
 
@@ -309,4 +308,3 @@ class PersonAuthentication(PersonAuthenticationType):
         encryptedBytes = cipher.doFinal( toEncrypt.encode('utf-8') )
         encryptedValue = base64.b64encode( encryptedBytes )
         return iv.encode("ascii") + encryptedValue
-
