@@ -17,7 +17,7 @@ steps:
 - script: |
     ls -al $(Pipeline.Workspace)
     pushd gluu-server/opt/gluu/jetty/oxauth/custom
-    tar -czv --owner=root --group=root -f $(Pipeline.Workspace)/s/opt/dist/signincanada/custom.tgz *
+    tar -czv --owner=root --group=root -f $(Pipeline.Workspace)/s/gluu-server/opt/dist/signincanada/custom.tgz *
     popd
   displayName: 'Packaging UI'
   continueOnError: false
@@ -50,6 +50,7 @@ steps:
     chmod 644 $(find . -type f -print)
     chmod 700 gluu-server/opt/dist/signincanada/postinstall.sh
     chmod 700 gluu-server/opt/dist/scripts/azure/keyvault.sh
+    chmod 700 install/community-edition-setup/setup.py
     pushd gluu-server
     tar -czv --owner=root --group=root -f $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz --exclude='opt/gluu' etc install opt
     openssl sha256 $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz > $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz.sha
