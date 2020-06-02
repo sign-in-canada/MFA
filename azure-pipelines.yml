@@ -32,7 +32,7 @@ steps:
   displayName: 'Downloading AppInsights'
   continueOnError: false
 
-  - script: |
+- script: |
     echo 'Downloading Latest Amazon Corretto'
     wget https://corretto.aws/downloads/resources/8.242.08.1/amazon-corretto-8.242.08.1-linux-x64.tar.gz \
       -O gluu-server/opt/dist/corretto/amazon-corretto-8-x64-linux-jdk.tar.gz
