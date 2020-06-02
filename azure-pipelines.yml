@@ -16,14 +16,14 @@ steps:
 
 - script: |
     ls -al $(Pipeline.Workspace)
-    pushd opt/gluu/jetty/oxauth/custom
+    pushd gluu-server/opt/gluu/jetty/oxauth/custom
     tar -czv --owner=root --group=root -f $(Pipeline.Workspace)/s/opt/dist/signincanada/custom.tgz *
     popd
   displayName: 'Packaging UI'
   continueOnError: false
 
 - script: |
-    pushd opt/dist/signincanada
+    pushd gluu-server/opt/dist/signincanada
     echo 'Downloading AppInsights SDK'
     wget https://github.com/microsoft/ApplicationInsights-Java/releases/download/2.5.1/applicationinsights-web-auto-2.5.1.jar
     echo 'Downloading AppInsights Agent'
@@ -32,13 +32,27 @@ steps:
   displayName: 'Downloading AppInsights'
   continueOnError: false
 
+  - script: |
+    echo 'Downloading Latest Amazon Corretto'
+    wget https://corretto.aws/downloads/resources/8.242.08.1/amazon-corretto-8.242.08.1-linux-x64.tar.gz \
+      -O gluu-server/opt/dist/corretto/amazon-corretto-8-x64-linux-jdk.tar.gz
+    wget https://corretto.aws/downloads/resources/8.242.08.1/amazon-corretto-8.242.08.1-linux-x64.tar.gz.sig \
+      -O gluu-server/opt/dist/corretto/amazon-corretto-8-x64-linux-jdk.tar.gz.sig
+    echo 'Checking file integritiy'
+    gpg --import gluu-server/opt/dist/corretto/B04F24E3.pub
+    gpg gluu-server/opt/dist/corretto/amazon-corretto-8-x64-linux-jdk.tar.gz.sig
+  displayName: 'Downloading Latest Amazon Corretto'
+  continueOnError: false
+
 - script: |
     echo 'packaging tarball'
     chmod 755 $(find . -type d -print)
     chmod 644 $(find . -type f -print)
-    chmod 700 opt/dist/signincanada/postinstall.sh
-    chmod 700 opt/dist/scripts/azure/keyvault.sh
+    chmod 700 gluu-server/opt/dist/signincanada/postinstall.sh
+    chmod 700 gluu-server/opt/dist/scripts/azure/keyvault.sh
+    pushd gluu-server
     tar -czv --owner=root --group=root -f $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz --exclude='opt/gluu' etc install opt
+    popd
   displayName: 'Packaging tarball'
   continueOnError: true
 
