@@ -9,6 +9,12 @@ systemctl enable keyvault
 echo 'Installing the application insights SDK...'
 install -m 644 -o jetty -g jetty /opt/dist/signincanada/applicationinsights-web-auto-2.5.1.jar /opt/gluu/jetty/oxauth/custom/libs
 
+echo 'Updating Corretto...'
+rm -f /opt/jre
+rm -rf /opt/amazon-corretto-*
+tar xf /opt/dist/corretto/amazon-corretto-8-x64-linux-jdk.tar.gz -C /opt
+ln -s /opt/amazon-corretto-* /opt/jre
+
 echo 'Installing the UI...'
 tar xzf /opt/dist/signincanada/custom.tgz -C /opt/gluu/jetty/oxauth/custom
 chown -R jetty:jetty /opt/gluu/jetty/oxauth/custom
