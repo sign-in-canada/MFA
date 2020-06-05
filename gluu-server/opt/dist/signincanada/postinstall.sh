@@ -25,7 +25,3 @@ echo "Configuring httpd chain certificate..."
 sed -i "22i\ \ \ \ \ \ \ \ SSLCertificateChainFile /etc/certs/httpd.chain" /etc/httpd/conf.d/https_gluu.conf
 
 echo 'Done.'
-echo
-echo 'To complete configuration...'
-echo '  1) edit the keyvault name in /etc/default/azure'
-echo '  2) log out and restart the container'
