@@ -1,7 +1,0 @@
-# Environment-specific configuration parameters for install.sh
-
-STAGING_URL=
-KEYVAULT_URL=
-METADATA_URL=
-COUCHBASE_CLUSTER=
-MFA_HOST="0.0.0.0      mfa-xxx.tbs-sct.gc.ca"
