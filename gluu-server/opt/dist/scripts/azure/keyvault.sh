@@ -69,7 +69,7 @@ if [ "$salt" != "undefined" ] ; then
       sed '/^auth.userPassword:/d' $GCB > ${GCB}.template
    fi
    cp ${GCB}.template ${KV_DIR}/secrets/couchbaseGluuUserPassword
-   echo "auth.userPassword:" $(fetchSecret couchbaseGluuUserPassword) \
+   echo "auth.userPassword:" $(fetchSecret MFAGluuPW) \
       >> ${KV_DIR}/secrets/couchbaseGluuUserPassword
    ln -s -f ${KV_DIR}/secrets/couchbaseGluuUserPassword $GCB
 
