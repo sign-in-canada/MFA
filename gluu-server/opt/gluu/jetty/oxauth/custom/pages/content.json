@@ -1,5 +1,6 @@
 {
     "_default" : {
+        "content":"default",
         "client.header.en" : "<abbr title=\"Multi-Factor Authentication\">MFA</abbr> Client Application Security",
         "client.longname.en" : "Client Application",
         "client.shortname.en" : "APP",
