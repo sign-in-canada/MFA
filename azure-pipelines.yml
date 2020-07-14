@@ -23,12 +23,12 @@ steps:
   continueOnError: false
 
 - script: |
-    pushd gluu-server/opt/dist/signincanada
     echo 'Downloading AppInsights SDK'
-    wget https://github.com/microsoft/ApplicationInsights-Java/releases/download/2.6.1/applicationinsights-web-auto-2.6.1.jar
+    wget https://github.com/microsoft/ApplicationInsights-Java/releases/download/2.6.1/applicationinsights-web-auto-2.6.1.jar \
+       -P gluu-server/opt/dist/signincanada
     echo 'Downloading AppInsights Agent'
-    wget https://github.com/microsoft/ApplicationInsights-Java/releases/download/2.6.1/applicationinsights-agent-2.6.1.jar
-    popd
+    wget https://github.com/microsoft/ApplicationInsights-Java/releases/download/2.6.1/applicationinsights-agent-2.6.1.jar \
+       -P gluu-server/opt/azure
   displayName: 'Downloading AppInsights'
   continueOnError: false
 
