@@ -7,7 +7,7 @@ echo 'Enabling the keyvault service...'
 systemctl enable keyvault
 
 echo 'Installing the application insights SDK...'
-install -m 644 -o jetty -g jetty /opt/dist/signincanada/applicationinsights-web-auto-2.5.1.jar /opt/gluu/jetty/oxauth/custom/libs
+install -m 644 -o jetty -g jetty /opt/dist/signincanada/applicationinsights-web-auto-2.6.1.jar /opt/gluu/jetty/oxauth/custom/libs
 
 echo 'Updating Corretto...'
 rm -f /opt/jre
