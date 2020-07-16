@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
@@ -29,8 +29,8 @@
       <input type="hidden" name="authMethod" id="authMethod" />
       <input type="hidden" name="tokenResponse" id="tokenResponse" />
     </form>
-    <h:form id="loginForm" class="form-horizontal" action="#{authenticator.authenticate}">
-      <h:inputHidden id="action" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
+      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <div class="row">
         <div class="col-md-5">
           <img src="/oxauth/ext/resources/yubikeyincomputer.png" alt="" />
@@ -40,7 +40,7 @@
         </div>
         <div class="col-md-7">
           <h2 class="h5">Was your token not recognised?</h2>
-          <input class="btn btn-default" role="button" type="submit" value="Refresh" />
+          <button class="btn btn-default" onclick="location.reload()">Retry</button>
         </div>
       </div>
       <nav class="mrgn-bttm-lg" role="navigation">
@@ -48,11 +48,11 @@
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <h:commandButton id="cancelButton" styleClass="btn btn-default" role="button" value="Cancel Token Registration" action="#{authenticator.authenticate}" onclick="fillInCancel()" />
+            <button jsf:id="cancelButton" styleClass="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel Token Registration</button>
           </li>
         </ul>
       </nav>
-    </h:form>
+    </form>
   </ui:define>
 
   <ui:define name="scripts">

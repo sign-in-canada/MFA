@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
@@ -68,10 +68,9 @@
 
     <div class="row wb-eqht">
       <h:messages style="color:red;" />
-      <h:form id="loginForm" class="form-horizontal">
+      <form jsf:id="loginForm" class="form-horizontal">
         <div class="cddol-lg-12">
-          <h:inputHidden id="mfachoice" value="#{acrname}" styleClass="form-control" autocomplete="off" />
-
+          <input jsf:id="mfachoice" type="hidden" value="#{acrname}" styleClass="form-control" autocomplete="off" />
           <div class="col-md-6">
             <section class="panel panel-default hght-inhrt">
               <header class="panel-heading">
@@ -82,7 +81,7 @@
                   <img src="/oxauth/ext/resources/smartphone.png" alt="Phone" />
                 </p>
                 <p class="text-center">
-                  <h:commandButton id="loginButton1" value="Proceed with your smartphone" type="submit" styleClass="btn-primary" role="button" onclick="fillInAcrOnSubmit('mfa_otp')" action="#{authenticator.authenticate}"></h:commandButton>
+                  <button jsf:id="loginButton1" type="submit" styleClass="btn-primary" onclick="fillInAcrOnSubmit('mfa_otp')" jsf:action="#{authenticator.authenticate}">Proceed with your smartphone</button>
                 </p>
               </div>
             </section>
@@ -98,12 +97,12 @@
                 <img src="/oxauth/ext/resources/yubikey.png" alt="Token" />
               </p>
               <p class="text-center">
-                <h:commandButton id="loginButton2" value="Proceed with your token" type="submit" styleClass="btn-primary" role="button" onclick="fillInAcrOnSubmit('mfa_u2f')" action="#{authenticator.authenticate}"></h:commandButton>
+                <button jsf:id="loginButton2" value="Proceed with your token" type="submit" styleClass="btn-primary" onclick="fillInAcrOnSubmit('mfa_u2f')" jsf:action="#{authenticator.authenticate}">Proceed with your token</button>
               </p>
             </div>
           </section>
         </div>
-      </h:form>
+      </form>
     </div>
 
     <nav class="mrgn-bttm-lg" role="navigation">

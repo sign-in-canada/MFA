@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
@@ -29,8 +29,8 @@
       <input type="hidden" name="authMethod" id="authMethod" />
       <input type="hidden" name="tokenResponse" id="tokenResponse" />
     </form>
-    <h:form id="loginForm" class="form-horizontal" action="#{authenticator.authenticate}" >
-      <h:inputHidden id="action" styleClass="form-control" autocomplete="off" />
+    <form id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}" >
+      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <div class="row">
         <div class="col-md-5"><img src="/oxauth/ext/resources/yubikeyincomputer.png" alt="" /></div>
         <div class="login-panel">
@@ -39,13 +39,13 @@
         </div>
         <div class="col-md-7">
           <h2 class="h5">Was your token not recognised?</h2>
-          <input class="btn btn-default" role="button" type="submit" value="Refresh" />
+          <button class="btn btn-default" onclick="location.reload()">Retry</button>
           <h2 class="h5 mrgn-tp-lg">Lost or replaced your token?</h2>
-          <h:commandButton id="recoverButton" styleClass="btn btn-default" role="button" value="Recover" action="#{authenticator.authenticate}" onclick="fillInRecovery()"/>
+          <button jsf:id="recoverButton" styleClass="btn btn-default" value="Recover" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
         </div>
       </div>
-    </h:form>
-</ui:define>
+    </form>
+  </ui:define>
 
   <ui:define name="scripts">
     <script src="/oxauth/auth/u2f/scripts/u2f-api.js" />

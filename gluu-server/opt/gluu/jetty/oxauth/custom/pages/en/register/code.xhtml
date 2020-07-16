@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
@@ -25,7 +25,7 @@
     <p>You must record a recovery code to protect access to your account.</p>
     <label for="recovery_code">
       This is your new recovery code:
-      <h:outputText escape="false" value="#{ identity.getWorkingParameter('new_code')}" />
+      <h:outputText escape="false" value="#{identity.getWorkingParameter('new_code')}" />
     </label>
     <h3>This is your new recovery code</h3>
     <ul class="list-unstyled">
@@ -51,12 +51,12 @@
         this code
       </li>
       <li>This code can be used to comprimise your account and you are responsible for its loss or misuse</li>
-      <li>You will lose your account and ability to recover tis account</li>
+      <li>You will lose your account and ability to recover this account</li>
     </ul>
     <h:messages style="color:red;" />
-    <h:form horizontal="true" id="loginForm" class="form-horizontal">
-      <h:inputHidden id="action" styleClass="form-control" autocomplete="off" />
-      <h:selectBooleanCheckbox id="confirmCodeBox" styleClass="checkmark" style="position:relative !important;" type="checkbox"></h:selectBooleanCheckbox>
+    <form horizontal="true" jsf:id="loginForm" class="form-horizontal">
+      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
+      <input jsf:id="confirmCodeBox" type="checkbox" styleClass="checkmark" style="position:relative !important;" />
       <label style="color:#000" for="saved">
         <strong>I confirm I wrote down the code above and stored it safely</strong>
       </label>
@@ -67,15 +67,15 @@
           <ul class="pager">
             <br />
             <li class="pull-left">
-              <h:commandButton id="cancelButton" styleClass="btn btn-default" role="button" value="Cancel Registration" action="#{authenticator.authenticate}" onclick="fillInCancel()" />
+              <button jsf:id="cancelButton" styleClass="btn btn-default" type="submit" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel Registration</button>
             </li>
             <li class="pull-right">
-              <h:commandButton id="loginButton1" styleClass="btn btn-primary" role="button" value="Continue" action="#{authenticator.authenticate}" />
+              <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
             </li>
           </ul>
         </nav>
       </div>
-    </h:form>
+    </form>
 
     <div style="display:none" id="confirmDialogDiv">
       <div class="center-block">
@@ -86,11 +86,11 @@
             <ul class="pager">
               <li class="pull-left">
                 <!-- Pawel closes box-->
-                <button onclick="checkDialogAnswer()" class="btn btn-danger" role="button" rel="next">No</button>
+                <button onclick="checkDialogAnswer()" class="btn btn-danger" rel="next">No</button>
               </li>
               <li class="pull-right">
                 <!-- Pawel link to next page-->
-                <button onclick="checkDialogAnswer()" class="btn btn-primary" role="button" rel="next">Yes</button>
+                <button onclick="checkDialogAnswer()" class="btn btn-primary" rel="next">Yes</button>
               </li>
             </ul>
           </section>

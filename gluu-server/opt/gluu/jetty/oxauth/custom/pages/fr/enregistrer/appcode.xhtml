@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
@@ -38,8 +38,8 @@
     </ul>
 
     <h:messages style="color:red;" />
-    <h:form id="loginForm" class="form-horizontal" action="#{authenticator.authenticate}">
-      <h:inputHidden id="action" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
+      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <div class="col-md-12">
         <section class="panel panel-default">
           <header class="panel-heading">
@@ -53,7 +53,7 @@
             <p class="text-center">
               <label for="code">
                 Verification code:
-                <input class="form-control" id="loginForm:otpCode" style="text-align:center" data-rule-digits="true" maxlength="6" name="loginForm:otpCode" type="text" autocomplete="off" value="" />
+                <input class="form-control" jsf:id="otpCode" style="text-align:center" data-rule-digits="true" maxlength="6" type="text" autocomplete="off" />
               </label>
             </p>
           </div>
@@ -64,15 +64,16 @@
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <h:commandButton id="cancelButton" styleClass="btn btn-default" role="button" value="Cancel App Registration" action="#{authenticator.authenticate}" onclick="fillInCancel()" />
+            <button jsf:id="cancelButton" styleClass="btn btn-default" type="submit" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel App Registration</button>
           </li>
           <li class="pull-right">
-            <h:commandButton id="loginButton1" styleClass="btn btn-primary" role="button" value="Continue" action="#{authenticator.authenticate}" />
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
           </li>
         </ul>
       </nav>
-    </h:form>
+    </form>
   </ui:define>
+
 
   <ui:define name="scripts">
     <script type="text/x-javascript">

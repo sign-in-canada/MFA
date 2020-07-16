@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
@@ -64,9 +64,9 @@
   <ui:define name="content">
     <h2>Scan the QR code</h2>
     <p>The first part of the smartphone application account enrollment process is to synchronize your account data with your application using this QR code.</p>
-    <h:form id="loginForm" class="form-horizontal" action="#{authenticator.authenticate}">
+    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <h:messages style="color:red;" />
-      <h:inputHidden id="action" styleClass="form-control" autocomplete="off" />
+      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <div class="row wb-eqht">
         <section class="panel panel-default">
           <header class="panel-heading">
@@ -85,15 +85,14 @@
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <h:commandButton id="cancelButton" styleClass="btn btn-default" role="button" value="Cancel App Registration" action="#{authenticator.authenticate}" onclick="fillInCancel()" />
+            <button jsf:id="cancelButton" styleClass="btn btn-default" type="Submit" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel App Registration</button>
           </li>
           <li class="pull-right">
-            <h:commandButton id="loginButton1" styleClass="btn btn-primary" role="button" value="Continue" action="#{authenticator.authenticate}" />
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="Submit" jsf:action="#{authenticator.authenticate}">Continue</button>
           </li>
         </ul>
       </nav>
-    </h:form>
-
+    </form>
   </ui:define>
 
   <ui:define name="scripts">

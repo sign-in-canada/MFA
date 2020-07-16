@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
@@ -19,23 +19,24 @@
   <ui:define name="help">
     <ui:include src="/WEB-INF/incl/content/default/help-#{language.localeCode}.xhtml" />
   </ui:define>
-  <ui:define name="content">
+
+<ui:define name="content">
     <h2>Recover your profile</h2>
     <p>Enter the recovery code you recorded when you created your account.</p>
     <p>When you created your account you were given a recovery code and asked to write it down somewhere secure. You will need to use that code now. </p>
     <h:messages style="color:red;" />
-    <h:form id="loginForm" class="form-horizontal">
-      <h:inputHidden id="action" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="loginForm" class="form-horizontal">
+      <input jsf:id="action" type="hidden" class="form-control" autocomplete="off" />
       <label for="recoverycode" class="required">
         <span class="field-name">Recovery code</span>
         <strong class="required">(required)</strong>
       </label>
       <ul class="list-unstyled">
-        <h:inputText placeholder="Recovery Code" id="recoveryCode1" size="4" maxlength="4" autocomplete="off" styleClass="display: inline-block" />
+        <input jsf:id="recoveryCode1" type="text" size="4" maxlength="4" autocomplete="off" class="display: inline-block" />
         -
-        <h:inputText placeholder="Recovery Code" id="recoveryCode2" size="4" maxlength="4" autocomplete="off" styleClass="display: inline-block" />
+        <input jsf:id="recoveryCode2" type="text" size="4" maxlength="4" autocomplete="off" class="display: inline-block" />
         -
-        <h:inputText placeholder="Recovery Code" id="recoveryCode3" size="4" maxlength="4" autocomplete="off" styleClass="display: inline-block" />
+        <input jsf:id="recoveryCode3" type="text" size="4" maxlength="4" autocomplete="off" class="display: inline-block" />
         <li>
           <details>
             <summary>How do I get this code?</summary>
@@ -54,16 +55,15 @@
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <h:commandButton id="cancelButton" styleClass="btn btn-default" role="button" value="Cancel Recovery" action="#{authenticator.authenticate}" onclick="fillInCancel()" />
+            <button jsf:id="cancelButton" styleClass="btn btn-default"  jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel Recovery</button>
           </li>
           <li class="pull-right">
-            <h:commandButton id="loginButton1" styleClass="btn btn-primary" role="button" value="Continue" action="#{authenticator.authenticate}" />
+            <button jsf:id="loginButton1" styleClass="btn btn-primary"  value="Continue" jsf:action="#{authenticator.authenticate}">Continue</button>
           </li>
         </ul>
       </nav>
-    </h:form>
+    </form>
   </ui:define>
-
   <ui:define name="scripts">
     <script type="text/x-javascript">
       function fillInCancel(){

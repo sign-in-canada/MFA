@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
@@ -46,23 +46,23 @@
     </ul>
     <h4>Once you are ready generate a QR code to scan continue to the next page.</h4>
     <h:messages style="color:red;" />
-    <h:form id="loginForm" class="form-horizontal" action="#{authenticator.authenticate}">
-      <h:inputHidden id="action" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
+      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <nav class="mrgn-bttm-lg" role="navigation">
         <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <h:commandButton id="cancelButton" styleClass="btn btn-default" role="button" value="Cancel App Registration" action="#{authenticator.authenticate}" onclick="fillInCancel()" />
+            <button jsf:id="cancelButton" styleClass="btn btn-default" value="Cancel App Registration" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel App Registration</button>
           </li>
           <li class="pull-right">
-            <h:commandButton id="loginButton1" styleClass="btn btn-primary" role="button" value="Generate QR code" action="#{authenticator.authenticate}" onclick="fillInContinue()" />
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" value="Generate QR code" jsf:action="#{authenticator.authenticate}" onclick="fillInContinue()">Generate QR code</button>
           </li>
         </ul>
       </nav>
-    </h:form>
+    </form>
   </ui:define>
-
+  
   <ui:define name="scripts">
     <script type="text/x-javascript">
       function fillInContinue(){

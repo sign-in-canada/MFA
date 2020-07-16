@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
@@ -28,17 +28,18 @@
     <h:messages style="color:red;" />
     <p>You can now continue to the application.</p>
 
-    <h:form id="loginForm" class="form-horizontal">
-      <h:inputHidden id="mfachoice" value="#{acrname}" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="loginForm" class="form-horizontal">
+      <input jsf:id="mfachoice" type="hidden" value="#{acrname}" styleClass="form-control" autocomplete="off" />
       <nav class="mrgn-bttm-lg" role="navigation">
         <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
           <br />
           <li class="pull-right">
-            <h:commandButton id="loginButton1" styleClass="btn btn-primary" role="button" rel="next" value="Continue to #{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.shortname.en']}" action="#{authenticator.authenticate}" />
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" rel="next" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
           </li>
         </ul>
       </nav>
-    </h:form>
+    </form>
   </ui:define>
+
 </ui:composition>
