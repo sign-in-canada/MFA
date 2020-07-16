@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
@@ -21,8 +19,9 @@
   </ui:define>
 
   <ui:define name="content">
+    <h2>Secure your account</h2>
     <h2>Plug in your hardware USB token now</h2>
-    <p>Insert the hardware USB token into your computer and push the button on the token to authenticate</p>
+    <p>Insert the hardware USB token into your computer and push the button on the token</p>
     <h:messages style="color:red;" />
     <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false;">
       <input type="hidden" name="username" value="${credentials.username}" />
@@ -40,7 +39,9 @@
         </div>
         <div class="col-md-7">
           <h2 class="h5">Was your token not recognised?</h2>
-          <button class="btn btn-default" onclick="location.reload()">Retry</button>
+          <p>Make sure you are using a security token (and not another type of USB device like a storage drive) and
+            refresh your screen</p>
+          <button class="btn btn-default" onclick="location.reload()">Refresh</button>
         </div>
       </div>
       <nav class="mrgn-bttm-lg" role="navigation">
@@ -48,7 +49,8 @@
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel Token Registration</button>
+            <button jsf:id="cancelButton" styleClass="btn btn-default" jsf:action="#{authenticator.authenticate}"
+              onclick="fillInCancel()">Back</button>
           </li>
         </ul>
       </nav>
@@ -58,49 +60,49 @@
   <ui:define name="scripts">
     <script src="/oxauth/auth/u2f/scripts/u2f-api.js" />
     <script>
-          var auth_request = ${identity.getWorkingParameter('fido_u2f_authentication_request')};
-          var register_request = ${identity.getWorkingParameter('fido_u2f_registration_request')};
-  
-          function startRegistration() {
-              u2fApi.register(register_request.registerRequests)
-                  .then( function(data) {
-                      document.getElementById('tokenResponse').value = JSON.stringify(data);
-                      document.getElementById('authMethod').value = 'enroll';
-  
-                      document.getElementById('u2f_form').submit();
-                  })
-                  .catch( function(msg) {
-                      alert("U2F failed. " + msg);
-                      return;
-                  });
-          }
-  
-          function startAuthentication() {
-              u2fApi.sign(auth_request.authenticateRequests)
-                  .then( function( data ) {
-                      document.getElementById('tokenResponse').value = JSON.stringify(data);
-                      document.getElementById('authMethod').value = 'authenticate';
-  
-                      document.getElementById('u2f_form').submit();
-                  })
-                  .catch( function(msg) {
-                      alert("U2F failed. " + msg);
-                      return;
-                  });
-          }
-  
-          if (auth_request != null) {
-              setTimeout(startAuthentication(), 5000);
-          } else {
-              setTimeout(startRegistration(), 5000);
-          }
+      var auth_request = ${ identity.getWorkingParameter('fido_u2f_authentication_request')};
+      var register_request = ${ identity.getWorkingParameter('fido_u2f_registration_request')};
 
-          function fillInRecovery(){
-          document.getElementById("loginForm:action").value = "recover";
-        }
-        function fillInCancel(){
-          document.getElementById("loginForm:action").value = "cancel";
-        }
+      function startRegistration() {
+        u2fApi.register(register_request.registerRequests)
+          .then(function (data) {
+            document.getElementById('tokenResponse').value = JSON.stringify(data);
+            document.getElementById('authMethod').value = 'enroll';
+
+            document.getElementById('u2f_form').submit();
+          })
+          .catch(function (msg) {
+            alert("U2F failed. " + msg);
+            return;
+          });
+      }
+
+      function startAuthentication() {
+        u2fApi.sign(auth_request.authenticateRequests)
+          .then(function (data) {
+            document.getElementById('tokenResponse').value = JSON.stringify(data);
+            document.getElementById('authMethod').value = 'authenticate';
+
+            document.getElementById('u2f_form').submit();
+          })
+          .catch(function (msg) {
+            alert("U2F failed. " + msg);
+            return;
+          });
+      }
+
+      if (auth_request != null) {
+        setTimeout(startAuthentication(), 5000);
+      } else {
+        setTimeout(startRegistration(), 5000);
+      }
+
+      function fillInRecovery() {
+        document.getElementById("loginForm:action").value = "recover";
+      }
+      function fillInCancel() {
+        document.getElementById("loginForm:action").value = "cancel";
+      }
     </script>
   </ui:define>
 </ui:composition>

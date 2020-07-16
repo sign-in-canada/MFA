@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
@@ -21,15 +19,16 @@
   </ui:define>
 
   <ui:define name="content">
-    <h2>Use your security key now.</h2>
-    <p>Insert and/or tap your security key.</p>
-    <h:messages style="color:red;"/>
+    <h2>Secure your account</h2>
+    <h2>Plug in your USB security token now</h2>
+    <p>Insert the hardware USB token into your computer and push the button on the token</p>
+    <h:messages style="color:red;" />
     <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false;">
       <input type="hidden" name="username" value="${credentials.username}" />
       <input type="hidden" name="authMethod" id="authMethod" />
       <input type="hidden" name="tokenResponse" id="tokenResponse" />
     </form>
-    <form id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}" >
+    <form id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <div class="row">
         <div class="col-md-5"><img src="/oxauth/ext/resources/yubikeyincomputer.png" alt="" /></div>
@@ -38,10 +37,13 @@
           </h:panelGroup>
         </div>
         <div class="col-md-7">
-          <h2 class="h5">Was your token not recognised?</h2>
-          <button class="btn btn-default" onclick="location.reload()">Retry</button>
+          <h2 class="h5">Make sure you are using a security token (and not another type of USB device like a storage
+            drive) and refresh your screen</h2>
+          <button class="btn btn-default" onclick="location.reload()">Refresh</button>
           <h2 class="h5 mrgn-tp-lg">Lost or replaced your token?</h2>
-          <button jsf:id="recoverButton" styleClass="btn btn-default" value="Recover" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
+          <button jsf:id="recoverButton" styleClass="btn btn-default" value="Recover"
+            jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
+          <button class="btn btn-default">Back</button>
         </div>
       </div>
     </form>
@@ -50,42 +52,42 @@
   <ui:define name="scripts">
     <script src="/oxauth/auth/u2f/scripts/u2f-api.js" />
     <script>
-        var auth_request = ${identity.getWorkingParameter('fido_u2f_authentication_request')};
-        var register_request = ${identity.getWorkingParameter('fido_u2f_registration_request')};
+      var auth_request = ${ identity.getWorkingParameter('fido_u2f_authentication_request')};
+      var register_request = ${ identity.getWorkingParameter('fido_u2f_registration_request')};
 
-        function startRegistration() {
-            u2fApi.register(register_request.registerRequests)
-                .then( function(data) {
-                    document.getElementById('tokenResponse').value = JSON.stringify(data);
-                    document.getElementById('authMethod').value = 'enroll';
+      function startRegistration() {
+        u2fApi.register(register_request.registerRequests)
+          .then(function (data) {
+            document.getElementById('tokenResponse').value = JSON.stringify(data);
+            document.getElementById('authMethod').value = 'enroll';
 
-                    document.getElementById('u2f_form').submit();
-                })
-                .catch( function(msg) {
-                    alert("U2F failed. " + msg);
-                    return;
-                });
-        }
+            document.getElementById('u2f_form').submit();
+          })
+          .catch(function (msg) {
+            alert("U2F failed. " + msg);
+            return;
+          });
+      }
 
-        function startAuthentication() {
-            u2fApi.sign(auth_request.authenticateRequests)
-                .then( function( data ) {
-                    document.getElementById('tokenResponse').value = JSON.stringify(data);
-                    document.getElementById('authMethod').value = 'authenticate';
+      function startAuthentication() {
+        u2fApi.sign(auth_request.authenticateRequests)
+          .then(function (data) {
+            document.getElementById('tokenResponse').value = JSON.stringify(data);
+            document.getElementById('authMethod').value = 'authenticate';
 
-                    document.getElementById('u2f_form').submit();
-                })
-                .catch( function(msg) {
-                    alert("U2F failed. " + msg);
-                    return;
-                });
-        }
+            document.getElementById('u2f_form').submit();
+          })
+          .catch(function (msg) {
+            alert("U2F failed. " + msg);
+            return;
+          });
+      }
 
-        if (auth_request != null) {
-            setTimeout(startAuthentication(), 5000);
-        } else {
-            setTimeout(startRegistration(), 5000);
-        }
+      if (auth_request != null) {
+        setTimeout(startAuthentication(), 5000);
+      } else {
+        setTimeout(startRegistration(), 5000);
+      }
 
     </script>
   </ui:define>

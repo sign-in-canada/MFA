@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
@@ -24,18 +22,18 @@
     <style>
       #confirmDialogDiv {
         width: auto%;
-        height:auto;
+        height: auto;
         padding: 50px 50px;
         text-align: center;
         background-color: black;
         opacity: 0.8;
-        z-index:4000;
-        margin-top:-100px;
+        z-index: 4000;
+        margin-top: -100px;
       }
-   </style>
-   <style>
+    </style>
+    <style>
       .res-circle {
-        margin-top:25px;
+        margin-top: 25px;
         width: 3%;
         border-radius: 50%;
         line-height: 0;
@@ -43,11 +41,13 @@
         /* NECESSARY FOR TEXT */
         position: relative;
       }
+
       .res-circle:after {
         content: "";
         display: block;
         padding-bottom: 100%;
       }
+
       .circle-txt {
         position: absolute;
         bottom: 50%;
@@ -62,8 +62,9 @@
   </ui:define>
 
   <ui:define name="content">
+    <h2>Secure your account</h2>
     <h2>Scan the QR code</h2>
-    <p>The first part of the smartphone application account enrollment process is to synchronize your account data with your application using this QR code.</p>
+    <p>Open the app on your device and get ready to scan a new QR code</p>
     <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <h:messages style="color:red;" />
       <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
@@ -75,7 +76,7 @@
           <div class="panel-body text-center">
             <p>Scan the QR code below with your smartphone application.</p>
             <p class="text-center">
-              <div id="container"></div>
+            <div id="container"></div>
             </p>
           </div>
         </section>
@@ -85,10 +86,12 @@
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" type="Submit" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel App Registration</button>
+            <button jsf:id="cancelButton" styleClass="btn btn-default" type="Submit"
+              jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel App Registration</button>
           </li>
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="Submit" jsf:action="#{authenticator.authenticate}">Continue</button>
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="Submit"
+              jsf:action="#{authenticator.authenticate}">Continue</button>
           </li>
         </ul>
       </nav>
