@@ -1,17 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
   </f:metadata>
 
   <ui:param name="otherLanguage" value="eregistrer/appcode" />
-  
+
   <ui:define name="name">
     <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
   </ui:define>
@@ -21,22 +19,10 @@
   </ui:define>
 
   <ui:define name="content">
+    <h2>Secure your account</h2>
     <h2>Enter Verification Code</h2>
-    <p>The code in the smartphone application changes and is valid for only 30 seconds so please wait until a new code is generated so you have enough time to enter and submit it.</p>
-    <ul class="list-unstyled">
-      <li>
-        <details>
-          <summary>How do I get this code?</summary>
-          <p>You must have set up your smartphone with an authenticator application.</p>
-          <ul>
-            <li>Open the application</li>
-            <li>Select the token for ATIP</li>
-            <li>Enter the code it displays (note the code is designed to change frequently, you will get a new code every few seconds)</li>
-          </ul>
-        </details>
-      </li>
-    </ul>
-
+    <p>The code in your smartphone app changes every 30 seconds so please wait until a new code is generated so you have
+      enough time to enter and submit it</p>
     <h:messages style="color:red;" />
     <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <input jsf:id="action" type="hidden" class="form-control" autocomplete="off" />
@@ -46,32 +32,41 @@
             <h2 class="h3 mrgn-tp-sm text-center">Enter the code from your smartphone application</h2>
           </header>
           <div class="panel-body">
-            <p>Copy the code below and enter it into your authentication app.</p>
-            <p class="text-center">
-              <img src="/oxauth/ext/resources/smartphonecode.png" width="165" height="265" alt="scan code" />
-            </p>
             <p class="text-center">
               <label for="code">
-                Verification code:
-                <input class="form-control" jsf:id="otpCode" style="text-align:center" data-rule-digits="true" maxlength="6" type="text" autocomplete="off" />
+                Verification code
+                <input class="form-control" jsf:id="otpCode" style="text-align:center" data-rule-digits="true"
+                  maxlength="6" type="text" autocomplete="off" />
               </label>
             </p>
           </div>
         </section>
       </div>
+      <ul class="list-unstyled">
+        <li>
+          <details>
+            <summary>How do I get this code?</summary>
+            <p>You must have set up your smartphone with an authenticator application.</p>
+            <ul>
+              <li>Open the application</li>
+              <li>Select the token for ATIP</li>
+              <li>Enter the code it displays (note the code is designed to change frequently, you will get a new code
+                every few seconds)</li>
+            </ul>
+          </details>
+        </li>
+      </ul>
       <nav class="mrgn-bttm-lg" role="navigation">
         <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
-          <br />
-          <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" type="submit" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel App Registration</button>
-          </li>
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit"
+              jsf:action="#{authenticator.authenticate}">Submit</button>
           </li>
         </ul>
       </nav>
     </form>
+
   </ui:define>
 
   <ui:define name="scripts">
@@ -84,5 +79,5 @@
       }
   </script>
   </ui:define>
-  
+
 </ui:composition>

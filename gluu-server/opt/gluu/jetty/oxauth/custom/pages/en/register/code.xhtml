@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
@@ -21,21 +19,21 @@
   </ui:define>
 
   <ui:define name="content">
-    <h2>Record Your Recovery Code</h2>
-    <p>You must record a recovery code to protect access to your account.</p>
+    <h2>Secure your account</h2>
+    <h2>Record your recovery codes</h2>
+    <p>You must record recovery codes to protect your account</p>
+    <p>Keep these backup codes somewhere safe but accessible</p>
     <label for="recovery_code">
-      This is your new recovery code:
+      These are your recovery codes
       <h:outputText escape="false" value="#{identity.getWorkingParameter('new_code')}" />
     </label>
-    <h3>This is your new recovery code</h3>
     <ul class="list-unstyled">
       <li>
         <details>
           <summary>Why do you need a recovery code?</summary>
-          <p>If your token is lost or you use a new phone (for example if you lose or damage your phone) you will be unable to recover your ATIP account profile without a recovery code.</p>
-          <p>
-            <i>NOTE: if you are currently recovering an old account you will need to regenerate a new recovery code.</i>
-          </p>
+          <p>If your token is lost or you use a new phone (for example if you lose or damage your old phone) you will be
+            unable to recover your ATIP account profile without a recovery code.</p>
+          <p>NOTE: if you are currently recovering an old account you will need to record new recovery codes.</p>
         </details>
       </li>
     </ul>
@@ -51,11 +49,12 @@
         this code
       </li>
       <li>This code can be used to comprimise your account and you are responsible for its loss or misuse</li>
-      <li>You will lose your account and ability to recover this account</li>
+      <li>Without a recovery code you can lose your account and the ability to get it back</li>
     </ul>
     <h:messages style="color:red;" />
     <form horizontal="true" jsf:id="loginForm" class="form-horizontal">
       <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
+      <p>Have you securely recorded this code?</p>
       <input jsf:id="confirmCodeBox" type="checkbox" styleClass="checkmark" style="position:relative !important;" />
       <label style="color:#000" for="saved">
         <strong>I confirm I wrote down the code above and stored it safely</strong>
@@ -65,12 +64,9 @@
         <nav class="mrgn-bttm-lg" role="navigation">
           <h2 class="wb-inv">Document navigation</h2>
           <ul class="pager">
-            <br />
-            <li class="pull-left">
-              <button jsf:id="cancelButton" styleClass="btn btn-default" type="submit" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel Registration</button>
-            </li>
             <li class="pull-right">
-              <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
+              <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit"
+                jsf:action="#{authenticator.authenticate}">Continue</button>
             </li>
           </ul>
         </nav>
@@ -82,7 +78,8 @@
         <div class="center-block" style=" margin-top:-30px; width:700px; height:200px; background-color:#FFF">
           <section id="errors-fdbck-frm" class="alert alert-danger" tabindex="-1">
             <h2>Did you record your recovery code?</h2>
-            <p style="background-color:#FFF" class="alert">You will not be shown this code again. You will need this code if you lose your token; without it you will lose access to your account and all account details.</p>
+            <p style="background-color:#FFF" class="alert">You will not be shown this code again. You will need this
+              code if you lose your token; without it you will lose access to your account and all account details.</p>
             <ul class="pager">
               <li class="pull-left">
                 <!-- Pawel closes box-->
@@ -97,7 +94,7 @@
         </div>
       </div>
     </div>
-</ui:define>
+  </ui:define>
 
   <ui:define name="scripts">
     <script type="text/x-javascript">

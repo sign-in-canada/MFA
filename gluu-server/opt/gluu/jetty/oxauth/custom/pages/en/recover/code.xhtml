@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
@@ -19,11 +17,13 @@
   <ui:define name="help">
     <ui:include src="/WEB-INF/incl/content/default/help-#{language.localeCode}.xhtml" />
   </ui:define>
-  
+
   <ui:define name="content">
+    <h2>Secure your account</h2>
     <h2>Recover your profile</h2>
     <p>Enter the recovery code you recorded when you created your account.</p>
-    <p>When you created your account you were given a recovery code and asked to write it down somewhere secure. You will need to use that code now. </p>
+    <p>When you created your account you were given a recovery code and asked to write it down somewhere secure. You
+      will need to use that code now. </p>
     <h:messages style="color:red;" />
     <form jsf:id="loginForm" class="form-horizontal">
       <input jsf:id="action" type="hidden" class="form-control" autocomplete="off" />
@@ -32,20 +32,28 @@
         <strong class="required">(required)</strong>
       </label>
       <ul class="list-unstyled">
-        <input jsf:id="recoveryCode1" type="text" size="4" maxlength="4" autocomplete="off" class="display: inline-block" />
+        <input jsf:id="recoveryCode1" type="text" size="4" maxlength="4" autocomplete="off"
+          class="display: inline-block" />
         -
-        <input jsf:id="recoveryCode2" type="text" size="4" maxlength="4" autocomplete="off" class="display: inline-block" />
+        <input jsf:id="recoveryCode2" type="text" size="4" maxlength="4" autocomplete="off"
+          class="display: inline-block" />
         -
-        <input jsf:id="recoveryCode3" type="text" size="4" maxlength="4" autocomplete="off" class="display: inline-block" />
+        <input jsf:id="recoveryCode3" type="text" size="4" maxlength="4" autocomplete="off"
+          class="display: inline-block" />
         <li>
           <details>
             <summary>How do I get this code?</summary>
-            <p>When you created your account you were given a recovery code with instructions to write it down and store it safely. If your smartphone or hardware USB token is lost or damaged the ONLY way to recover your profile account is via this recovery code.</p>
+            <p>When you created your account you were given a recovery code with instructions to write it down and store
+              it safely. If your smartphone or hardware USB token is lost or damaged the ONLY way to recover your
+              profile account is via this recovery code.</p>
             <p>If you have lost your recovery code:</p>
             <ul>
-              <li>Your account cannot be recovered. If you have made requests you will be unable to access them or retrieve any reply packages electronically through ATIP Online.</li>
-              <li>You must contact the institution(s) to which you made the request(s) directly and arrange for reply delivery in some other way.</li>
-              <li>You may make a new account however if you have pending requests you cannot arrange to deliver them to the new account.</li>
+              <li>Your account cannot be recovered. If you have made requests you will be unable to access them or
+                retrieve any reply packages electronically through ATIP Online.</li>
+              <li>You must contact the institution(s) to which you made the request(s) directly and arrange for reply
+                delivery in some other way.</li>
+              <li>You may make a new account however if you have pending requests you cannot arrange to deliver them to
+                the new account.</li>
             </ul>
           </details>
         </li>
@@ -55,10 +63,12 @@
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default"  jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel Recovery</button>
+            <button jsf:id="cancelButton" styleClass="btn btn-default" jsf:action="#{authenticator.authenticate}"
+              onclick="fillInCancel()">Cancel Recovery</button>
           </li>
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary"  value="Continue" jsf:action="#{authenticator.authenticate}">Continue</button>
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" value="Continue"
+              jsf:action="#{authenticator.authenticate}">Continue</button>
           </li>
         </ul>
       </nav>

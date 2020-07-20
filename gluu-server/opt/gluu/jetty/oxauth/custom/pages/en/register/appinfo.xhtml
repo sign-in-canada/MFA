@@ -1,17 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
   </f:metadata>
 
   <ui:param name="otherLanguage" value="eregistrer/appinfo" />
-  
+
   <ui:define name="name">
     <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
   </ui:define>
@@ -21,42 +19,49 @@
   </ui:define>
 
   <ui:define name="content">
+    <h2>ATIP Online Request Service</h2>
     <h2>Select a smartphone authenticator application</h2>
-    <p>You  must either have a smartphone authenticator application already installed or  download one.</p>
+    <p>You must either have a smartphone authenticator application already installed or download one.</p>
+
     <h3 class="h3">Already have an application installed? </h3>
     <p>Open the authenticator to create a new token</p>
     <ul class="list-unstyled">
       <li>
         <details>
           <summary>What smartphone apps do we suggest?</summary>
-          <p>There are a variety of smartphone apps (such as Google Authenticator, Microsoft Authenticator and Authy) that you can set up on your phone for free to act as a token.</p>
+          <p>There are a variety of smartphone apps (such as Google Authenticator, Microsoft Authenticator and Authy)
+            that you can set up on your phone for free to act as a token.</p>
         </details>
       </li>
     </ul>
-    <h3 class="h3">Need to install an application?</h3>
-    <p>Select and install an authenticator application</p>
+    <h3 class="h3">Don’t have the app?</h3>
+    <p>Select and install a free 2FA app on your mobile device</p>
     <ul class="list-unstyled">
       <li>
         <details>
           <summary>How to find an authenticator application</summary>
-          <p>There are a number of apps which provide this service and while we suggest Google Authenticator, Microsoft Authenticator or Authy, you may use any similar app. These apps should be free of charge.</p>
-          <p>If you do not have an app installed you will need to download one (from the appropriate app store depending on whether you are using an Android or iPhone).</p>
+          <p>You can turn your smartphone into a soft token by using an app.
+            There are a number of apps which provide this service and while we suggest Google Authenticator, Microsoft
+            Authenticator or Authy, you may use any similar app. These apps should be free of charge.</p>
+          <p>If you do not have an app installed you will need to download one
+            (from the appropriate app store depending on whether you are using an Android or iPhone)</p>
         </details>
       </li>
     </ul>
-    <h4>Once you are ready generate a QR code to scan continue to the next page.</h4>
+    <p>Once you are ready generate a QR code to scan continue to the next page</p>
     <h:messages style="color:red;" />
     <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <nav class="mrgn-bttm-lg" role="navigation">
-        <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" value="Cancel App Registration" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel App Registration</button>
+            <button jsf:id="cancelButton" styleClass="btn btn-default" value="Cancel App Registration"
+              jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Back</button>
           </li>
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" value="Generate QR code" jsf:action="#{authenticator.authenticate}" onclick="fillInContinue()">Generate QR code</button>
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" value="Generate QR code"
+              jsf:action="#{authenticator.authenticate}" onclick="fillInContinue()">Generate QR code</button>
           </li>
         </ul>
       </nav>
@@ -72,5 +77,5 @@
         document.getElementById("loginForm:action").value = "cancel";
       }
     </script>
-</ui:define>
+  </ui:define>
 </ui:composition>
