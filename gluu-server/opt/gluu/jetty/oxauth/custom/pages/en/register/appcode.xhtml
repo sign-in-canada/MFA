@@ -42,30 +42,30 @@
           </div>
         </section>
       </div>
-    </form>
-    <ul class="list-unstyled">
-      <li>
-        <details>
-          <summary>How do I get this code?</summary>
-          <p>You must have set up your smartphone with an authenticator application.</p>
-          <ul>
-            <li>Open the application</li>
-            <li>Select the token for ATIP</li>
-            <li>Enter the code it displays (note the code is designed to change frequently, you will get a new code
-              every few seconds)</li>
-          </ul>
-        </details>
-      </li>
-    </ul>
-    <nav class="mrgn-bttm-lg" role="navigation">
-      <h2 class="wb-inv">Document navigation</h2>
-      <ul class="pager">
-        <li class="pull-right">
-          <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit"
-            jsf:action="#{authenticator.authenticate}">Submit</button>
+      <ul class="list-unstyled">
+        <li>
+          <details>
+            <summary>How do I get this code?</summary>
+            <p>You must have set up your smartphone with an authenticator application.</p>
+            <ul>
+              <li>Open the application</li>
+              <li>Select the token for ATIP</li>
+              <li>Enter the code it displays (note the code is designed to change frequently, you will get a new code
+                every few seconds)</li>
+            </ul>
+          </details>
         </li>
       </ul>
-    </nav>
+      <nav class="mrgn-bttm-lg" role="navigation">
+        <h2 class="wb-inv">Document navigation</h2>
+        <ul class="pager">
+          <li class="pull-right">
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit"
+              jsf:action="#{authenticator.authenticate}">Submit</button>
+          </li>
+        </ul>
+      </nav>
+    </form>
 
   </ui:define>
 
