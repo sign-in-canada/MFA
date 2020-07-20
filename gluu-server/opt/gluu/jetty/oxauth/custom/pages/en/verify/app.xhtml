@@ -19,9 +19,13 @@
   </ui:define>
 
   <ui:define name="content">
-    <h2>Enter Verification Code</h2>
-    <p>The code in the smartphone application changes and is valid for only 30 seconds so please wait until a new code
-      is generated so you have enough time to enter and submit it.</p>
+    <h1>ATIP Online Request Service</h1>
+    <h2>Open your 2-factor authentication app on your smartphone and enter the code for ATIP</h2>
+    <p>
+      The code in your smartphone app changes every 30 seconds so please wait
+      until a new code is generated so you have enough time to enter and submit
+      it.
+    </p>
     <ul class="list-unstyled">
       <li>
         <details>
@@ -47,25 +51,21 @@
           </center>
         </div>
         <div class="col-md-7">
-          <p>Copy the code below and enter it into your authentication app.</p>
           <p>
-            <label for="code">
-              Verification code:
-              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text"
-                autocomplete="off" />
+            <label for="loginForm:otpCode">
+              Enter the code from your smartphone:
+              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off" />
             </label>
           </p>
           <h2 class="h5 mrgn-tp-lg">Lost or replaced your token?</h2>
-          <button jsf:id="recoverButton" styleClass="btn btn-default" value="Recover"
-            jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
+          <button jsf:id="recoverButton" styleClass="btn btn-default" value="Recover" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
         </div>
       </div>
       <nav class="mrgn-bttm-lg" role="navigation">
         <ul class="pager">
           <br />
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" value="Continue"
-              jsf:action="#{authenticator.authenticate}">Continue</button>
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" value="Continue" jsf:action="#{authenticator.authenticate}">Continue</button>
           </li>
         </ul>
       </nav>
