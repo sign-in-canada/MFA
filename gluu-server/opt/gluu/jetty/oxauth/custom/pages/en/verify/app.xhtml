@@ -20,22 +20,21 @@
 
   <ui:define name="content">
     <h1>ATIP Online Request Service</h1>
-    <h2>Open your 2-factor authentication app on your smartphone and enter the code for ATIP</h2>
+    <h2>2-factor authentication</h2>
     <p>
-      The code in your smartphone app changes every 30 seconds so please wait
-      until a new code is generated so you have enough time to enter and submit
-      it.
+      Enter the 6-digit code from your authenticator app below.
     </p>
     <ul class="list-unstyled">
       <li>
         <details>
           <summary>How do I get this code?</summary>
-          <p>You must have set up your smartphone with an authenticator application.</p>
+          <p>You previously set up your smartphone or tablet with an authenticator app.</p>
           <ul>
-            <li>Open the application</li>
-            <li>Select the token for ATIP</li>
-            <li>Enter the code it displays (note the code is designed to change frequently, you will get a new code
-              every few seconds)</li>
+            <li>Open the authenticator app</li>
+            <li>If you use your authenticator app to sign in to multiple sites, identify which code is for your ATIP account</li>
+            <li>Enter the 6-digit code it displays for your ATIP account below (note the code is designed to change frequently, you will get a new code
+              every 30 seconds)</li>
+            <li>Press enter, or select "Continue" below</li>
           </ul>
         </details>
       </li>
@@ -53,11 +52,11 @@
         <div class="col-md-7">
           <p>
             <label for="loginForm:otpCode">
-              Enter the code from your smartphone:
-              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off" />
+              Enter the code from your app:
+              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off" onkeyup="submitCodeOnEnter(event)"/>
             </label>
           </p>
-          <h2 class="h5 mrgn-tp-lg">Lost or replaced your token?</h2>
+          <h2 class="h5 mrgn-tp-lg">Lost or replaced your device? Deleted or reinstalled the authenticator app?</h2>
           <button jsf:id="recoverButton" styleClass="btn btn-default" value="Recover" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
         </div>
       </div>
@@ -80,6 +79,12 @@
       function fillInCancel(){
         document.getElementById("loginForm:action").value = "cancel";
       }
+
+      function submitCodeOnEnter(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          document.getElementById("loginForm:loginButton1").click();
+        }
     </script>
   </ui:define>
 </ui:composition>
