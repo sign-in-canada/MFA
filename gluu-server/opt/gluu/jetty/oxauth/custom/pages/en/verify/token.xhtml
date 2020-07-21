@@ -21,7 +21,7 @@
   <ui:define name="content">
     <h1>ATIP Online Request Service</h1>
     <h2>Security Key</h2>
-    <p>Insert your security Key into your computer and touch the button</p>
+    <p>Insert your security key and touch the button</p>
     <h:messages style="color:red;" />
     <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false;">
       <input type="hidden" name="username" value="${credentials.username}" />
@@ -34,7 +34,7 @@
       </div>
       <div class="col-md-7">
         <form class="form-horizontal">
-          <h2 class="h5">Was your security key not recognised?</h2>
+          <h2 class="h5">Was your security key not recognized?</h2>
           <button class="btn btn-default" onclick="startAuthentication()">Retry</button>
         </form>
         <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">

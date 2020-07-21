@@ -19,36 +19,46 @@
   </ui:define>
 
   <ui:define name="content">
-    <h2>ATIP Online Request Service</h2>
-    <h2>Select a smartphone authenticator application</h2>
-    <p>You must either have a smartphone authenticator application already installed or download one.</p>
+    <h1>ATIP Online Request Service</h1>
+    <h2>Prepare your mobile device</h2>
 
-    <h3 class="h3">Already have an application installed? </h3>
-    <p>Open the authenticator to create a new token</p>
+    <p>You can use an app on your mobile device (smartphone or tablet) as a second factor.</p>
+    <ul class="list-unstyled">
+      <li>
+    <details>
+      <summary>What apps do we suggest?</summary>
+      <p>
+        There are a number of  apps which provide this service and while we
+        suggest Google Authenticator, Microsoft Authenticator or Authy, you may
+        use any similar app. These apps should be free of charge.
+      </p>
+    </details>
+  </li>
+</ul>
+
+<h3 class="h3">Don’t have an app?</h3>
+    <p>Install a free authenticator app on your mobile device.</p>
     <ul class="list-unstyled">
       <li>
         <details>
-          <summary>What smartphone apps do we suggest?</summary>
-          <p>There are a variety of smartphone apps (such as Google Authenticator, Microsoft Authenticator and Authy)
-            that you can set up on your phone for free to act as a token.</p>
+          <summary>How to install an authenticator app</summary>
+          <ol>
+            <li>Open the app store on your device and search for "Authenticator"</li>
+            <li>Choose the authenticator app that you wish to use</li>
+            <li>install your chosen app</li>
+        </ol>
         </details>
       </li>
     </ul>
-    <h3 class="h3">Don’t have the app?</h3>
-    <p>Select and install a free 2FA app on your mobile device</p>
-    <ul class="list-unstyled">
-      <li>
-        <details>
-          <summary>How to find an authenticator application</summary>
-          <p>You can turn your smartphone into a soft token by using an app.
-            There are a number of apps which provide this service and while we suggest Google Authenticator, Microsoft
-            Authenticator or Authy, you may use any similar app. These apps should be free of charge.</p>
-          <p>If you do not have an app installed you will need to download one
-            (from the appropriate app store depending on whether you are using an Android or iPhone)</p>
-        </details>
-      </li>
-    </ul>
-    <p>Once you are ready to scan a QR code continue to the next page</p>
+
+    <h3 class="h3">Already have an authenticator app installed? </h3>
+    <p>Open the authenticator app on your device and prepare to add your ATIP account:</p>
+       <ol>
+          <li>On most apps, you tap on a plus (+) sign to add a new account</li>
+          <li>Select the option to scan a bar code or QR code</li>
+      </ol>
+
+    <p>Once you are ready to scan a QR code continue to the next page.</p>
     <h:messages style="color:red;" />
     <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
