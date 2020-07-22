@@ -19,45 +19,50 @@
   </ui:define>
 
   <ui:define name="content">
-    <h2>Secure your account</h2>
-    <h2>Record your recovery codes</h2>
-    <p>You must record recovery codes to protect your account</p>
-    <p>Keep these backup codes somewhere safe but accessible</p>
+    <h1>Secure your account</h1>
+    <h2>Record your recovery code</h2>
+    <p>You must record this recovery code to protect your account. Keep it somewhere safe but accessible.</p>
     <label for="recovery_code">
-      These are your recovery codes
-      <h:outputText escape="false" value="#{identity.getWorkingParameter('new_code')}" />
+      This is your recovery code: #{identity.getWorkingParameter('new_code')}
     </label>
     <ul class="list-unstyled">
       <li>
         <details>
           <summary>Why do you need a recovery code?</summary>
-          <p>If your token is lost or you use a new phone (for example if you lose or damage your old phone) you will be
-            unable to recover your ATIP account profile without a recovery code.</p>
-          <p>NOTE: if you are currently recovering an old account you will need to record new recovery codes.</p>
+          <p>If you lose or damage your smartphone, tablet or security key, or if you
+          reinstall your authenticator app, then you can recover access to your
+          ATIP account using this recovery code.</p>
         </details>
       </li>
     </ul>
+    <section class="alert alert-info">
+      <h4>Note:</h4>
+      <p>If you have just used your old recovery code then a new
+        replacement code has been generated. Your old code will no longer
+        work.</p>
+      </section>
+    <p>Write this code down, or print this page using the button below. Then store it in a secure location!</p>
+    <p>
+      <button id="print" class="btn btn-default" onclick="enableContinue(this); window.print()">
+        <span class="glyphicon glyphicon-print"></span>
+        Print this page
+      </button>
+    </p>
 
-    <p>Write this code down and store it in a secure location!</p>
-    <ul>
-      <li>
-        <b>Do Not share</b>
-        this code
-      </li>
-      <li>
-        <b>Do Not lose</b>
-        this code
-      </li>
-      <li>This code can be used to comprimise your account and you are responsible for its loss or misuse</li>
-      <li>Without a recovery code you can lose your account and the ability to get it back</li>
-    </ul>
+    <section class="alert alert-warning">
+      <h4>Do not share or lose this code!</h4>
+      <p>Without this recovery code you could permanently lose access to your account.</p>
+      <p>In the wrong hands, this code could be misused to compromise your account. You are responsible for its safekeeping.</p>
+    </section>
+
     <h:messages style="color:red;" />
-    <form horizontal="true" jsf:id="loginForm" class="form-horizontal">
+    <br />
+    <p>Have you securely recorded this code?</p>
+    <form horizontal="true" jsf:id="loginForm" jsf:action="#{authenticator.authenticate}" class="form-horizontal">
       <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
-      <p>Have you securely recorded this code?</p>
-      <input jsf:id="confirmCodeBox" type="checkbox" styleClass="checkmark" style="position:relative !important;" />
+      <input jsf:id="confirmCodeBox" type="checkbox" styleClass="checkmark" style="position:relative !important;" onchange="enableContinue(this)" />
       <label style="color:#000" for="saved">
-        <strong>I confirm I wrote down the code above and stored it safely</strong>
+        <strong>Yes, I have written down or printed the recovery code above.</strong>
       </label>
       <br />
       <div class="cddol-lg-12">
@@ -65,51 +70,33 @@
           <h2 class="wb-inv">Document navigation</h2>
           <ul class="pager">
             <li class="pull-right">
-              <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit"
-                jsf:action="#{authenticator.authenticate}">Continue</button>
+              <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
             </li>
           </ul>
         </nav>
       </div>
     </form>
-
-    <div style="display:none" id="confirmDialogDiv">
-      <div class="center-block">
-        <div class="center-block" style=" margin-top:-30px; width:700px; height:200px; background-color:#FFF">
-          <section id="errors-fdbck-frm" class="alert alert-danger" tabindex="-1">
-            <h2>Did you record your recovery code?</h2>
-            <p style="background-color:#FFF" class="alert">You will not be shown this code again. You will need this
-              code if you lose your token; without it you will lose access to your account and all account details.</p>
-            <ul class="pager">
-              <li class="pull-left">
-                <!-- Pawel closes box-->
-                <button onclick="checkDialogAnswer()" class="btn btn-danger" rel="next">No</button>
-              </li>
-              <li class="pull-right">
-                <!-- Pawel link to next page-->
-                <button onclick="checkDialogAnswer()" class="btn btn-primary" rel="next">Yes</button>
-              </li>
-            </ul>
-          </section>
-        </div>
-      </div>
-    </div>
   </ui:define>
 
   <ui:define name="scripts">
     <script type="text/x-javascript">
-      function checkDialogAnswer() {
-        var x = document.getElementById("confirmDialogDiv");
-        if (x.style.display === "none") {
-              x.style.display = "block";
-        } else {
-              x.style.display = "none";
-        }
-      }
+      document.getElementById("loginForm:loginButton1").disabled = true;
+      document.getElementById("loginForm:confirmCodeBox").checked = false;
 
       function fillInCancel(){
         document.getElementById("loginForm:action").value = "cancel";
       }
+
+      function enableContinue(source) {
+        var continueBtn = document.getElementById("loginForm:loginButton1");
+        if (source.id === 'loginForm:confirmCodeBox') {
+            continueBtn.disabled = ! source.checked;
+          } else {
+            document.getElementById("loginForm:confirmCodeBox").checked = true;
+            continueBtn.disabled = false;
+        }
+      }
+
     </script>
   </ui:define>
 </ui:composition>
