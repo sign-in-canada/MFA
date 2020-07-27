@@ -41,7 +41,7 @@
     </ul>
 
     <h:messages style="color:red;" />
-    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
+    <form jsf:id="loginForm" class="form-horizontal">
       <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <div class="row">
         <div class="col-md-5">
@@ -53,21 +53,14 @@
           <p>
             <label for="loginForm:otpCode">
               Enter the code from your app:
-              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off" onkeyup="submitCodeOnEnter(event)"/>
+              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off"/>
             </label>
+            <button jsf:id="loginButton1" class="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continue</button>
           </p>
           <h2 class="h5 mrgn-tp-lg">Lost or replaced your device? Deleted or reinstalled your authenticator app?</h2>
           <button jsf:id="recoverButton" class="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
         </div>
       </div>
-      <nav class="mrgn-bttm-lg" role="navigation">
-        <ul class="pager">
-          <br />
-          <li class="pull-right">
-            <button jsf:id="loginButton1" class="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continue</button>
-          </li>
-        </ul>
-      </nav>
     </form>
   </ui:define>
 
@@ -80,12 +73,6 @@
         document.getElementById("loginForm:action").value = "cancel";
       }
 
-      function submitCodeOnEnter(event) {
-        if (event.keyCode === 13) {
-          event.preventDefault();
-          document.getElementById("loginForm:loginButton1").click();
-        }
-      }
     </script>
   </ui:define>
 </ui:composition>

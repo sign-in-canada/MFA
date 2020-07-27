@@ -49,38 +49,15 @@
           <p>
             <label for="loginForm:otpCode">
               Enter the code from your app:
-              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off" onkeyup="submitCodeOnEnter(event)"/>
+              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off"/>
             </label>
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit"
+              jsf:action="#{authenticator.authenticate}">Continue</button>
           </p>
         </div>
       </div>
-      <nav class="mrgn-bttm-lg" role="navigation">
-        <h2 class="wb-inv">Document navigation</h2>
-        <ul class="pager">
-          <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit"
-              jsf:action="#{authenticator.authenticate}">Submit</button>
-          </li>
-        </ul>
-      </nav>
     </form>
 
-  </ui:define>
-
-  <ui:define name="scripts">
-    <script type="text/x-javascript">
-      function fillInRecovery(){
-        document.getElementById("loginForm:action").value = "recover";
-      }
-      function fillInCancel(){
-        document.getElementById("loginForm:action").value = "cancel";
-      }
-      function submitCodeOnEnter(event) {
-        if (event.keyCode === 13) {
-          event.preventDefault();
-          document.getElementById("loginForm:loginButton1").click();
-        }
-  </script>
   </ui:define>
 
 </ui:composition>
