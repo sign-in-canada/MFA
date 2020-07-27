@@ -106,6 +106,9 @@ class PersonAuthentication(PersonAuthenticationType):
         print "MFA Recovery. authenticate called for step '%s'" % step
 
         identity = CdiUtil.bean(Identity)
+        facesMessages = CdiUtil.bean(FacesMessages)
+        languageBean = CdiUtil.bean(LanguageBean)
+
         # For authentication then check if someone enrolling clicked CANCEL button
         alternateAction = self.alternateActionRequested(requestParameters)
         if ( alternateAction == 'cancel'):
@@ -137,12 +140,10 @@ class PersonAuthentication(PersonAuthenticationType):
 
         ########################################################################################
         # 3. get the code from the user profile
-        facesMessages = CdiUtil.bean(FacesMessages)
-        # get the code from the user profile
         userCodeOrig = self.findExistingCode(authenticated_user)
         if (userCodeOrig == None):
             print "MFA Recovery. authenticate. Did not find code in user profile, cannot recover"
-            facesMessages.add( FacesMessage.SEVERITY_ERROR, "Did not find recovery code in you profile, cannot recover" )
+            facesMessages.add( FacesMessage.SEVERITY_ERROR, languageBean.getMessage("mfa.noRecoveryCode"))
             return False
             
         ########################################################################################
@@ -166,7 +167,7 @@ class PersonAuthentication(PersonAuthenticationType):
         if ( lockoutTs != None ):
             # lockout is for 72 hours (259200 seconds)
             if ( time.time() < lockoutTs + 259200 ):
-                facesMessages.add(FacesMessage.SEVERITY_ERROR, "Too many failed attempts, you are within a 72 hour recovery lockout until next recovery attempt.")
+                facesMessages.add(FacesMessage.SEVERITY_ERROR, languageBean.getMessage("mfa.lockedOut"))
                 return False
             else:
                 lockoutTs = None
@@ -177,13 +178,13 @@ class PersonAuthentication(PersonAuthenticationType):
         if (userCodeDecrypted != requestCode.lower()):
             print "MFA Recovery. authenticate. Recovery codes do not match, previous failed attempts = %s" % attemptsCount
             attemptsCount = attemptsCount + 1
-            message = "Recovery attempt, bad code. Failed attempt %s out of 10" % attemptsCount
+            message = languageBean.getMessage("mfa.invalidRecoveryCode") % attemptsCount
             # set attributes for saving
             userCodeNew = "%s|%s" % ( userCode, attemptsCount )
             # check lockout count
             if ( attemptsCount > 10 ):
                 # set lockout message and adjust count to 0 and set lockout attribute
-                message = "Recovery attempt, bad code. Too many attempts. You need to wait 72 hours to try again."
+                message = languageBean.getMessage("mfa.lockedOut")
                 attemptsCount = 0
                 lockoutTs = int( round( time.time() ) )
                 # update the new code to include lockout
@@ -335,7 +336,7 @@ class PersonAuthentication(PersonAuthenticationType):
         iv, encrypted = encryptedStr[:16], encryptedStr[16:]
         # configure IV and key specification
         skeySpec = SecretKeySpec(key, "AES")
-        ivspec = IvParameterSpec(iv);
+        ivspec = IvParameterSpec(iv)
         # setup cipher
         cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", BouncyCastleProvider())
         cipher.init(Cipher.DECRYPT_MODE, skeySpec, ivspec)

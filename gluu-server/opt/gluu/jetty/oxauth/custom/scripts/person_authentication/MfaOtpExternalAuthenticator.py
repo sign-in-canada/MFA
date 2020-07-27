@@ -500,10 +500,11 @@ class PersonAuthentication(PersonAuthenticationType):
         facesMessages.setKeepMessages()
 
         userService = CdiUtil.bean(UserService)
+        languageBean = CdiUtil.bean(LanguageBean)
 
         otpCode = ServerUtil.getFirstValue(requestParameters, "loginForm:otpCode")
         if StringHelper.isEmpty(otpCode):
-            facesMessages.add(FacesMessage.SEVERITY_ERROR, "Failed to authenticate. OTP code is empty")
+            facesMessages.add(FacesMessage.SEVERITY_ERROR, languageBean.getMessage("mfa.otpEmpty"))
             print "MFA OTP. Process OTP authentication. otpCode is empty"
 
             return False
@@ -551,7 +552,7 @@ class PersonAuthentication(PersonAuthenticationType):
 
             if len(user_enrollments) == 0:
                 print "MFA OTP. Process OTP authentication. There is no OTP enrollment for user '%s'" % user_name
-                facesMessages.add(FacesMessage.SEVERITY_ERROR, "There is no valid OTP user enrollments")
+                facesMessages.add(FacesMessage.SEVERITY_ERROR, languageBean.getMessage("mfa.otpMissing"))
                 return False
 
             if self.otpType == "hotp":
@@ -586,7 +587,7 @@ class PersonAuthentication(PersonAuthenticationType):
                         print "MFA OTP. Process TOTP authentication during authentication. otpCode is valid"
                         return True
 
-        facesMessages.add(FacesMessage.SEVERITY_ERROR, "Failed to authenticate. OTP code is invalid")
+        facesMessages.add(FacesMessage.SEVERITY_ERROR, languageBean.getMessage("mfa.otpInvalid"))
         print "MFA OTP. Process OTP authentication. OTP code is invalid"
 
         return False
@@ -686,7 +687,7 @@ class PersonAuthentication(PersonAuthenticationType):
         iv = ''.join(random.SystemRandom().choice(randomSource) for i in range(16))
         # configure IV and key specification
         skeySpec = SecretKeySpec(key, "AES")
-        ivspec = IvParameterSpec(iv);
+        ivspec = IvParameterSpec(iv)
         # setup cipher
         cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", BouncyCastleProvider())
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivspec)
@@ -703,7 +704,7 @@ class PersonAuthentication(PersonAuthenticationType):
         iv, encrypted = encryptedStr[:16], encryptedStr[16:]
         # configure IV and key specification
         skeySpec = SecretKeySpec(key, "AES")
-        ivspec = IvParameterSpec(iv);
+        ivspec = IvParameterSpec(iv)
         # setup cipher
         cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", BouncyCastleProvider())
         cipher.init(Cipher.DECRYPT_MODE, skeySpec, ivspec)
