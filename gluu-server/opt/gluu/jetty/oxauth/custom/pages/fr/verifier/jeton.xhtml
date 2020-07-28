@@ -21,30 +21,31 @@
   </ui:define>
 
   <ui:define name="content">
-    <h2>Use your security key now.</h2>
-    <p>Insert and/or tap your security key.</p>
-    <h:messages style="color:red;"/>
+    <h1>ATIP Online Request Service</h1>
+    <h2>2-factor authentication</h2>
+    <p>Insert your security key and touch the button</p>
+    <h:messages style="color:red;" />
     <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false;">
       <input type="hidden" name="username" value="${credentials.username}" />
       <input type="hidden" name="authMethod" id="authMethod" />
       <input type="hidden" name="tokenResponse" id="tokenResponse" />
     </form>
-    <form id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}" >
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
-      <div class="row">
-        <div class="col-md-5"><img src="/oxauth/ext/resources/yubikeyincomputer.png" alt="" /></div>
-        <div class="login-panel">
-          <h:panelGroup rendered="#{fido_u2f_authentication_request != 'null'}">
-          </h:panelGroup>
-        </div>
-        <div class="col-md-7">
-          <h2 class="h5">Was your token not recognised?</h2>
-          <button class="btn btn-default" onclick="location.reload()">Retry</button>
-          <h2 class="h5 mrgn-tp-lg">Lost or replaced your token?</h2>
-          <button jsf:id="recoverButton" styleClass="btn btn-default" value="Recover" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
-        </div>
+    <div class="row">
+      <div class="col-md-5">
+        <img src="/oxauth/ext/resources/yubikeyincomputer.png" alt="" />
       </div>
-    </form>
+      <div class="col-md-7">
+        <form class="form-horizontal">
+          <h2 class="h5">Was your security key not recognized?</h2>
+          <button class="btn btn-default" onclick="startAuthentication()">Retry</button>
+        </form>
+        <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
+          <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
+          <h2 class="h5 mrgn-tp-lg">Lost or replaced your security key?</h2>
+          <button jsf:id="recoverButton" styleClass="btn btn-default" value="Recover" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
+        </form>
+      </div>
+    </div>
   </ui:define>
 
   <ui:define name="scripts">

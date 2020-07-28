@@ -21,52 +21,48 @@
   </ui:define>
 
   <ui:define name="content">
-    <h2>Enter Verification Code</h2>
-    <p>The code in the smartphone application changes and is valid for only 30 seconds so please wait until a new code is generated so you have enough time to enter and submit it.</p>
+    <h1>ATIP Online Request Service</h1>
+    <h2>2-factor authentication</h2>
+    <p>
+      Enter the 6-digit code from your authenticator app below.
+    </p>
     <ul class="list-unstyled">
       <li>
         <details>
           <summary>How do I get this code?</summary>
-          <p>You must have set up your smartphone with an authenticator application.</p>
+          <p>You previously set up your smartphone or tablet with an authenticator app.</p>
           <ul>
-            <li>Open the application</li>
-            <li>Select the token for ATIP</li>
-            <li>Enter the code it displays (note the code is designed to change frequently, you will get a new code every few seconds)</li>
+            <li>Open the authenticator app</li>
+            <li>If you use your authenticator app to sign in to multiple sites, identify which code is for your ATIP account</li>
+            <li>Enter the 6-digit code it displays for your ATIP account below (note the code is designed to change frequently, you will get a new code
+              every 30 seconds)</li>
+            <li>Press enter, or select "Continue" below</li>
           </ul>
         </details>
       </li>
     </ul>
 
     <h:messages style="color:red;" />
-    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
+    <form jsf:id="loginForm" class="form-horizontal">
       <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <div class="row">
         <div class="col-md-5">
           <center>
-            <img src="/oxauth/ext/resources/smartphonecode.png" width="165" height="265" alt="scan code" />
+            <img src="/oxauth/ext/resources/smartphonecode.png" width="165" height="265" alt="enter code" />
           </center>
         </div>
         <div class="col-md-7">
-          <p>Copy the code below and enter it into your authentication app.</p>
           <p>
-            <label for="code">
-              Verification code:
-              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off" />
+            <label for="loginForm:otpCode">
+              Enter the code from your app:
+              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off"/>
             </label>
+            <button jsf:id="loginButton1" class="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continue</button>
           </p>
-          <h2 class="h5 mrgn-tp-lg">Lost or replaced your token?</h2>
-          <button jsf:id="recoverButton" styleClass="btn btn-default" value="Recover" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
+          <h2 class="h5 mrgn-tp-lg">Lost or replaced your device? Deleted or reinstalled your authenticator app?</h2>
+          <button jsf:id="recoverButton" class="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
         </div>
       </div>
-      <nav class="mrgn-bttm-lg" role="navigation">
-        <h2 class="wb-inv">Document navigation</h2>
-        <ul class="pager">
-          <br />
-          <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" value="Continue" jsf:action="#{authenticator.authenticate}">Continue</button>
-          </li>
-        </ul>
-      </nav>
     </form>
   </ui:define>
 

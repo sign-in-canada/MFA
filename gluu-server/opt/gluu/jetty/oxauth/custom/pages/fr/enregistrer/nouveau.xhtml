@@ -21,26 +21,23 @@
   </ui:define>
 
   <ui:define name="content">
-    <h2>Select 2-Factor Authentication Method</h2>
+    <h1>Secure your account</h1>
     <p>
-      To protect your security and privacy of Canadians,
-      <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.shortname.en']}" />
-      uses secure 2-factor authentication (2FA).
+      ATIP Online uses secure 2-factor authentication to secure your account.
     </p>
-    <p>You must add 2FA to your account to: </p>
+    <p>You must enable 2-factor authentication on your account to: </p>
     <ul>
       <li>Receive your requests electronically online</li>
-      <li>Track the status of your request(s) </li>
-      <li>Deliver your request reply electronically </li>
+      <li>Track the status of your request(s)</li>
+      <li>Update your account profile</li>
     </ul>
-    <p>You may use either a  hardware USB token  or set up your smartphone to serve as a token</p>
+    <p>You can set up your mobile device (smartphone or tablet) to serve as a second factor, or you can use a FIDO ("Fast Identity Online") Universal Second Factor (U2F) security key.</p>
     <ul class="list-unstyled">
       <li>
         <details>
           <summary>What is 2-factor authentication?</summary>
           <p>
-            <b>Two-step authentication is a type of multi-factor authentication</b>
-            . It’s a way to confirm users by using a combination of two different factors:
+            2-factor authentication is a way to confirm users by using a combination of two different factors:
           </p>
           <ul>
             <li>
@@ -49,22 +46,25 @@
             </li>
             <li>
               <b>something they have</b>
-              (a physical token)
+              (a physical object)
             </li>
           </ul>
-          <p>Think of it like a locked door that can only be opened with both a key and a secret code on a keypad. Someone pretending to be you should never be able to get both those things.</p>
-          <p>For this application we use either a USB hardware token or you can set up your smartphone to act as a token.</p>
-          <p>USB Hardware tokens are available through a variety of sources but you will usually need to purchase one. If you don’t have a smartphone then this is your best option.</p>
+          <p>Think of it like a locked door that can only be opened with both a key and a secret code on a keypad.
+            Someone pretending to be you should never be able to get both those things.</p>
+          <p>For ATIP Online you can set up your smartphone to serve as a second factor, or you can use a FIDO U2F security key (a
+            special hardware security device that fits in the USB port of your computer).</p>
+          <p>FIDO U2F security keys are available for purchase online. 
+            If you don’t have a smartphone then this is your best option.</p>
           <p>
             <b>Can’t use either of these options?</b>
           </p>
-          <p>You can still submit an online request without setting up 2-step authentication.</p>
-          <p>It’s up to you to decide if you want to go through the process of setting up 2-step authentication, however if you want e-delivery or to track your request(s) it is required you use one of the above methods.</p>
-          <p>If you do not have an app installed you will need to download one (from the appropriate App store depending on whether you are using an Android or iPhone).</p>
+          <p>You can still submit an online request without setting up 2-factor authentication;
+            just go back and choose to proceed as a guest.</p>
+          <p>It’s up to you to decide if you want to go through the process of setting up 2-factor authentication, however
+            if you want e-delivery or to track your request(s) you must use one of the above methods.</p>
         </details>
       </li>
     </ul>
-
 
     <div class="row wb-eqht">
       <h:messages style="color:red;" />
@@ -74,14 +74,16 @@
           <div class="col-md-6">
             <section class="panel panel-default hght-inhrt">
               <header class="panel-heading">
-                <h2 class="h3 mrgn-tp-sm text-center">Use your smartphone application</h2>
+                <h2 class="h3 mrgn-tp-sm text-center">Use your smartphone or tablet (recommended)</h2>
               </header>
               <div class="panel-body">
                 <p class="text-center">
                   <img src="/oxauth/ext/resources/smartphone.png" alt="Phone" />
                 </p>
                 <p class="text-center">
-                  <button jsf:id="loginButton1" type="submit" styleClass="btn-primary" onclick="fillInAcrOnSubmit('mfa_otp')" jsf:action="#{authenticator.authenticate}">Proceed with your smartphone</button>
+                  <button jsf:id="loginButton1" type="submit" styleClass="btn-primary"
+                    onclick="fillInAcrOnSubmit('mfa_otp')" jsf:action="#{authenticator.authenticate}">Set up your
+                    mobile device</button>
                 </p>
               </div>
             </section>
@@ -90,14 +92,17 @@
         <div class="col-md-6">
           <section class="panel panel-default hght-inhrt">
             <header class="panel-heading">
-              <h2 class="h3 mrgn-tp-sm text-center">Use your hardware USB token </h2>
+              <h2 class="h3 mrgn-tp-sm text-center">Use your security key</h2>
             </header>
             <div class="panel-body">
               <p class="text-center">
                 <img src="/oxauth/ext/resources/yubikey.png" alt="Token" />
               </p>
               <p class="text-center">
-                <button jsf:id="loginButton2" value="Proceed with your token" type="submit" styleClass="btn-primary" onclick="fillInAcrOnSubmit('mfa_u2f')" jsf:action="#{authenticator.authenticate}">Proceed with your token</button>
+                <button jsf:id="loginButton2" value="Proceed with your security key" type="submit" styleClass="btn-primary"
+                  onclick="fillInAcrOnSubmit('mfa_u2f')" jsf:action="#{authenticator.authenticate}">
+                     Set up your security key
+                </button>
               </p>
             </div>
           </section>
@@ -105,17 +110,6 @@
       </form>
     </div>
 
-    <nav class="mrgn-bttm-lg" role="navigation">
-      <h2 class="wb-inv">Document navigation</h2>
-      <ul class="pager">
-        <li class="pull-left">
-          <a href="#" class="btn btn-default" rel="prev">
-            Back to
-            <h:outputText escape="false" value="#{ identity.getSessionId().getSessionAttributes().get('pageContent')['client.shortname.en']}" />
-          </a>
-        </li>
-      </ul>
-    </nav>
   </ui:define>
 
   <ui:define name="scripts">

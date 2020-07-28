@@ -62,33 +62,36 @@
   </ui:define>
 
   <ui:define name="content">
+    <h1>Secure your account</h1>
     <h2>Scan the QR code</h2>
-    <p>The first part of the smartphone application account enrollment process is to synchronize your account data with your application using this QR code.</p>
+    <ol>
+      <li>Point your device's camera at the image below</li>
+      <li>Your authenticator app will automatically scan the code and add your ATIP account</li>
+      <li>Once the account has been added, select "Continue"</li>
+    </ol>
+
     <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <h:messages style="color:red;" />
       <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <div class="row wb-eqht">
         <section class="panel panel-default">
-          <header class="panel-heading">
-            <h2 class="h3 mrgn-tp-sm text-center">Ready to scan?</h2>
-          </header>
           <div class="panel-body text-center">
-            <p>Scan the QR code below with your smartphone application.</p>
             <p class="text-center">
               <div id="container"></div>
             </p>
           </div>
         </section>
       </div>
+
       <nav class="mrgn-bttm-lg" role="navigation">
         <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" type="Submit" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel App Registration</button>
+            <button jsf:id="cancelButton" styleClass="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Back</button>
           </li>
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="Submit" jsf:action="#{authenticator.authenticate}">Continue</button>
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continue</button>
           </li>
         </ul>
       </nav>

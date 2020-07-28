@@ -21,17 +21,18 @@
   </ui:define>
 
   <ui:define name="content">
-    <h2>Enter Verification Code</h2>
-    <p>The code in the smartphone application changes and is valid for only 30 seconds so please wait until a new code is generated so you have enough time to enter and submit it.</p>
+    <h1>Secure your account</h1>
+    <h2>Making sure your app is working</h2>
+    <p>Enter the 6-digit code from your authenticator app below.</p>
     <ul class="list-unstyled">
       <li>
         <details>
           <summary>How do I get this code?</summary>
-          <p>You must have set up your smartphone with an authenticator application.</p>
           <ul>
-            <li>Open the application</li>
-            <li>Select the token for ATIP</li>
-            <li>Enter the code it displays (note the code is designed to change frequently, you will get a new code every few seconds)</li>
+            <li>If you use your authenticator app to sign in to multiple sites, identify which code is for your ATIP account</li>
+            <li>Enter the 6-digit code it displays for your ATIP account below (note the code is designed to change frequently, you will get a new code
+              every 30 seconds)</li>
+            <li>Press enter, or select "Continue"</li>
           </ul>
         </details>
       </li>
@@ -40,40 +41,26 @@
     <h:messages style="color:red;" />
     <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
-      <div class="col-md-12">
-        <section class="panel panel-default">
-          <header class="panel-heading">
-            <h2 class="h3 mrgn-tp-sm text-center">Enter the code from your smartphone application</h2>
-          </header>
-          <div class="panel-body">
-            <p>Copy the code below and enter it into your authentication app.</p>
-            <p class="text-center">
-              <img src="/oxauth/ext/resources/smartphonecode.png" width="165" height="265" alt="scan code" />
-            </p>
-            <p class="text-center">
-              <label for="code">
-                Verification code:
-                <input class="form-control" jsf:id="otpCode" style="text-align:center" data-rule-digits="true" maxlength="6" type="text" autocomplete="off" />
-              </label>
-            </p>
-          </div>
-        </section>
+      <div class="row">
+        <div class="col-md-5">
+          <center>
+            <img src="/oxauth/ext/resources/smartphonecode.png" width="165" height="265" alt="scan code" />
+          </center>
+        </div>
+        <div class="col-md-7">
+          <p>
+            <label for="loginForm:otpCode">
+              Enter the code from your app:
+              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off"/>
+            </label>
+            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit"
+              jsf:action="#{authenticator.authenticate}">Continue</button>
+          </p>
+        </div>
       </div>
-      <nav class="mrgn-bttm-lg" role="navigation">
-        <h2 class="wb-inv">Document navigation</h2>
-        <ul class="pager">
-          <br />
-          <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" type="submit" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel App Registration</button>
-          </li>
-          <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
-          </li>
-        </ul>
-      </nav>
     </form>
-  </ui:define>
 
+  </ui:define>
 
   <ui:define name="scripts">
     <script type="text/x-javascript">
