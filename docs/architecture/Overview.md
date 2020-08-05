@@ -1,6 +1,6 @@
 # MFA4ATIP Architecture Overview
 
-![Overview](diagrams/Overview.svg)
+![Overview](diagrams/Overview.png)
 
 ## Architecture Details
 
