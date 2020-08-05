@@ -22,7 +22,7 @@ Protected B
 
 #### Description
 
-An anonymous, locally unique and never reassigned identifier within MFA 4 ATIP for the End-User, which is intended to be consumed by the Sign In Canada Acceptance Platform.
+An anonymous, locally unique and never reassigned identifier within MFA4ATIP for the End-User, which is intended to be consumed by the Sign In Canada Acceptance Platform.
 
 #### Sensitivity
 
@@ -98,7 +98,7 @@ Protected B
 
 #### Description
 
-An encrypted data structure that contains both the end-user's pairwise pseudonym, and a the identity of the relying party they are authenticating to. The Sign In Canada Acceptance platform passes the login hint to MFA4ATIP in the OpenID Connect authentication request. MFA4ATIP uses the pairwise pseudonym in the login hint to either create a user account for new users, or to identify the account to which an existing user is expected to authenticate. The identity of the relying party is used to by MFA4ATIP to customize the content of the user interface for that relying party application.
+An encrypted data structure that contains both the end-user's pairwise pseudonym, and the identity of the relying party they are authenticating to. The Sign In Canada Acceptance platform passes the login hint to MFA4ATIP in the OpenID Connect authentication request. MFA4ATIP uses the pairwise pseudonym in the login hint to either create a user account for new users, or to identify the account to which an existing user is expected to authenticate. The identity of the relying party is used to by MFA4ATIP to customize the content of the user interface for that relying party application.
 
 #### Sensitivity
 
