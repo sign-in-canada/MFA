@@ -1,7 +1,7 @@
 # oxAuth is available under the MIT License (2008). See http://opensource.org/licenses/MIT for full text.
 # Copyright (c) 2016, Gluu
 #
-# Author: Pawel Pietrzynski
+# Authors: Pawel Pietrzynski, Doug Harris
 #
 
 from org.gluu.model.custom.script.type.auth import PersonAuthenticationType
@@ -16,7 +16,7 @@ from org.gluu.oxauth.i18n import LanguageBean
 from org.gluu.oxauth.model.common import User
 from org.oxauth.persistence.model import PairwiseIdentifier
 
-from java.util import ArrayList
+from java.util import ArrayList, Arrays
 from java.security import Key
 from javax.crypto import Cipher
 from javax.crypto.spec import SecretKeySpec, IvParameterSpec
@@ -73,166 +73,59 @@ class PersonAuthentication(PersonAuthenticationType):
     def isValidAuthenticationMethod(self, usageType, configurationAttributes):
         print "MFA Chooser. isValidAuthenticationMethod called"
 
-        # To do any operations we need the session variables available
         identity = CdiUtil.bean(Identity)
         sessionId = identity.getSessionId()
         sessionAttributes = sessionId.getSessionAttributes()
 
-        # - NEW REGISTRATION - select MFA credential set in "new_acr_value"
-        #   - when mfaPai does not exist (set "authenticationFlow" flag to NEW_USER show recovery codes)
-        #   - when mfaPai exists but there are no credentials on the account, display select page
-        # - REGISTERED USER - select known MFA option
-        #   - when account exists and one (or soon both) MFA credentials are registered, redirect to proper ACR
-
-        # If there is "new_acr_value" that means a choice has been made, no checks needed
-        new_acr_value = sessionAttributes.get("new_acr_value")
-        if ( new_acr_value != None ):
-            print "MFA Chooser. isValidAuthenticationMethod: new_acr_value retrieved from user = '%s'" % new_acr_value
-            return False
-
-        # Then check if we are coming from the recovery module with authenticationFlow already set
-        if ( sessionAttributes.get("authenticationFlow") == "EXISTING_USER" ):
-            # confirm the user is authenticated
-            authenticationService = CdiUtil.bean(AuthenticationService)
-            user = authenticationService.getAuthenticatedUser()
-            if ( user != None ):
-                print "MFA Chooser. isValidAuthenticationMethod: User already flagged for re-registration by the recovery module"
-                return True
-
-        #################################################################
-        # DEBUG HARDCODE PAI/CLIENT
-        # login_hint = "QmpLY3VqakhHem9EMVQ2bHUyeDhzQmo3bXQzMGlJRXJTOUJiMTQ1cGY1QVcySW9YUW1KVlltSUlvK2tONVRZWFlia3Z1ajFiZTd5eGdreTNKbDJ3cTRLTWJrOFRpKysrZ2lBeVRtWDQ3Tk03dmZVeE8yd05mQUh1aVhzPQ"
-        # sessionAttributes.put("login_hint", login_hint)
-        #################################################################
-        # First check if the login hint was passed or exists as a session variable
-        #################################################################
-        ####### ....... UNCOMMENT LINE BELOW .......
-        login_hint = sessionAttributes.get("login_hint")
-        #################################################################
-        if ( login_hint == None ):
+        loginHint = sessionAttributes.get("login_hint")
+        if ( loginHint == None ):
             # This will get handled in PrepareForStep
             print "MFA Chooser. isValidAuthenticationMethod: ERROR: login_hint missing, will redirect to error in prepareForStep"
             return True
 
-        # Secondly look for the user using the login_hint
-        userByMfaUid = self.processLoginHint( login_hint )
-        if ( userByMfaUid == None ):
-            sessionAttributes.put("authenticationFlow", "NEW_USER")
-            CdiUtil.bean(SessionIdService).updateSessionId(sessionId)
-            print "MFA Chooser. isValidAuthenticationMethod: MFA user from hint not found, going to registration flow"
-            return True
+        # Check to see if they are registering and therefore just made a choice
+        authenticatorType = identity.getWorkingParameter("authenticatorType")
+        if (authenticatorType == None):
+            # Nope: Check to see if they have already registered
+            user = self.getUser(loginHint)
+            authenticatorType = self.getAuthenticatorType(configurationAttributes, user)
 
-        # Customization values for all the authentication pages
-        entityId = sessionAttributes.get("mfaExternalApp")
-        if (sessionAttributes.get("pageContent") == None):
-            pageContent = self.customPageContent.get(entityId)
-            if ( self.customPageContent.get(entityId) != None ):
-                sessionAttributes.put("pageContent", self.customPageContent[entityId])
-            else:
-                sessionAttributes.put("pageContent", self.customPageContent["_default"])
-
-        # Thirdly check if the user has a recovery code registered
-        userService = CdiUtil.bean(UserService)
-        userRecoveryCode = userService.getCustomAttribute(userByMfaUid, "secretAnswer")
-        if ( userRecoveryCode == None ):
-            sessionAttributes.put("authenticationFlow", "EXISTING_USER")
-            CdiUtil.bean(SessionIdService).updateSessionId(sessionId)
-            print "MFA Chooser. isValidAuthenticationMethod: MFA user has no recovery code, going to registration flow"
-            return True
-
-        # Lastly check if the user has any tokens registered and get their ACR
-        userMfaAcr = self.getUserMfaAcrFromProfile(userByMfaUid, sessionAttributes, configurationAttributes)
-        if ( userMfaAcr == None ):
-            sessionAttributes.put("authenticationFlow", "EXISTING_USER")
-            CdiUtil.bean(SessionIdService).updateSessionId(sessionId)
-            print "MFA Chooser. isValidAuthenticationMethod: The user does not have registered tokens, forwarding to registration"
-            return True
-
-        # before we redirect we need to set the username
-        username = userByMfaUid.getUserId()
-        logged_in = CdiUtil.bean(AuthenticationService).authenticate(username)
-        print "MFA Chooser. isValidAuthenticationMethod. Authenticating user '%s' result = '%s'" % (username, logged_in)
-        if ( logged_in ):
-            # now redirect the user to the proper ACR if authentication is successful
-            sessionAttributes.put("authenticationFlow", "MFA_VALIDATION")
-            sessionAttributes.put("mfaAuthUsername", username)
-            CdiUtil.bean(SessionIdService).updateSessionId(sessionId)
+        if (authenticatorType != None):
+            # Defer to the appropriate module
+            identity.setWorkingParameter("authenticatorType", authenticatorType)
             return False
-
-        CdiUtil.bean(SessionIdService).updateSessionId(sessionId)
+            
+        # No, so this is a new user and they have to chose an authenticator type
         return True
-
 
     def getAlternativeAuthenticationMethod(self, usageType, configurationAttributes):
         print "MFA Chooser. getAlternativeAuthenticationMethod called"
 
-        # To do any operations we need the session variables available
         identity = CdiUtil.bean(Identity)
-        sessionId = identity.getSessionId()
-        sessionAttributes = sessionId.getSessionAttributes()
+        authenticatorType = identity.getWorkingParameter("authenticatorType")
+        print "MFA Chooser. getAlternativeAuthenticationMethod: authenticatorType is %s" % authenticatorType
 
-        # get new ACR and redirect the user
-        new_acr_value = sessionAttributes.get( "new_acr_value" )
-        print "MFA Chooser. getAlternativeAuthenticationMethod: new_acr_value retrieved = '%s'" % new_acr_value
+        # Defer to the module approriate for the authenticator type
+        if (authenticatorType == "TOTP"):
+            return "mfa_otp"
+        if (authenticatorType == "U2F"):
+            return "mfa_u2f"
+        if (authenticatorType == "RecoveryCode"):
+            return "recovery_code"
 
-        # clear the session variable and redirect
-        sessionAttributes.remove( "new_acr_value" )
-        CdiUtil.bean(SessionIdService).updateSessionId(sessionId)
-        return new_acr_value
+        # We should never get this far
+        print "MFA Chooser. getAlternativeAuthenticationMethod: ERROR: authenticatorType %s is missing or invalid" % authenticatorType
+        return "select_mfa"
 
     def authenticate(self, configurationAttributes, requestParameters, step):
         print "MFA Chooser. authenticate called for step '%s'" % step
 
-        # process the ACR selection
         identity = CdiUtil.bean(Identity)
-        sessionId = identity.getSessionId()
-        sessionAttributes = sessionId.getSessionAttributes()
 
-        new_acr_value = self.getMfaValueFromAuth(requestParameters)
-        print "MFA Chooser. authenticate: setting new_acr_value = '%s'" % new_acr_value
-
-        # retrieve the user
-        username = None
-        mfaPairwiseId  = sessionAttributes.get("mfaPairwiseId")
-        mfaExternalUid = "sic-mfa:" + mfaPairwiseId
-
-        # Create a shell account for the next step if the user has not been found
-        userService = CdiUtil.bean(UserService)
-        if ( sessionAttributes.get("authenticationFlow") == "NEW_USER" ):
-            username = uuid.uuid4().hex
-            # create the user
-            print "MFA Chooser. authenticate. Creating new user '%s' with externalUid = '%s'" % (username, mfaExternalUid)
-            newUser = User()
-            newUser.setAttribute( "uid", username )
-            newUser.setAttribute( "oxExternalUid", mfaExternalUid )
-            newUser = userService.addUser(newUser, True)
-
-            # now that the user is added create a PairwiseIdentifier for the OIDC Client
-            pairwiseIdentifierService = CdiUtil.bean(PairwiseIdentifierService)
-            userInum = newUser.getAttribute("inum");
-            oidcClientId = sessionAttributes.get("client_id");
-            sectorIdentifierUri = sessionAttributes.get("redirect_uri");
-            # Create a new pairwise ID object and add it to the user
-            pairwiseIdentifier = PairwiseIdentifier( sectorIdentifierUri, oidcClientId );
-            pairwiseIdentifier.setId( mfaPairwiseId );
-            pairwiseIdentifier.setDn( pairwiseIdentifierService.getDnForPairwiseIdentifier( pairwiseIdentifier.getId(), userInum));
-            pairwiseIdentifierService.addPairwiseIdentifier( userInum, pairwiseIdentifier );
-
-        elif ( sessionAttributes.get("authenticationFlow") == "EXISTING_USER" ):
-            print "MFA Chooser. authenticate. Fetching user with externalUid = '%s'" % mfaExternalUid
-            currentUser = userService.getUserByAttribute("oxExternalUid", mfaExternalUid)
-            username = currentUser.getUserId()
-            removed = self.eraseMfaRegistrationsFromProfile(currentUser, configurationAttributes)
-
-        logged_in = CdiUtil.bean(AuthenticationService).authenticate(username)
-        print "MFA Chooser. authenticate. Authenticating user '%s' result = '%s'" % (username, logged_in)
-
-        if ( step == 1 and logged_in ):
-            # now redirect the user to the proper ACR if authentication is successful
-            sessionAttributes.put("new_acr_value", new_acr_value)
-            sessionAttributes.put("mfaAuthUsername", username)
-            CdiUtil.bean(SessionIdService).updateSessionId(sessionId)
-            return True
+        # What option did they choose?
+        choice = ServerUtil.getFirstValue(requestParameters, "loginForm:mfachoice")
+        print "MFA Chooser. Authenticate: %s selected." % choice
+        identity.setWorkingParameter("authenticatorType", choice)
 
         return False
 
@@ -264,7 +157,7 @@ class PersonAuthentication(PersonAuthenticationType):
 
     def getExtraParametersForStep(self, configurationAttributes, step):
         print "MFA Chooser. getExtraParametersForStep called for step '%s'" % step
-        return None
+        return Arrays.asList("authenticatorType", "username")
 
     def getCountAuthenticationSteps(self, configurationAttributes):
         print "MFA Chooser. getCountAuthenticationSteps called"
@@ -287,61 +180,84 @@ class PersonAuthentication(PersonAuthenticationType):
         print "MFA Chooser. logout called"
         return True
 
-
-    def processLoginHint(self, login_hint):
-        print "MFA Chooser. processLoginHint called"
+    # Returns the user account for the provided login_hint, creating the account if necessary
+    def getUser(self, loginHint):
+        print "MFA Chooser. getUser() called"
 
         identity = CdiUtil.bean(Identity)
         sessionAttributes = identity.getSessionId().getSessionAttributes()
+        userService = CdiUtil.bean(UserService)
+        pairwiseIdentifierService = CdiUtil.bean(PairwiseIdentifierService)
 
-        # Normally we would fetch by pairwise ID ... however because that is impossible we save MFA PAI in oxExternalUid
-        login_hint_decrypted = self.decryptAES( self.aesKey , Base64Util.base64urldecodeToString(login_hint) )
-        mfaPairwiseId = login_hint_decrypted.split('|')[0]
-        mfaExternalApp = login_hint_decrypted.split('|')[1]
+        # Normally we would fetch by pairwise ID ... however because there is no API for that we save MFA PAI in oxExternalUid
+        loginHintDecrypted = self.decryptAES(self.aesKey , Base64Util.base64urldecodeToString(loginHint))
+        pairwiseId = loginHintDecrypted.split('|')[0]
+        relyingParty = loginHintDecrypted.split('|')[1]
 
         # set APP for future reference in page customization
-        sessionAttributes.put( "mfaExternalApp", mfaExternalApp )
-        # set extracted pairwise ID
-        sessionAttributes.put( "mfaPairwiseId", mfaPairwiseId )
+        sessionAttributes.put("relyingParty", relyingParty)
 
         # Get the user service and fetch the user
-        mfaExternalUid = "sic-mfa:" + mfaPairwiseId
-        print "MFA Chooser. processLoginHint. Fetching user with externalUid = '%s'" % mfaExternalUid
+        externalUid = "sic-mfa:" + pairwiseId
+        print "MFA Chooser: getUser(). Looking up user with externalUid = '%s'" % externalUid
+        user = userService.getUserByAttribute( "oxExternalUid",  externalUid)
+
+        if (user == None):
+            # Create a new account
+            print "MFA Chooser. authenticate. Creating new user with externalUid = '%s'" % (externalUid)
+            newUser = User()
+            username = uuid.uuid4().hex
+            newUser.setAttribute("uid", username)
+            newUser.setAttribute("oxExternalUid", externalUid)
+            user = userService.addUser(newUser, True)
+
+            # add a Pairwise Subject Identifier for the OIDC Client
+            userInum = user.getAttribute("inum")
+            oidcClientId = sessionAttributes.get("client_id")
+            sectorIdentifierUri = sessionAttributes.get("redirect_uri")
+            
+            pairwiseSubject = PairwiseIdentifier(sectorIdentifierUri, oidcClientId)
+            pairwiseSubject.setId(pairwiseId)
+            pairwiseSubject.setDn(pairwiseIdentifierService.getDnForPairwiseIdentifier(pairwiseSubject.getId(), userInum))
+            pairwiseIdentifierService.addPairwiseIdentifier( userInum, pairwiseSubject )
+
+        return user
+
+    # Get the type of authenticator (TOTP, U2F, or RecoveryCode) that can be used to
+    # authenticate a user
+    def getAuthenticatorType(self, configurationAttributes, user):
+        print "MFA Chooser. getAuthenticatorType called"
+
         userService = CdiUtil.bean(UserService)
-        userByMfaUid = userService.getUserByAttribute( "oxExternalUid",  mfaExternalUid)
 
-        return userByMfaUid;
-
-    def getUserMfaAcrFromProfile(self, user, sessionAttributes, configurationAttributes):
-        print "MFA Chooser. getUserMfaFromProfile called"
-
-        #### Check the user for OTP registrations
-        # Get the oxExternalUid for 'totp' token registrations
-        userService = CdiUtil.bean(UserService)
-        userOxExternalUid = userService.getCustomAttribute(user, "oxExternalUid")
-        if (userOxExternalUid != None):
+        # First, check the user for OTP registrations
+        externalUids = userService.getCustomAttribute(user, "oxExternalUid")
+        if (externalUids != None):
             # scan through the values to see if any match
-            for user_external_uid in userOxExternalUid.getValues():
-                index = user_external_uid.find("totp:")
+            for externalUid in externalUids.getValues():
+                index = externalUid.find("totp:")
                 if index != -1:
-                    # found an OTP token registered to the user
-                    sessionAttributes.put( "new_acr_value" , "mfa_otp" )
-                    return "mfa_otp"
+                    print "MFA Chooser. getAuthenticatorType: Found a TOTP authenticator"
+                    return "TOTP"
 
-        #### If not found check the user for registered devices
-        # Check if user have registered devices
+        # Second, check if user has registered U2F devices
         userInum = user.getAttribute("inum")
-        u2f_application_id = configurationAttributes.get("u2f_application_id").getValue2()
+        u2fApplicationId = configurationAttributes.get("u2f_application_id").getValue2()
 
-        # Get the device registration persistence service to retrieve U2F devices
         deviceRegistrationService = CdiUtil.bean(DeviceRegistrationService)
-        deviceRegistrations = deviceRegistrationService.findUserDeviceRegistrations(userInum, u2f_application_id)
-        if (deviceRegistrations.size() > 0):
-            # found a FIDO2 token registered to the user
-            sessionAttributes.put( "new_acr_value" , "mfa_u2f" )
-            return "mfa_u2f"
+        u2fRegistrations = deviceRegistrationService.findUserDeviceRegistrations(userInum, u2fApplicationId)
+        if (u2fRegistrations.size() > 0):
+            print "MFA Chooser. getAuthenticatorType: Found a U2F authenticator"
+            return "UTF"
 
-        #### If not found return nothing
+        # Third, check if the user has a recovery code
+        recoveryCode = userService.getCustomAttribute(user, "secretAnswer")
+        if (recoveryCode != None):
+            print "MFA Chooser. getAuthenticatorType: Found a Recovery Code"
+            return "RecoveryCode"
+
+        # No authenticators were found
+        print "MFA Chooser. getAuthenticatorType: No authenticators found"
         return None
 
     def eraseMfaRegistrationsFromProfile(self, user, configurationAttributes):
@@ -391,7 +307,7 @@ class PersonAuthentication(PersonAuthenticationType):
         iv, encrypted = encryptedStr[:16], encryptedStr[16:]
         # configure IV and key specification
         skeySpec = SecretKeySpec(key, "AES")
-        ivspec = IvParameterSpec(iv);
+        ivspec = IvParameterSpec(iv)
         # setup cipher
         cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", BouncyCastleProvider())
         cipher.init(Cipher.DECRYPT_MODE, skeySpec, ivspec)

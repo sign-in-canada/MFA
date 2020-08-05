@@ -82,7 +82,7 @@
                 </p>
                 <p class="text-center">
                   <button jsf:id="loginButton1" type="submit" styleClass="btn-primary"
-                    onclick="fillInAcrOnSubmit('mfa_otp')" jsf:action="#{authenticator.authenticate}">Set up your
+                    onclick="fillInAcrOnSubmit('TOTP')" jsf:action="#{authenticator.authenticate}">Set up your
                     mobile device</button>
                 </p>
               </div>
@@ -100,7 +100,7 @@
               </p>
               <p class="text-center">
                 <button jsf:id="loginButton2" value="Proceed with your security key" type="submit" styleClass="btn-primary"
-                  onclick="fillInAcrOnSubmit('mfa_u2f')" jsf:action="#{authenticator.authenticate}">
+                  onclick="fillInAcrOnSubmit('U2F')" jsf:action="#{authenticator.authenticate}">
                      Set up your security key
                 </button>
               </p>

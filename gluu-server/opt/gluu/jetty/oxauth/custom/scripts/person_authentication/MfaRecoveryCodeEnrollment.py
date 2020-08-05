@@ -133,13 +133,25 @@ class PersonAuthentication(PersonAuthenticationType):
             return False
 
         ########################################################################################
-        # 3. Save the recovery code in the user's profile
+        # 3. Remove any old code from the user profile
+        existingCode = self.findExistingCode(authenticated_user)
+        userService = CdiUtil.bean(UserService)
+        if existingCode != None:
+            print "MFA Enroll Recovery. prepareForStep. User already has a recovery code"
+            removed = userService.removeUserAttribute(authenticated_user.getUserId(), "secretAnswer", existingCode)
+            if not removed:
+                print "MFA Enroll Recovery. authenticate. Failed removing code"
+                return False
+            print "MFA Enroll Recovery. authenticate. Recovery complete, code erased."
+
+        ########################################################################################
+        # 4. Save the new recovery code in the user's profile
         #    - use "secretAnswer" for storage
         #    - encrypt using key
         new_code = identity.getWorkingParameter("new_code")
         new_code_encrypted = self.encryptAES( self.aesKey, new_code )
-        userService = CdiUtil.bean(UserService)
-        savedCode = userService.addUserAttribute( authenticated_user.getUserId() , "secretAnswer", new_code_encrypted)
+
+        savedCode = userService.addUserAttribute(authenticated_user.getUserId() , "secretAnswer", new_code_encrypted)
         if ( savedCode ):
             identity.getSessionId().getSessionAttributes().put("authenticationFlow", "ENROLLMENT_COMPLETE")
             CdiUtil.bean(SessionIdService).updateSessionId( identity.getSessionId() )
@@ -152,6 +164,7 @@ class PersonAuthentication(PersonAuthenticationType):
         print "MFA Enroll Recovery. authenticate. Authenticating user '%s' result = '%s'" % (username, logged_in)
         if ( logged_in ):
             return True
+
         return False
 
     def prepareForStep(self, configurationAttributes, requestParameters, step):
@@ -174,14 +187,7 @@ class PersonAuthentication(PersonAuthenticationType):
                 return False
 
             ########################################################################################
-            # 2. Make sure we have no existing codes in the user profile
-            existingCode = self.findExistingCode(authenticated_user)
-            if existingCode != None:
-                print "MFA Enroll Recovery. prepareForStep. User already has a recovery code"
-                return False
-
-            ########################################################################################
-            # 3. Generate a recovery code with 128 bit strength
+            # 2. Generate a recovery code with 128 bit strength
             #    - use Alphanumeric (A-Z,0-9)
             #    - use size of 12 (to achieve around 61 bits of entropy)
             #    - save it in "new_code"
