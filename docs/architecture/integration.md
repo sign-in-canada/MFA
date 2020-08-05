@@ -2,7 +2,7 @@
 
 The Sign In Canada Acceptance Platform integrates with MFA4ATIP using the OpenID Connect authorization code flow.
 
-![Diagram to come](diagrams/sequnece.svg)
+![Sequence Diagram](diagrams/sequnece.png)
 
 ## Sequence of Events
 
