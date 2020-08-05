@@ -1,6 +1,4 @@
-# MFA 4 ATIP
-
-## Communication Connections
+# MFA4ATIP Communication Connections
 
 The table below lists all of the network connections that support communication
 between the various components of the MFA4ATIP application. Connections listed as
