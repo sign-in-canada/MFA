@@ -1,3 +1,3 @@
 # MFA4ATIP User Interface Flow
 
-![UI Flow](diagrams/ui_flow.svg)
+![UI Flow](diagrams/ui_flow.png)
