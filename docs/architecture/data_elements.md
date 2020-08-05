@@ -177,7 +177,7 @@ All of the data associated with an end-users account is represented as a
 
 Anonymous identifiers include a unique randomly-generated user_id, the pairwise pseudonym used by the Sign In Canada Acceptance platform, and a unique randomly-generated International Number (inum) used as a primary key for database operations.
 
-The authenticator metadata and cryptographic material for a user account consists of either a [TOTP secret key](https://tools.ietf.org/html/rfc6238), or a FIDO U2F device registration.
+The authenticator metadata and cryptographic material for a user account consists of either a [TOTP secret key](https://tools.ietf.org/html/rfc6238), or a [FIDO U2F](https://fidoalliance.org/specs/fido-u2f-v1.2-ps-20170411/fido-u2f-overview-v1.2-ps-20170411.html) device registration.
 
 A FIDO U2F device (security key) registration consists of:
 
