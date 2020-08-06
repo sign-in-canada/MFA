@@ -146,14 +146,24 @@ Protected B
 
 #### Description
 
-A security token that contains claims about the authentication of an end-user, including their pairwise pseudonym (PAI). Issued by MFA4ATIP and consumed by the Sign In Canada Acceptance Platform.
-See: https://openid.net/specs/openid-connect-core-1_0.html#IDToken
+A digitally signed security token, in [JSON Web
+Token](https://tools.ietf.org/html/rfc7519) format, with a payload that contains
+claims about the authentication of an end-user, including their pairwise
+pseudonym (PAI). Issued by MFA4ATIP and consumed by the Sign In Canada
+Acceptance Platform. See:
+https://openid.net/specs/openid-connect-core-1_0.html#IDToken
 
 #### Sensitivity
 
 Protected B
 
 #### Example
+
+Encoded JWT:
+
+    eyJraWQiOiI3OGM5MGJmMS01MGI3LTRlZGMtYWM5NS1jMzhiOGYwMDUwMDdfc2lnX3JzMjU2IiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJhdF9oYXNoIjoicDVUWVNWWjBWQS1RMDFHZFdsNG4xUSIsImF1ZCI6IjM0MDYxMzExLTFjN2QtNDdlZS1hMGJlLThhNDBjZDliMDQ0OSIsInN1YiI6IjViZjQ5NDJiLTliYTEtNGFjOC04YzUwLTcwMWUzY2Y4ODgxNSIsImF1dGhfdGltZSI6MTU5NjcxNTkyNCwiaXNzIjoiaHR0cHM6Ly9kZXYzLWF1dGguaWQuY2F0c2xhYi5jYSIsImV4cCI6MTU5NjcxOTU0NSwiaWF0IjoxNTk2NzE1OTQ1LCJub25jZSI6IjQ1NiIsIm94T3BlbklEQ29ubmVjdFZlcnNpb24iOiJvcGVuaWRjb25uZWN0LTEuMCJ9.TZ8mEdhmTq1nCX551kUwBFsFf3nx1Wqz4Y9RxMPgL-GMlHjm4JiwAG7FaYxo9lSrL4uMzWx8UibDTlN1bzf5jHe5eZQEPTvDVUcCropJZInrOkryOTidXeTxm2o3EsBDGB-o-O3oeHx5V7m70IaHyQSOevcBCXpuBz2ZPAlUGQZ88HF251xYBfRY9vPxWzaz_ukyjgYDR9B8f_7Iea-lHCsnSq9UMw-J-s9PKoU0Fs3zqCVfy9mgsPi99_jyezdB2PT-eHeN4bKzjpDyqTBSfeHlMZPnM3Bf-0SwMcYM3AlUacr9Tbpof3Ti4LnD2atrfTU5FeWtC4_CxcGF7Bct9g
+
+Decoded payload:
 
     {
      "iss": "https://qa-mfa.id.tbs-sct.gc.ca",
