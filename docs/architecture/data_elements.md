@@ -12,7 +12,7 @@ An OAuth 2.0 Authorization Code Grant. See: https://oauth.net/2/grant-types/auth
 
 #### Sensitivity
 
-Protected B
+Unclassified
 
 #### Example
 
@@ -26,7 +26,7 @@ An anonymous, locally unique and never reassigned identifier within MFA4ATIP for
 
 #### Sensitivity
 
-Protected B
+Unclassified
 
 #### Example
 
@@ -102,7 +102,7 @@ An encrypted data structure that contains both the end-user's pairwise pseudonym
 
 #### Sensitivity
 
-Protected B
+Unclassified
 
 #### Example
 
@@ -155,7 +155,7 @@ https://openid.net/specs/openid-connect-core-1_0.html#IDToken
 
 #### Sensitivity
 
-Protected B
+Protected A
 
 #### Example
 
