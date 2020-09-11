@@ -337,7 +337,8 @@ class PersonAuthentication(PersonAuthenticationType):
                         return authenticationService.authenticate(userId)
             elif (requestParameters.containsKey("Recover")):
                 if (requestParameters.containsKey("Recover:Cancel")):
-                    identity.setWorkingParameter("authenticatorType", None)
+                    if (authenticatorType != "RecoveryCode"):
+                        identity.setWorkingParameter("authenticatorType", None)
                 else:
                     if (self.authenticateRecoveryCode(requestParameters, userId, identity)):
                         # Recovery Trigger the registration flow
