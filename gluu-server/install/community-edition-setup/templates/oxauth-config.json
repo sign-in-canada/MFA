@@ -296,7 +296,7 @@
         "attemptExpiration": 15,
         "maximumAllowedAttemptsWithoutDelay": 4,
         "delayTime": 2,
-        "bruteForceProtectionEnabled": false
+        "bruteForceProtectionEnabled": true
     },
     "fido2Configuration":{
         "authenticatorCertsFolder":"%(fido2ConfigFolder)s/authenticator_cert",
