@@ -23,9 +23,8 @@
     <h2>Set up your security key</h2>
     <p>Insert your security key and touch the button</p>
     <h:messages style="color:red;" />
-    <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false;">
-      <input type="hidden" name="username" value="${credentials.username}" />
-      <input type="hidden" name="authMethod" id="authMethod" />
+    <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false">
+      <input type="hidden" name="FIDOregister"/>
       <input type="hidden" name="tokenResponse" id="tokenResponse" />
     </form>
     <div class="row">
@@ -42,14 +41,13 @@
         <button class="btn btn-default" onclick="startRegistration()">Retry</button>
       </div>
     </div>
-    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="FIDOregister" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <nav class="mrgn-bttm-lg" role="navigation">
         <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Back</button>
+            <button jsf:id="Back" class="btn btn-default" jsf:action="#{authenticator.authenticate}">Back</button>
           </li>
         </ul>
       </nav>
@@ -63,7 +61,6 @@
         u2fApi.register(register_request.registerRequests)
           .then(function (data) {
             document.getElementById('tokenResponse').value = JSON.stringify(data);
-            document.getElementById('authMethod').value = 'enroll';
 
             document.getElementById('u2f_form').submit();
           })
@@ -73,15 +70,6 @@
           });
       }
 
-      function fillInRecovery() {
-        document.getElementById("loginForm:action").value = "recover";
-      }
-
-      function fillInCancel() {
-        document.getElementById("loginForm:action").value = "cancel";
-      }
-
-      var auth_request = ${ identity.getWorkingParameter('fido_u2f_authentication_request')};
       var register_request = ${ identity.getWorkingParameter('fido_u2f_registration_request')};
       setTimeout(startRegistration(), 5000);
 

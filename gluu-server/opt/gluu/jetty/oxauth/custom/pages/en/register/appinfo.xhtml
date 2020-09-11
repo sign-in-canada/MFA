@@ -25,18 +25,18 @@
     <p>You can use an app on your mobile device (smartphone or tablet) as a second factor.</p>
     <ul class="list-unstyled">
       <li>
-    <details>
-      <summary>What apps do we suggest?</summary>
-      <p>
+        <details>
+          <summary>What apps do we suggest?</summary>
+          <p>
         There are a number of  apps which provide this service and while we
         suggest Google Authenticator, Microsoft Authenticator or Authy, you may
         use any similar app. These apps should be free of charge.
       </p>
-    </details>
-  </li>
-</ul>
+        </details>
+      </li>
+    </ul>
 
-<h3 class="h3">Don’t have an app?</h3>
+    <h3 class="h3">Don’t have an app?</h3>
     <p>Install a free authenticator app on your mobile device.</p>
     <ul class="list-unstyled">
       <li>
@@ -46,46 +46,38 @@
             <li>Open the app store on your device and search for "Authenticator"</li>
             <li>Choose the authenticator app that you wish to use</li>
             <li>install your chosen app</li>
-        </ol>
+          </ol>
         </details>
       </li>
     </ul>
 
     <h3 class="h3">Already have an authenticator app installed? </h3>
     <p>Open the authenticator app on your device and prepare to add your ATIP account:</p>
-       <ol>
-          <li>On most apps, you tap on a plus (+) sign to add a new account</li>
-          <li>Select the option to scan a bar code or QR code</li>
-      </ol>
+    <ol>
+      <li>On most apps, you tap on a plus (+) sign to add a new account</li>
+      <li>Select the option to scan a bar code or QR code</li>
+    </ol>
 
     <p>Once you are ready to scan a QR code, continue to the next page.</p>
     <h:messages style="color:red;" />
-    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="TOTPinfo" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <nav class="mrgn-bttm-lg" role="navigation">
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" value="Cancel App Registration"
-              jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Back</button>
+            <button jsf:id="Back" class="btn btn-default"
+                    jsf:action="#{authenticator.authenticate}">
+              Back
+            </button>
           </li>
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" value="Generate QR code"
-              jsf:action="#{authenticator.authenticate}" onclick="fillInContinue()">Generate QR code</button>
+            <button jsf:id="Continue" class="btn btn-primary"
+                    jsf:action="#{authenticator.authenticate}">
+              Continue
+            </button>
           </li>
         </ul>
       </nav>
     </form>
-  </ui:define>
-
-  <ui:define name="scripts">
-    <script type="text/x-javascript">
-      function fillInContinue(){
-        document.getElementById("loginForm:action").value = "continue";
-      }
-      function fillInCancel(){
-        document.getElementById("loginForm:action").value = "cancel";
-      }
-    </script>
   </ui:define>
 </ui:composition>

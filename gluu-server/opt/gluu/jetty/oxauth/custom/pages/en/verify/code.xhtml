@@ -44,40 +44,25 @@
     <br />
 
     <h:messages style="color:red;" />
-    <form jsf:id="loginForm" class="form-horizontal">
-      <input jsf:id="action" type="hidden" class="form-control" autocomplete="off" />
-      <label for="recoverycode" class="required">
+    <form jsf:id="Recover" class="form-horizontal">
+      <label for="Recover:recoveryCode" class="required">
         <span class="field-name">Recovery code</span>
         <strong class="required">(required)</strong>
       </label>
-      <ul class="list-unstyled">
-        <input jsf:id="recoveryCode1" type="text" size="4" maxlength="4" autocomplete="off" class="display: inline-block" />
-        -
-        <input jsf:id="recoveryCode2" type="text" size="4" maxlength="4" autocomplete="off" class="display: inline-block" />
-        -
-        <input jsf:id="recoveryCode3" type="text" size="4" maxlength="4" autocomplete="off" class="display: inline-block" />
-      </ul>
+        <input jsf:id="recoveryCode" type="text" size="14" maxlength="14" autocomplete="off" class="display: inline-block" />
       <nav class="mrgn-bttm-lg" role="navigation">
         <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Cancel Recovery</button>
+            <button jsf:id="Cancel" class="btn btn-default" value="Cancel" jsf:action="#{authenticator.authenticate}">Cancel Recovery</button>
           </li>
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" value="Continue" jsf:action="#{authenticator.authenticate}">Continue</button>
+            <button jsf:id="Continue" class="btn btn-primary" value="Continue" jsf:action="#{authenticator.authenticate}">Continue</button>
           </li>
         </ul>
       </nav>
     </form>
   </ui:define>
 
-  <ui:define name="scripts">
-    <script type="text/x-javascript">
-      function fillInCancel(){
-        document.getElementById("loginForm:action").value = "cancel";
-      }
-  </script>
-
-  </ui:define>
 </ui:composition>

@@ -1,27 +1,22 @@
 {
     "_default" : {
         "content":"default",
-        "client.header.en" : "<abbr title=\"Multi-Factor Authentication\">MFA</abbr> Client Application Security",
-        "client.longname.en" : "Client Application",
-        "client.shortname.en" : "APP",
-        "client.header.fr" : "Chez <abbr title=\"Multi-Factor Authentication\">MFA</abbr> Client Application Security",
-        "client.longname.fr" : "Le Client Application",
-        "client.shortname.fr" : "L'APP"
+        "shortName.en" : "Canada",
+        "shortName.fr" : "Canada"
     },
-    "oidc:tbs_aors_" : {
-        "client.header.en" : "<abbr title=\"Access to Information and Privacy\">ATIP</abbr> Online Request Service (AORS)",
-        "client.longname.en" : "ATIP Online Request Service (AORS)",
-        "client.shortname.en" : "AORS",
-        "client.header.fr" : "Chez <abbr title=\"Access to Information and Privacy\">ATIP</abbr> Online Request Service (AORS)",
-        "client.longname.fr" : "Le ATIP Online Request Service (AORS)",
-        "client.shortname.fr" : "L'AORS"
+    "oidc:tbs_aors_uat" : {
+        "content":"tbs_aors",
+        "shortName.en" : "ATIP-AORS",
+        "shortName.fr" : "ATIP-AORS"
     },
-    "oidc:tbs_aomt_" : {
-        "client.header.en" : "<abbr title=\"Access to Information and Privacy\">ATIP</abbr> Online Management Tool (AOMT)",
-        "client.longname.en" : "ATIP Online Management Tool (AOMT)",
-        "client.shortname.en" : "AOMT",
-        "client.header.fr" : "Chez <abbr title=\"Access to Information and Privacy\">ATIP</abbr> Online Management Tool (AOMT)",
-        "client.longname.fr" : "Le ATIP Online Management Tool (AOMT)",
-        "client.shortname.fr" : "L'AOMT"
+    "oidc:tbs_aomt_uat" : {
+        "content":"tbs_aomt",
+        "shortName.en" : "ATIP-AOMT",
+        "shortName.fr" : "ATIP-AOMT"
+    },
+    "https://rp4.tbstest.catslab.ca" : {
+        "content":"default",
+        "shortName.en" : "RPSim4",
+        "shortName.fr" : "RPSim4"
     }
 }

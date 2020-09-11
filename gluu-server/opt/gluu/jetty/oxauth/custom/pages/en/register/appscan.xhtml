@@ -70,9 +70,8 @@
       <li>Once the account has been added, select "Continue"</li>
     </ol>
 
-    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
+    <form jsf:id="TOTPscanQR" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <h:messages style="color:red;" />
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <div class="row wb-eqht">
         <section class="panel panel-default">
           <div class="panel-body text-center">
@@ -88,10 +87,10 @@
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Back</button>
+            <button jsf:id="Back" class="btn btn-default" jsf:action="#{authenticator.authenticate}" >Back</button>
           </li>
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continue</button>
+            <button jsf:id="Continue" class="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continue</button>
           </li>
         </ul>
       </nav>
@@ -102,10 +101,6 @@
     <script src="/oxauth/js/jquery-qrcode-0.17.0.min.js" />
     <script src="/oxauth/js/gluu-auth.js" />
     <script type="text/x-javascript">
-      function fillInCancel(){
-          document.getElementById("loginForm:action").value = "cancel";
-        }
-  
         var helper = (function() {
                 var authResult = undefined;
                 return {
@@ -122,9 +117,9 @@
         function onSignInCallback(authResult) {
                 helper.onSignInCallback(authResult);
         }
-        var request = '${identity.getWorkingParameter('otp_enrollment_request')}';
-        var label = '${identity.getWorkingParameter('qr_label')}';
-        var qr_options = ${identity.getWorkingParameter('qr_options')};
+        var request = '${identity.getWorkingParameter('totpEnrollmentRequest')}';
+        var label = '${identity.getWorkingParameter('qrLabel')}';
+        var qr_options = ${identity.getWorkingParameter('qrOptions')};
   
         $(document).ready(function() {
               if (request == '') {

@@ -27,15 +27,15 @@
     <h:messages style="color:red;" />
     <p>You can now continue to ATIP Online.</p>
 
-    <form jsf:id="loginForm" class="form-horizontal">
-      <input jsf:id="mfachoice" type="hidden" value="#{acrname}" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="Success" class="form-horizontal">
+      <input jsf:id="mfachoice" type="hidden" value="#{acrname}" class="form-control" autocomplete="off" />
       <nav class="mrgn-bttm-lg" role="navigation">
         <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
           <br />
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" rel="next" type="submit"
-              jsf:action="#{authenticator.authenticate}">Continue to ATIP</button>
+            <button jsf:id="Continue" class="btn btn-primary" rel="next" type="submit"
+              jsf:action="#{authenticator.authenticate}">Continue to ${identity.getWorkingParameter('rpShortName')}</button>
           </li>
         </ul>
       </nav>

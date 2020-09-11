@@ -23,7 +23,7 @@
     <h2>Record your recovery code</h2>
     <p>You must record this recovery code to protect your account. Keep it somewhere safe but accessible.</p>
     <label for="recovery_code">
-      This is your recovery code: #{identity.getWorkingParameter('new_code')}
+      This is your recovery code: #{identity.getWorkingParameter('recoveryCode')}
     </label>
     <ul class="list-unstyled">
       <li>
@@ -58,9 +58,8 @@
     <h:messages style="color:red;" />
     <br />
     <p>Have you securely recorded this code?</p>
-    <form horizontal="true" jsf:id="loginForm" jsf:action="#{authenticator.authenticate}" class="form-horizontal">
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
-      <input jsf:id="confirmCodeBox" type="checkbox" styleClass="checkmark" style="position:relative !important;" onchange="enableContinue(this)" />
+    <form horizontal="true" jsf:id="RecoveryCodeConfirm" jsf:action="#{authenticator.authenticate}" class="form-horizontal">
+      <input jsf:id="Confirm" type="checkbox" class="checkmark" style="position:relative !important;" onchange="enableContinue(this)" />
       <label style="color:#000" for="saved">
         <strong>Yes, I have written down or printed the recovery code above.</strong>
       </label>
@@ -70,7 +69,7 @@
           <h2 class="wb-inv">Document navigation</h2>
           <ul class="pager">
             <li class="pull-right">
-              <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
+              <button jsf:id="Continue" class="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
             </li>
           </ul>
         </nav>
@@ -80,19 +79,16 @@
 
   <ui:define name="scripts">
     <script type="text/x-javascript">
-      document.getElementById("loginForm:loginButton1").disabled = true;
-      document.getElementById("loginForm:confirmCodeBox").checked = false;
+      document.getElementById("RecoveryCodeConfirm:Continue").disabled = true;
+      document.getElementById("RecoveryCodeConfirm:Confirm").checked = false;
 
-      function fillInCancel(){
-        document.getElementById("loginForm:action").value = "cancel";
-      }
 
       function enableContinue(source) {
-        var continueBtn = document.getElementById("loginForm:loginButton1");
-        if (source.id === 'loginForm:confirmCodeBox') {
+        var continueBtn = document.getElementById("RecoveryCodeConfirm:Continue");
+        if (source.id === 'RecoveryCodeConfirm:Confirm') {
             continueBtn.disabled = ! source.checked;
           } else {
-            document.getElementById("loginForm:confirmCodeBox").checked = true;
+            document.getElementById("RecoveryCodeConfirm:Confirm").checked = true;
             continueBtn.disabled = false;
         }
       }

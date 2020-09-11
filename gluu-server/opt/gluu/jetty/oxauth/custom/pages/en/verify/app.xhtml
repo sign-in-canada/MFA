@@ -41,8 +41,8 @@
     </ul>
 
     <h:messages style="color:red;" />
-    <form jsf:id="loginForm" class="form-horizontal">
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="TOTPauthenticate" class="form-horizontal">
+      <input jsf:id="action" type="hidden" class="form-control" autocomplete="off" />
       <div class="row">
         <div class="col-md-5">
           <center>
@@ -51,28 +51,17 @@
         </div>
         <div class="col-md-7">
           <p>
-            <label for="loginForm:otpCode">
+            <label for="TOTPauthenticate:totpCode">
               Enter the code from your app:
-              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off"/>
+              <input class="form-control" jsf:id="totpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off"/>
             </label>
-            <button jsf:id="loginButton1" class="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continue</button>
+            <button jsf:id="Continue" class="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continue</button>
           </p>
           <h2 class="h5 mrgn-tp-lg">Lost or replaced your device? Deleted or reinstalled your authenticator app?</h2>
-          <button jsf:id="recoverButton" class="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
+          <button jsf:id="Recover" class="btn btn-default" jsf:action="#{authenticator.authenticate}">Recover</button>
         </div>
       </div>
     </form>
   </ui:define>
 
-  <ui:define name="scripts">
-    <script type="text/x-javascript">
-      function fillInRecovery(){
-        document.getElementById("loginForm:action").value = "recover";
-      }
-      function fillInCancel(){
-        document.getElementById("loginForm:action").value = "cancel";
-      }
-
-    </script>
-  </ui:define>
 </ui:composition>

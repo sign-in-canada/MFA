@@ -68,9 +68,9 @@
 
     <div class="row wb-eqht">
       <h:messages style="color:red;" />
-      <form jsf:id="loginForm" class="form-horizontal">
+      <form jsf:id="MFAchooser" class="form-horizontal">
         <div class="cddol-lg-12">
-          <input jsf:id="mfachoice" type="hidden" value="#{acrname}" styleClass="form-control" autocomplete="off" />
+          <input jsf:id="mfachoice" type="hidden" value="#{acrname}" class="form-control" autocomplete="off" />
           <div class="col-md-6">
             <section class="panel panel-default hght-inhrt">
               <header class="panel-heading">
@@ -81,9 +81,10 @@
                   <img src="/oxauth/ext/resources/smartphone.png" alt="Phone" />
                 </p>
                 <p class="text-center">
-                  <button jsf:id="loginButton1" type="submit" styleClass="btn-primary"
-                    onclick="fillInAcrOnSubmit('TOTP')" jsf:action="#{authenticator.authenticate}">Set up your
-                    mobile device</button>
+                  <button jsf:id="TOTP" type="submit" class="btn-primary"
+                          jsf:action="#{authenticator.authenticate}">
+                          Set up your mobile device
+                  </button>
                 </p>
               </div>
             </section>
@@ -99,8 +100,8 @@
                 <img src="/oxauth/ext/resources/yubikey.png" alt="Token" />
               </p>
               <p class="text-center">
-                <button jsf:id="loginButton2" value="Proceed with your security key" type="submit" styleClass="btn-primary"
-                  onclick="fillInAcrOnSubmit('U2F')" jsf:action="#{authenticator.authenticate}">
+                <button jsf:id="FIDO" type="submit" class="btn-primary"
+                        jsf:action="#{authenticator.authenticate}">
                      Set up your security key
                 </button>
               </p>
