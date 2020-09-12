@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
@@ -16,18 +14,13 @@
     <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
   </ui:define>
 
-  <ui:define name="help">
-    <ui:include src="/WEB-INF/incl/content/default/help-#{language.localeCode}.xhtml" />
-  </ui:define>
-
   <ui:define name="content">
-    <h1>Secure your account</h1>
-    <h2>Set up your security key</h2>
-    <p>Insert your security key and touch the button</p>
+    <h1>Sécurisez votre compte</h1>
+    <h2>Branchez maintenant votre clé de sécurité USB</h2>
+    <p>Branchez votre clé de sécurité et appuyez sur le bouton.</p>
     <h:messages style="color:red;" />
-    <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false;">
-      <input type="hidden" name="username" value="${credentials.username}" />
-      <input type="hidden" name="authMethod" id="authMethod" />
+    <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false">
+      <input type="hidden" name="FIDOregister"/>
       <input type="hidden" name="tokenResponse" id="tokenResponse" />
     </form>
     <div class="row">
@@ -38,20 +31,18 @@
         <h:panelGroup rendered="#{fido_u2f_authentication_request != 'null'}"></h:panelGroup>
       </div>
       <div class="col-md-7">
-        <h2 class="h5">Was your security key not recognized?</h2>
-        <p>Make sure you are using a security key (and not another type of USB device like a storage drive) and
-            retry:</p>
-        <button class="btn btn-default" onclick="startRegistration()">Retry</button>
+        <h2 class="h5">Votre clé de sécurité n’est pas reconnue?</h2>
+        <p>Assurez-vous d’utiliser une clé de sécurité (et non un autre type de dispositif USB, comme une clé USB) et essayez de nouveau.</p>
+        <button class="btn btn-default" onclick="startRegistration()">Réessayer</button>
       </div>
     </div>
-    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="FIDOregister" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <nav class="mrgn-bttm-lg" role="navigation">
         <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Back</button>
+            <button jsf:id="Back" class="btn btn-default" jsf:action="#{authenticator.authenticate}">Précédente</button>
           </li>
         </ul>
       </nav>
@@ -61,49 +52,22 @@
   <ui:define name="scripts">
     <script src="/oxauth/auth/u2f/scripts/u2f-api.js" />
     <script>
-          var auth_request = ${identity.getWorkingParameter('fido_u2f_authentication_request')};
-          var register_request = ${identity.getWorkingParameter('fido_u2f_registration_request')};
-  
-          function startRegistration() {
-              u2fApi.register(register_request.registerRequests)
-                  .then( function(data) {
-                      document.getElementById('tokenResponse').value = JSON.stringify(data);
-                      document.getElementById('authMethod').value = 'enroll';
-  
-                      document.getElementById('u2f_form').submit();
-                  })
-                  .catch( function(msg) {
-                      alert("U2F failed. " + msg);
-                      return;
-                  });
-          }
-  
-          function startAuthentication() {
-              u2fApi.sign(auth_request.authenticateRequests)
-                  .then( function( data ) {
-                      document.getElementById('tokenResponse').value = JSON.stringify(data);
-                      document.getElementById('authMethod').value = 'authenticate';
-  
-                      document.getElementById('u2f_form').submit();
-                  })
-                  .catch( function(msg) {
-                      alert("U2F failed. " + msg);
-                      return;
-                  });
-          }
-  
-          if (auth_request != null) {
-              setTimeout(startAuthentication(), 5000);
-          } else {
-              setTimeout(startRegistration(), 5000);
-          }
+      function startRegistration() {
+        u2fApi.register(register_request.registerRequests)
+          .then(function (data) {
+            document.getElementById('tokenResponse').value = JSON.stringify(data);
 
-          function fillInRecovery(){
-          document.getElementById("loginForm:action").value = "recover";
-        }
-        function fillInCancel(){
-          document.getElementById("loginForm:action").value = "cancel";
-        }
+            document.getElementById('u2f_form').submit();
+          })
+          .catch(function (msg) {
+            console.log("U2F failed. " + msg);
+            return;
+          });
+      }
+
+      var register_request = ${ identity.getWorkingParameter('fido_u2f_registration_request')};
+      setTimeout(startRegistration(), 5000);
+
     </script>
   </ui:define>
 </ui:composition>

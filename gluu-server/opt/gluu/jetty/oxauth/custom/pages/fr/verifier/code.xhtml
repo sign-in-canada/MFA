@@ -8,23 +8,20 @@
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
   </f:metadata>
 
-  <ui:param name="otherLanguage" value="verifier/code" />
-
-  <ui:define name="name">
-    <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
-  </ui:define>
+  <ui:param name="otherLanguage" value="verify/code" />
 
   <ui:define name="content">
-    <h1>Recover your account</h1>
-    <p>Enter the recovery code you recorded when you created your account.</p>
+    <h1>Récupérez votre compte</h1>
+    <p>Saisissez le code de récupération que vous avez pris en note lors de la création de votre compte.</p>
     <details>
-      <summary>How do I get this code?</summary>
-      <p>When you created your account you were given a recovery code with
-      instructions to print it or write it down, then store it safely. If
-      you have reinstalled your authenticator app, or if your mobile
-      device or security key is lost or damaged then the ONLY way to
-      recover your account is via this recovery code.</p>
-      <p>If you have lost your recovery code:</p>
+      <summary>Comment puis-je obtenir ce code?</summary>
+      <p>Lors de la création de votre compte, vous avez reçu un code de
+      récupération à imprimer ou à prendre en note, puis à conserver en lieu
+      sûr. Si vous avez réinstallé votre application d’authentification ou avez
+      perdu ou endommagé votre appareil mobile ou votre clé de sécurité, la
+      SEULE façon de récupérer votre compte est d’utiliser ce code de
+      récupération.</p>
+      <p>Si vous avez perdu votre code de récupération :</p>
       <ui:include src="/WEB-INF/incl/content/#{not empty identity.getWorkingParameter('rpContent') ? identity.getWorkingParameter('rpContent') : 'default'}/recovery-#{language.localeCode}.xhtml"/>
     </details>
     <br />
@@ -32,8 +29,8 @@
     <h:messages style="color:red;" />
     <form jsf:id="Recover" class="form-horizontal">
       <label for="Recover:recoveryCode1" class="required">
-        <span class="field-name">Recovery code</span>
-        <strong class="required">(required)</strong>
+        <span class="field-name">Code de récupération</span>
+        <strong class="required">(obligatoire)</strong>
       </label>
       <ul class="list-unstyled">
         <input jsf:id="recoveryCode1" type="text" size="4" maxlength="4" autocomplete="off" class="display: inline-block" />	
@@ -48,10 +45,10 @@
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="Cancel" class="btn btn-default" value="Cancel" jsf:action="#{authenticator.authenticate}">Cancel Recovery</button>
+            <button jsf:id="Cancel" class="btn btn-default" value="Cancel" jsf:action="#{authenticator.authenticate}">Annuler la récupération</button>
           </li>
           <li class="pull-right">
-            <button jsf:id="Continue" class="btn btn-primary" value="Continue" jsf:action="#{authenticator.authenticate}">Continue</button>
+            <button jsf:id="Continue" class="btn btn-primary" value="Continue" jsf:action="#{authenticator.authenticate}">Continuer</button>
           </li>
         </ul>
       </nav>

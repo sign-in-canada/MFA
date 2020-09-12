@@ -1,31 +1,23 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
   </f:metadata>
 
-  <ui:param name="otherLanguage" value="verify/token" />
-
-  <ui:define name="name">
-    <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
-  </ui:define>
-
-  <ui:define name="help">
-    <ui:include src="/WEB-INF/incl/content/default/help-#{language.localeCode}.xhtml" />
-  </ui:define>
+  <ui:param name="otherLanguage" value="verifier/jeton" />
 
   <ui:define name="content">
-    <h1>ATIP Online Request Service</h1>
-    <h2>2-factor authentication</h2>
-    <p>Insert your security key and touch the button</p>
+    <h1>
+      <ui:include src="/WEB-INF/incl/content/#{not empty identity.getWorkingParameter('rpContent') ? identity.getWorkingParameter('rpContent') : 'default'}/name-#{language.localeCode}.xhtml"/>
+    </h1>
+    <h2>Authentification à deux facteurs</h2>
+    <p>Branchez votre clé de sécurité et appuyez sur le bouton.</p>
     <h:messages style="color:red;" />
-    <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false;">
+    <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false">
       <input type="hidden" name="username" value="${credentials.username}" />
       <input type="hidden" name="authMethod" id="authMethod" />
       <input type="hidden" name="tokenResponse" id="tokenResponse" />
@@ -36,13 +28,12 @@
       </div>
       <div class="col-md-7">
         <form class="form-horizontal">
-          <h2 class="h5">Was your security key not recognized?</h2>
-          <button class="btn btn-default" onclick="startAuthentication()">Retry</button>
+          <h2 class="h5">Votre clé de sécurité n’est pas reconnue?</h2>
+          <button class="btn btn-default" onclick="startAuthentication()">Réessayer</button>
         </form>
-        <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
-          <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
-          <h2 class="h5 mrgn-tp-lg">Lost or replaced your security key?</h2>
-          <button jsf:id="recoverButton" styleClass="btn btn-default" value="Recover" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
+        <form jsf:id="FIDOauthenticate" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
+          <h2 class="h5 mrgn-tp-lg">Vous avez perdu ou remplacé votre clé de sécurité?</h2>
+          <button jsf:id="Recover" class="btn btn-default" value="Recover" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Récupérer</button>
         </form>
       </div>
     </div>
@@ -51,42 +42,23 @@
   <ui:define name="scripts">
     <script src="/oxauth/auth/u2f/scripts/u2f-api.js" />
     <script>
-        var auth_request = ${identity.getWorkingParameter('fido_u2f_authentication_request')};
-        var register_request = ${identity.getWorkingParameter('fido_u2f_registration_request')};
+      var auth_request = ${ identity.getWorkingParameter('fido_u2f_authentication_request')};
 
-        function startRegistration() {
-            u2fApi.register(register_request.registerRequests)
-                .then( function(data) {
-                    document.getElementById('tokenResponse').value = JSON.stringify(data);
-                    document.getElementById('authMethod').value = 'enroll';
+      function startAuthentication() {
+        u2fApi.sign(auth_request.authenticateRequests)
+          .then(function (data) {
+            document.getElementById('tokenResponse').value = JSON.stringify(data);
+            document.getElementById('authMethod').value = 'authenticate';
 
-                    document.getElementById('u2f_form').submit();
-                })
-                .catch( function(msg) {
-                    alert("U2F failed. " + msg);
-                    return;
-                });
-        }
+            document.getElementById('u2f_form').submit();
+          })
+          .catch(function (msg) {
+            console.log("U2F failed. " + msg);
+            return;
+          });
+      }
 
-        function startAuthentication() {
-            u2fApi.sign(auth_request.authenticateRequests)
-                .then( function( data ) {
-                    document.getElementById('tokenResponse').value = JSON.stringify(data);
-                    document.getElementById('authMethod').value = 'authenticate';
-
-                    document.getElementById('u2f_form').submit();
-                })
-                .catch( function(msg) {
-                    alert("U2F failed. " + msg);
-                    return;
-                });
-        }
-
-        if (auth_request != null) {
-            setTimeout(startAuthentication(), 5000);
-        } else {
-            setTimeout(startRegistration(), 5000);
-        }
+      setTimeout(startAuthentication(), 5000);
 
     </script>
   </ui:define>

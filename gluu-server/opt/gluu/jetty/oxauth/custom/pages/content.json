@@ -7,16 +7,21 @@
     "oidc:tbs_aors_uat" : {
         "content":"tbs_aors",
         "shortName.en" : "ATIP-AORS",
-        "shortName.fr" : "ATIP-AORS"
+        "shortName.fr" : "AIPRP-SDAEL"
     },
     "oidc:tbs_aomt_uat" : {
         "content":"tbs_aomt",
         "shortName.en" : "ATIP-AOMT",
-        "shortName.fr" : "ATIP-AOMT"
+        "shortName.fr" : "AIPRP-OGAEL"
+    },
+    "https://rp3.tbstest.catslab.ca" : {
+        "content":"tbs_aomt",
+        "shortName.en" : "ATIP-AOMT",
+        "shortName.fr" : "AIPRP-SDAEL"
     },
     "https://rp4.tbstest.catslab.ca" : {
-        "content":"default",
-        "shortName.en" : "RPSim4",
-        "shortName.fr" : "RPSim4"
+        "content":"tbs_aors",
+        "shortName.en" : "ATIP-AORS",
+        "shortName.fr" : "AIPRP-SDAEL"
     }
 }

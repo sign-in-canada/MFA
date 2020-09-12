@@ -186,15 +186,15 @@ class PersonAuthentication(PersonAuthenticationType):
             rpContent = identity.getWorkingParameter("rpContent")
             if (rpContent is None):
                 # Load the UI customization for the RP
-                rpContent = self.customPageContent.get("_default")
+                customContent = self.customPageContent.get("_default")
                 for contentKey in self.customPageContent.keys():
                         if (relyingParty.find(contentKey) == 0):
-                            rpContent = self.customPageContent.get(contentKey)
+                            customContent = self.customPageContent.get(contentKey)
                             break
                 identity.setWorkingParameter("rpContent", rpContent.get("content"))
 
                 locale = languageBean.getLocaleCode()[:2]
-                shortName = rpContent.get("shortName." + locale)
+                shortName = customContent.get("shortName." + locale)
                 identity.setWorkingParameter("rpShortName", shortName)
             
             flow = identity.getWorkingParameter("flow")
@@ -337,8 +337,8 @@ class PersonAuthentication(PersonAuthenticationType):
                         return authenticationService.authenticate(userId)
             elif (requestParameters.containsKey("Recover")):
                 if (requestParameters.containsKey("Recover:Cancel")):
-                    if (authenticatorType != "RecoveryCode"):
-                        identity.setWorkingParameter("authenticatorType", None)
+                    identity.setWorkingParameter("authenticatorType", None)
+                    identity.setWorkingParameter("nextStep", 1) # Start over
                 else:
                     if (self.authenticateRecoveryCode(requestParameters, userId, identity)):
                         # Recovery Trigger the registration flow
@@ -906,7 +906,10 @@ class PersonAuthentication(PersonAuthenticationType):
         if (authenticationProtectionService.isEnabled()):
             authenticationProtectionService.doDelayIfNeeded(username)
 
-        givenCode = ServerUtil.getFirstValue(requestParameters, "Recover:recoveryCode")
+        code1 = ServerUtil.getFirstValue(requestParameters, "Recover:recoveryCode1")
+        code2 = ServerUtil.getFirstValue(requestParameters, "Recover:recoveryCode2")
+        code3 = ServerUtil.getFirstValue(requestParameters, "Recover:recoveryCode3")
+        givenCode = "%s-%s-%s" % (code1, code2, code3)
 
         user = userService.getUser(username, "secretAnswer")
         secretAnswers = userService.getCustomAttribute(user, "secretAnswer")

@@ -40,7 +40,7 @@
 
     <h:messages style="color:red;" />
     <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
+      <input jsf:id="action" type="hidden" class="form-control" autocomplete="off" />
       <div class="row">
         <div class="col-md-5">
           <center>
@@ -53,7 +53,7 @@
               Enter the code from your app:
               <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off"/>
             </label>
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit"
+            <button jsf:id="loginButton1" class="btn btn-primary" type="submit"
               jsf:action="#{authenticator.authenticate}">Continue</button>
           </p>
         </div>

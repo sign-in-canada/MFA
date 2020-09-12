@@ -1,16 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
   </f:metadata>
 
-  <ui:param name="otherLanguage" value="register/appscan" />
+  <ui:param name="otherLanguage" value="enregistrer/appscan" />
 
   <ui:define name="name">
     <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
@@ -24,18 +22,18 @@
     <style>
       #confirmDialogDiv {
         width: auto%;
-        height:auto;
+        height: auto;
         padding: 50px 50px;
         text-align: center;
         background-color: black;
         opacity: 0.8;
-        z-index:4000;
-        margin-top:-100px;
+        z-index: 4000;
+        margin-top: -100px;
       }
-   </style>
-   <style>
+    </style>
+    <style>
       .res-circle {
-        margin-top:25px;
+        margin-top: 25px;
         width: 3%;
         border-radius: 50%;
         line-height: 0;
@@ -43,11 +41,13 @@
         /* NECESSARY FOR TEXT */
         position: relative;
       }
+
       .res-circle:after {
         content: "";
         display: block;
         padding-bottom: 100%;
       }
+
       .circle-txt {
         position: absolute;
         bottom: 50%;
@@ -62,17 +62,16 @@
   </ui:define>
 
   <ui:define name="content">
-    <h1>Secure your account</h1>
-    <h2>Scan the QR code</h2>
+    <h1>Sécurisez votre compte</h1>
+    <h2>Balayez le code QR</h2>
     <ol>
-      <li>Point your device's camera at the image below</li>
-      <li>Your authenticator app will automatically scan the code and add your ATIP account</li>
-      <li>Once the account has been added, select "Continue"</li>
+      <li>Pointez la caméra de votre appareil sur l’image ci-dessous.</li>
+      <li>Veillez à ce que l’application d’authentification balaie le code automatiquement et l’ajoute à votre compte d’AIPRP en ligne.</li>
+      <li>Une fois le code ajouté à votre compte, cliquez sur <strong>Continuer</strong>.</li>
     </ol>
 
-    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
+    <form jsf:id="TOTPscanQR" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <h:messages style="color:red;" />
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
       <div class="row wb-eqht">
         <section class="panel panel-default">
           <div class="panel-body text-center">
@@ -88,10 +87,10 @@
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Back</button>
+            <button jsf:id="Back" class="btn btn-default" jsf:action="#{authenticator.authenticate}" >Précédente</button>
           </li>
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continue</button>
+            <button jsf:id="Continue" class="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continuer</button>
           </li>
         </ul>
       </nav>
@@ -102,10 +101,6 @@
     <script src="/oxauth/js/jquery-qrcode-0.17.0.min.js" />
     <script src="/oxauth/js/gluu-auth.js" />
     <script type="text/x-javascript">
-      function fillInCancel(){
-          document.getElementById("loginForm:action").value = "cancel";
-        }
-  
         var helper = (function() {
                 var authResult = undefined;
                 return {
@@ -122,9 +117,9 @@
         function onSignInCallback(authResult) {
                 helper.onSignInCallback(authResult);
         }
-        var request = '${identity.getWorkingParameter('otp_enrollment_request')}';
-        var label = '${identity.getWorkingParameter('qr_label')}';
-        var qr_options = ${identity.getWorkingParameter('qr_options')};
+        var request = '${identity.getWorkingParameter('totpEnrollmentRequest')}';
+        var label = '${identity.getWorkingParameter('qrLabel')}';
+        var qr_options = ${identity.getWorkingParameter('qrOptions')};
   
         $(document).ready(function() {
               if (request == '') {

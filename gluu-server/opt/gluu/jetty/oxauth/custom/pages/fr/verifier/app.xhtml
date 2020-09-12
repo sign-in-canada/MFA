@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
@@ -12,39 +10,34 @@
 
   <ui:param name="otherLanguage" value="verify/app" />
 
-  <ui:define name="name">
-    <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
-  </ui:define>
-
-  <ui:define name="help">
-    <ui:include src="/WEB-INF/incl/content/default/help-#{language.localeCode}.xhtml" />
-  </ui:define>
-
   <ui:define name="content">
-    <h1>ATIP Online Request Service</h1>
-    <h2>2-factor authentication</h2>
+    <h1>
+      <ui:include src="/WEB-INF/incl/content/#{not empty identity.getWorkingParameter('rpContent') ? identity.getWorkingParameter('rpContent') : 'default'}/name-#{language.localeCode}.xhtml"/>
+    </h1>
+    <h2>Authentification à deux facteurs</h2>
     <p>
-      Enter the 6-digit code from your authenticator app below.
+      Entrez ci-dessous le code à six chiffres généré par votre application d’authentification.
     </p>
     <ul class="list-unstyled">
       <li>
         <details>
-          <summary>How do I get this code?</summary>
-          <p>You previously set up your smartphone or tablet with an authenticator app.</p>
+          <summary>Comment puis-je obtenir ce code?</summary>
+          <p>Vous avez précédemment installé une application d’authentification sur votre téléphone intelligent ou votre tablette.</p>
           <ul>
-            <li>Open the authenticator app</li>
-            <li>If you use your authenticator app to sign in to multiple sites, identify which code is for your ATIP account</li>
-            <li>Enter the 6-digit code it displays for your ATIP account below (note the code is designed to change frequently, you will get a new code
-              every 30 seconds)</li>
-            <li>Press enter, or select "Continue" below</li>
+            <li>Ouvrez l’application d’authentification.</li>
+            <li>Si vous utilisez votre application d’authentification pour vous
+            connecter à plus d’un site, déterminez le code applicable à votre
+            compte d’${identity.getWorkingParameter('rpShortName')}.</li>
+            <li>Entrez le code à six chiffres de votre compte d’${identity.getWorkingParameter('rpShortName')} ci-dessous (veuillez noter que le code change fréquemment, soit toutes les 30 secondes).</li>
+            <li>•	Appuyez sur <strong>Entrée</strong> ou cliquez sur <strong>Continuer</strong> ci-dessous.</li>
           </ul>
         </details>
       </li>
     </ul>
 
     <h:messages style="color:red;" />
-    <form jsf:id="loginForm" class="form-horizontal">
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="TOTPauthenticate" class="form-horizontal">
+      <input jsf:id="action" type="hidden" class="form-control" autocomplete="off" />
       <div class="row">
         <div class="col-md-5">
           <center>
@@ -53,27 +46,17 @@
         </div>
         <div class="col-md-7">
           <p>
-            <label for="loginForm:otpCode">
-              Enter the code from your app:
-              <input class="form-control" jsf:id="otpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off"/>
+            <label for="TOTPauthenticate:totpCode">
+              Entrez le code généré par votre application :
+              <input class="form-control" jsf:id="totpCode" data-rule-digits="true" maxlength="6" type="text" autocomplete="off"/>
             </label>
-            <button jsf:id="loginButton1" class="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continue</button>
+            <button jsf:id="Continue" class="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continuer</button>
           </p>
-          <h2 class="h5 mrgn-tp-lg">Lost or replaced your device? Deleted or reinstalled your authenticator app?</h2>
-          <button jsf:id="recoverButton" class="btn btn-default" jsf:action="#{authenticator.authenticate}" onclick="fillInRecovery()">Recover</button>
+          <h2 class="h5 mrgn-tp-lg">Vous avez perdu ou remplacé votre appareil? Vous avez supprimé ou réinstallé votre application d’authentification?</h2>
+          <button jsf:id="Recover" class="btn btn-default" jsf:action="#{authenticator.authenticate}">Récupérer</button>
         </div>
       </div>
     </form>
   </ui:define>
 
-  <ui:define name="scripts">
-    <script type="text/x-javascript">
-      function fillInRecovery(){
-        document.getElementById("loginForm:action").value = "recover";
-      }
-      function fillInCancel(){
-        document.getElementById("loginForm:action").value = "cancel";
-      }
-    </script>
-  </ui:define>  
 </ui:composition>

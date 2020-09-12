@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
@@ -16,28 +14,24 @@
     <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
   </ui:define>
 
-  <ui:define name="help">
-    <ui:include src="/WEB-INF/incl/content/default/help-#{language.localeCode}.xhtml" />
-  </ui:define>
-
   <ui:define name="content">
-    <h1>Secure your account</h1>
+    <h1>Sécurisez votre compte</h1>
     <section class="alert alert-success">
-      <h3 property="name" id="wb-cont">Setup complete</h3>
-      <p>You have successfully set up 2-factor authentication to secure your account.</p>
+      <h3 property="name" id="wb-cont">Configuration terminée</h3>
+      <p>Vous avez configuré avec succès l’authentification à deux facteurs pour sécuriser votre compte.</p>
     </section>
     <h:messages style="color:red;" />
-    <p>You can now continue to ATIP Online.</p>
+    <p>Vous pouvez maintenant accéder aux services d’AIPRP en ligne.</p>
 
-    <form jsf:id="loginForm" class="form-horizontal">
-      <input jsf:id="mfachoice" type="hidden" value="#{acrname}" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="Success" class="form-horizontal">
+      <input jsf:id="mfachoice" type="hidden" value="#{acrname}" class="form-control" autocomplete="off" />
       <nav class="mrgn-bttm-lg" role="navigation">
         <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
           <br />
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" rel="next" type="submit"
-              jsf:action="#{authenticator.authenticate}">Continue to ATIP</button>
+            <button jsf:id="Continue" class="btn btn-primary" rel="next" type="submit"
+              jsf:action="#{authenticator.authenticate}">Accédez aux services d’${identity.getWorkingParameter('rpShortName')}</button>
           </li>
         </ul>
       </nav>

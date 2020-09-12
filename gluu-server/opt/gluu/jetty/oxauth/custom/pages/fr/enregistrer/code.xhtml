@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
@@ -16,55 +14,63 @@
     <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
   </ui:define>
 
-  <ui:define name="help">
-    <ui:include src="/WEB-INF/incl/content/default/help-#{language.localeCode}.xhtml" />
-  </ui:define>
-
   <ui:define name="content">
-    <h1>Secure your account</h1>
-    <h2>Record your recovery code</h2>
-    <p>You must record this recovery code to protect your account. Keep it somewhere safe but accessible.</p>
-    <label for="recovery_code">
-      This is your recovery code: #{identity.getWorkingParameter('new_code')}
-    </label>
-    <ul class="list-unstyled">
-      <li>
-        <details>
-          <summary>Why do you need a recovery code?</summary>
-          <p>If you lose or damage your smartphone, tablet or security key, or if you
-          reinstall your authenticator app, then you can recover access to your
-          ATIP account using this recovery code.</p>
-        </details>
-      </li>
-    </ul>
-    <section class="alert alert-info">
-      <h4>Note:</h4>
-      <p>If you have just used your old recovery code then a new
-        replacement code has been generated. Your old code will no longer
-        work.</p>
-      </section>
-    <p>Write this code down, or print this page using the button below. Then store it in a secure location!</p>
+    <h1>Sécurisez votre compte</h1>
+    <h2>Enregistrez votre code de récupération</h2>
+    <p>Enregistrez votre code de récupération pour protéger votre compte. Conservez-le à un endroit sûr, mais accessible.</p>
+    <p><strong>Voici votre code de récupération :</strong></p>
+    <div class="row">
+      <div class="col-md-4 col-md-offset-3 brdr-lft brdr-rght brdr-tp brdr-bttm">
+        <h2 class="center-text" align="middle">#{identity.getWorkingParameter('recoveryCode')}</h2>
+        <br/>
+      </div>
+    </div>
+    <br/>
+    <p>Prenez ce code en note ou imprimez cette page en cliquant sur le bouton ci-dessous. Conservez-le ensuite dans un endroit sûr!</p>
     <p>
       <button id="print" class="btn btn-default" onclick="enableContinue(this); window.print()">
         <span class="glyphicon glyphicon-print"></span>
-        Print this page
+        Imprimer cette page
       </button>
     </p>
+    <ul class="list-unstyled">
+      <li>
+        <details>
+          <summary>Quelle est l’utilité du code de récupération?</summary>
+          <p>Si vous perdez ou endommagez votre téléphone intelligent, votre
+          tablette ou votre clé de sécurité, ou si vous réinstallez votre
+          application d’authentification, vous pouvez récupérer l’accès à votre
+          compte d’AIPRP en ligne au moyen de ce code de récupération.</p>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary>
+            Just used your old recovery code?
+          </summary>
+          <p>Un nouveau code de remplacement est généré dès que vous utilisez
+          votre code de récupération. Votre ancien code ne fonctionnera donc
+          plus. Be sure to record thew new code.</p>
+        </details>
+      </li>
+    </ul>
+    <p>Avez-vous pris ce code en note de façon sécuritaire?</p>
 
     <section class="alert alert-warning">
-      <h4>Do not share or lose this code!</h4>
-      <p>Without this recovery code you could permanently lose access to your account.</p>
-      <p>In the wrong hands, this code could be misused to compromise your account. You are responsible for its safekeeping.</p>
+      <h4>Ne divulguez pas et ne perdez pas ce code!</h4>
+      <p>Sans ce code de récupération, vous pourriez perdre l’accès à votre
+      compte de façon permanente.</p>
+      <p>S’il tombe entre de mauvaises mains, ce code pourrait être utilisé à
+      mauvais escient pour compromettre votre compte. Il vous incombe de le
+      garder en lieu sûr.</p>
     </section>
 
     <h:messages style="color:red;" />
     <br />
-    <p>Have you securely recorded this code?</p>
-    <form horizontal="true" jsf:id="loginForm" jsf:action="#{authenticator.authenticate}" class="form-horizontal">
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
-      <input jsf:id="confirmCodeBox" type="checkbox" styleClass="checkmark" style="position:relative !important;" onchange="enableContinue(this)" />
+    <form horizontal="true" jsf:id="RecoveryCodeConfirm" jsf:action="#{authenticator.authenticate}" class="form-horizontal">
+      <input jsf:id="Confirm" type="checkbox" class="checkmark" style="position:relative !important;" onchange="enableContinue(this)" />
       <label style="color:#000" for="saved">
-        <strong>Yes, I have written down or printed the recovery code above.</strong>
+        <strong>Oui, j’ai pris en note ou imprimé le code de récupération ci-dessus.</strong>
       </label>
       <br />
       <div class="cddol-lg-12">
@@ -72,7 +78,7 @@
           <h2 class="wb-inv">Document navigation</h2>
           <ul class="pager">
             <li class="pull-right">
-              <button jsf:id="loginButton1" styleClass="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
+              <button jsf:id="Continue" class="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
             </li>
           </ul>
         </nav>
@@ -82,18 +88,20 @@
 
   <ui:define name="scripts">
     <script type="text/x-javascript">
-      function checkDialogAnswer() {
-        var x = document.getElementById("confirmDialogDiv");
-        if (x.style.display === "none") {
-              x.style.display = "block";
-        } else {
-              x.style.display = "none";
+      document.getElementById("RecoveryCodeConfirm:Continue").disabled = true;
+      document.getElementById("RecoveryCodeConfirm:Confirm").checked = false;
+
+
+      function enableContinue(source) {
+        var continueBtn = document.getElementById("RecoveryCodeConfirm:Continue");
+        if (source.id === 'RecoveryCodeConfirm:Confirm') {
+            continueBtn.disabled = ! source.checked;
+          } else {
+            document.getElementById("RecoveryCodeConfirm:Confirm").checked = true;
+            continueBtn.disabled = false;
         }
       }
 
-      function fillInCancel(){
-        document.getElementById("loginForm:action").value = "cancel";
-      }
     </script>
   </ui:define>
 </ui:composition>

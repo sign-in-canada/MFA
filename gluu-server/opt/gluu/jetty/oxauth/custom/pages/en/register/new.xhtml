@@ -14,58 +14,9 @@
     <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
   </ui:define>
 
-  <ui:define name="help">
-    <ui:include src="/WEB-INF/incl/content/default/help-#{language.localeCode}.xhtml" />
-  </ui:define>
-
   <ui:define name="content">
     <h1>Secure your account</h1>
-    <p>
-      ATIP Online uses secure 2-factor authentication to secure your account.
-    </p>
-    <p>You must enable 2-factor authentication on your account to: </p>
-    <ul>
-      <li>Receive your requests electronically online</li>
-      <li>Track the status of your request(s)</li>
-      <li>Update your account profile</li>
-    </ul>
-    <p>You can set up your mobile device (smartphone or tablet) to serve as a second factor, or you can use a FIDO ("Fast Identity Online") Universal Second Factor (U2F) security key.</p>
-    <ul class="list-unstyled">
-      <li>
-        <details>
-          <summary>What is 2-factor authentication?</summary>
-          <p>
-            2-factor authentication is a way to confirm users by using a combination of two different factors:
-          </p>
-          <ul>
-            <li>
-              <b>something they know</b>
-              (for example a password)
-            </li>
-            <li>
-              <b>something they have</b>
-              (a physical object)
-            </li>
-          </ul>
-          <p>Think of it like a locked door that can only be opened with both a key and a secret code on a keypad.
-            Someone pretending to be you should never be able to get both those things.</p>
-          <p>For ATIP Online you can set up your mobile device (smartphone or tablet) to serve
-          as a second factor, or you can use a FIDO U2F security key (a special
-          hardware security device that fits in the USB port of your
-          computer).</p>
-          <p>FIDO U2F security keys are available for purchase online. 
-            If you don’t have a smartphone or tablet then this is your best option.</p>
-          <p>
-            <b>Can’t use either of these options?</b>
-          </p>
-          <p>You can still submit an online request without setting up 2-factor authentication;
-            just go back and choose to proceed as a guest.</p>
-          <p>It’s up to you to decide if you want to go through the process of setting up 2-factor authentication, however
-            if you want e-delivery or to track your request(s) you must use one of the above methods.</p>
-        </details>
-      </li>
-    </ul>
-
+    <ui:include src="/WEB-INF/incl/content/#{not empty identity.getWorkingParameter('rpContent') ? identity.getWorkingParameter('rpContent') : 'default'}/intro-#{language.localeCode}.xhtml"/>
     <div class="row wb-eqht">
       <h:messages style="color:red;" />
       <form jsf:id="MFAchooser" class="form-horizontal">

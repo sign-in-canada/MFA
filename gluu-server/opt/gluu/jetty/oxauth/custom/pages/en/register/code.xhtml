@@ -14,17 +14,25 @@
     <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
   </ui:define>
 
-  <ui:define name="help">
-    <ui:include src="/WEB-INF/incl/content/default/help-#{language.localeCode}.xhtml" />
-  </ui:define>
-
   <ui:define name="content">
     <h1>Secure your account</h1>
     <h2>Record your recovery code</h2>
     <p>You must record this recovery code to protect your account. Keep it somewhere safe but accessible.</p>
-    <label for="recovery_code">
-      This is your recovery code: #{identity.getWorkingParameter('recoveryCode')}
-    </label>
+    <p><strong>This is your recovery code:</strong></p>
+    <div class="row">
+      <div class="col-md-4 col-md-offset-3 brdr-lft brdr-rght brdr-tp brdr-bttm">
+        <h2 class="center-text" align="middle">#{identity.getWorkingParameter('recoveryCode')}</h2>
+        <br/>
+      </div>
+    </div>
+    <br/>
+    <p>Write this code down, or print this page using the button below. Then store it in a secure location!</p>
+    <p>
+      <button id="print" class="btn btn-default" onclick="enableContinue(this); window.print()">
+        <span class="glyphicon glyphicon-print"></span>
+        Print this page
+      </button>
+    </p>
     <ul class="list-unstyled">
       <li>
         <details>
@@ -34,20 +42,18 @@
           ATIP account using this recovery code.</p>
         </details>
       </li>
+      <li>
+        <details>
+          <summary>
+            Just used your old recovery code?
+          </summary>
+          <p>A new replacement code is generated every time you recover your
+          account. Your old code wil no longer work. Be sure to record thew new
+          code.</p>
+        </details>
+      </li>
     </ul>
-    <section class="alert alert-info">
-      <h4>Note:</h4>
-      <p>If you have just used your old recovery code then a new
-        replacement code has been generated. Your old code will no longer
-        work.</p>
-      </section>
-    <p>Write this code down, or print this page using the button below. Then store it in a secure location!</p>
-    <p>
-      <button id="print" class="btn btn-default" onclick="enableContinue(this); window.print()">
-        <span class="glyphicon glyphicon-print"></span>
-        Print this page
-      </button>
-    </p>
+    <p>Have you securely recorded this code?</p>
 
     <section class="alert alert-warning">
       <h4>Do not share or lose this code!</h4>
@@ -57,7 +63,6 @@
 
     <h:messages style="color:red;" />
     <br />
-    <p>Have you securely recorded this code?</p>
     <form horizontal="true" jsf:id="RecoveryCodeConfirm" jsf:action="#{authenticator.authenticate}" class="form-horizontal">
       <input jsf:id="Confirm" type="checkbox" class="checkmark" style="position:relative !important;" onchange="enableContinue(this)" />
       <label style="color:#000" for="saved">

@@ -1,93 +1,80 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="/WEB-INF/incl/layouts/GCWeb.xhtml">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  template="/WEB-INF/incl/layouts/GCWeb.xhtml">
 
   <f:metadata>
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
   </f:metadata>
 
   <ui:param name="otherLanguage" value="register/appinfo" />
-  
+
   <ui:define name="name">
     <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
   </ui:define>
 
-  <ui:define name="help">
-    <ui:include src="/WEB-INF/incl/content/default/help-#{language.localeCode}.xhtml" />
-  </ui:define>
-
   <ui:define name="content">
-    <h1>Secure your account</h1>
-    <h2>Prepare your mobile device</h2>
+    <h1>Sécurisez votre compte</h1>
+    <h2>Préparez votre appareil mobile</h2>
 
-    <p>You can use an app on your mobile device (smartphone or tablet) as a second factor.</p>
-    <ul class="list-unstyled">
-      <li>
-    <details>
-      <summary>What apps do we suggest?</summary>
-      <p>
-        There are a number of  apps which provide this service and while we
-        suggest Google Authenticator, Microsoft Authenticator or Authy, you may
-        use any similar app. These apps should be free of charge.
-      </p>
-    </details>
-  </li>
-</ul>
-
-<h3 class="h3">Don’t have an app?</h3>
-    <p>Install a free authenticator app on your mobile device.</p>
+    <p>Vous pouvez utiliser une application sur votre appareil mobile (téléphone intelligent ou tablette) comme second facteur.</p>
     <ul class="list-unstyled">
       <li>
         <details>
-          <summary>How to install an authenticator app</summary>
-          <ol>
-            <li>Open the app store on your device and search for "Authenticator"</li>
-            <li>Choose the authenticator app that you wish to use</li>
-            <li>install your chosen app</li>
-        </ol>
+          <summary>Quelles applications suggérons-nous?</summary>
+          <p>
+            De nombreuses applications fournissent ce service. Nous suggérons
+            d’utiliser Google Authenticator, Microsoft Authenticator ou Authy,
+            mais vous pouvez utiliser n’importe quelle application similaire.
+            Ces applications devraient être gratuites.
+      </p>
         </details>
       </li>
     </ul>
 
-    <h3 class="h3">Already have an authenticator app installed? </h3>
-    <p>Open the authenticator app on your device and prepare to add your ATIP account:</p>
-       <ol>
-          <li>On most apps, you tap on a plus (+) sign to add a new account</li>
-          <li>Select the option to scan a bar code or QR code</li>
-      </ol>
+    <h3 class="h3">Vous n’avez pas d’application?</h3>
+    <p>Installez une application d’authentification gratuite sur votre appareil mobile.</p>
+    <ul class="list-unstyled">
+      <li>
+        <details>
+          <summary>Comment installer une application d’authentification</summary>
+          <ol>
+            <li>Ouvrez la boutique d’applications sur votre appareil et cherchez « authentificateur ».</li>
+            <li>Choisissez l’application d’authentification à utiliser.</li>
+            <li>Installez l’application choisie.</li>
+          </ol>
+        </details>
+      </li>
+    </ul>
 
-    <p>Once you are ready to scan a QR code, continue to the next page.</p>
+    <h3 class="h3">Vous avez déjà installé une application d’authentification?</h3>
+    <p>Ouvrez l’application d’authentification sur votre appareil et ajoutez votre compte d’AIPRP en ligne :</p>
+    <ol>
+      <li>dans la majorité des applications, appuyez sur le signe « + » pour ajouter un nouveau compte;</li>
+      <li>sélectionnez l’option de balayage d’un code à barres ou d’un code QR.</li>
+    </ol>
+
+    <p>Passez à la page suivante lorsque vous êtes prêt à balayer un code QR.</p>
     <h:messages style="color:red;" />
-    <form jsf:id="loginForm" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
-      <input jsf:id="action" type="hidden" styleClass="form-control" autocomplete="off" />
+    <form jsf:id="TOTPinfo" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <nav class="mrgn-bttm-lg" role="navigation">
         <ul class="pager">
           <br />
           <li class="pull-left">
-            <button jsf:id="cancelButton" styleClass="btn btn-default" value="Cancel App Registration"
-              jsf:action="#{authenticator.authenticate}" onclick="fillInCancel()">Back</button>
+            <button jsf:id="Back" class="btn btn-default"
+                    jsf:action="#{authenticator.authenticate}">
+                    Précédente
+            </button>
           </li>
           <li class="pull-right">
-            <button jsf:id="loginButton1" styleClass="btn btn-primary" value="Generate QR code"
-              jsf:action="#{authenticator.authenticate}" onclick="fillInContinue()">Generate QR code</button>
+            <button jsf:id="Continue" class="btn btn-primary"
+                    jsf:action="#{authenticator.authenticate}">
+                    Continuer 
+            </button>
           </li>
         </ul>
       </nav>
     </form>
   </ui:define>
-
-  <ui:define name="scripts">
-    <script type="text/x-javascript">
-      function fillInContinue(){
-        document.getElementById("loginForm:action").value = "continue";
-      }
-      function fillInCancel(){
-        document.getElementById("loginForm:action").value = "cancel";
-      }
-    </script>
-</ui:define>
 </ui:composition>

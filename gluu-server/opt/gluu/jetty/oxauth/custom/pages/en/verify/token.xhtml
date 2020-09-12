@@ -19,9 +19,11 @@
   </ui:define>
 
   <ui:define name="content">
-    <h1>ATIP Online Request Service</h1>
+    <h1>
+      <ui:include src="/WEB-INF/incl/content/#{not empty identity.getWorkingParameter('rpContent') ? identity.getWorkingParameter('rpContent') : 'default'}/name-#{language.localeCode}.xhtml"/>
+    </h1>
     <h2>2-factor authentication</h2>
-    <p>Insert your security key and touch the button</p>
+    <p>Insert your security key and touch the button.</p>
     <h:messages style="color:red;" />
     <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false">
       <input type="hidden" name="username" value="${credentials.username}" />

@@ -8,14 +8,10 @@
     <f:viewAction action="#{authenticator.prepareAuthenticationForStep}" />
   </f:metadata>
 
-  <ui:param name="otherLanguage" value="enregistrer/terminer" />
+  <ui:param name="otherLanguage" value="enregistrer/termine" />
 
   <ui:define name="name">
     <ui:include src="/WEB-INF/incl/content/default/name-#{language.localeCode}.xhtml" />
-  </ui:define>
-
-  <ui:define name="help">
-    <ui:include src="/WEB-INF/incl/content/default/help-#{language.localeCode}.xhtml" />
   </ui:define>
 
   <ui:define name="content">
