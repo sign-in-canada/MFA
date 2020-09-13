@@ -550,15 +550,6 @@ class PersonAuthentication(PersonAuthenticationType):
     def loadOtpConfiguration(self, configurationAttributes):
         print "MFA. Load OTP configuration"
 
-        if not configurationAttributes.containsKey("issuer"):
-            print "MFA OTP. Initialization. Property issuer is mandatory"
-            return False
-        self.otpIssuer = configurationAttributes.get("issuer").getValue2()
-
-        self.customLabel = None
-        if configurationAttributes.containsKey("label"):
-            self.customLabel = configurationAttributes.get("label").getValue2()
-
         self.customQrOptions = {}
         if configurationAttributes.containsKey("qr_options"):
             self.customQrOptions = configurationAttributes.get("qr_options").getValue2()
@@ -621,13 +612,11 @@ class PersonAuthentication(PersonAuthenticationType):
         secretKey = self.generateSecretTotpKey()
 
         # Generate enrollment request and add it to the session for the QR code page
-
         locale = languageBean.getLocaleCode()[:2]
         issuer = identity.getWorkingParameter("rpShortName." + locale)
         totpEnrollmentRequest = self.generateTotpSecretKeyUri(secretKey, issuer, username)
         identity.setWorkingParameter("totpEnrollmentRequest", totpEnrollmentRequest)
-        if self.customLabel != None:
-            identity.setWorkingParameter("qrLabel", self.customLabel)
+        identity.setWorkingParameter("qrLabel", issuer)
 
         identity.setWorkingParameter("qrOptions", self.customQrOptions)
 
