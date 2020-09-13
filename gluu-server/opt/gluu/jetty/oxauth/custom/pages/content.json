@@ -6,22 +6,22 @@
     },
     "oidc:tbs_aors_uat" : {
         "content":"tbs_aors",
-        "shortName.en" : "ATIP-AORS",
-        "shortName.fr" : "AIPRP-SDAEL"
+        "shortName.en" : "AORS",
+        "shortName.fr" : "SDAEL"
     },
     "oidc:tbs_aomt_uat" : {
         "content":"tbs_aomt",
-        "shortName.en" : "ATIP-AOMT",
-        "shortName.fr" : "AIPRP-OGAEL"
+        "shortName.en" : "AOMT",
+        "shortName.fr" : "OGAEL"
     },
     "https://rp3.tbstest.catslab.ca" : {
         "content":"tbs_aomt",
-        "shortName.en" : "ATIP-AOMT",
-        "shortName.fr" : "AIPRP-SDAEL"
+        "shortName.en" : "AOMT",
+        "shortName.fr" : "OGAEL"
     },
     "https://rp4.tbstest.catslab.ca" : {
         "content":"tbs_aors",
-        "shortName.en" : "ATIP-AORS",
-        "shortName.fr" : "AIPRP-SDAEL"
+        "shortName.en" : "AORS",
+        "shortName.fr" : "SDAEL"
     }
 }
