@@ -28,7 +28,7 @@
 # ------------------
 #
 # "rpContent": Custom content identifier for the RP
-# "rpShortName": A short name for the RP
+# "rpShortName.en", "rpShortName.fr": A short name for the RP
 #
 # "flow": The active workflow. Values are "Authenticate" and "Register".
 #
@@ -191,11 +191,9 @@ class PersonAuthentication(PersonAuthenticationType):
                         if (relyingParty.find(contentKey) == 0):
                             customContent = self.customPageContent.get(contentKey)
                             break
-                identity.setWorkingParameter("rpContent", rpContent.get("content"))
-
-                locale = languageBean.getLocaleCode()[:2]
-                shortName = customContent.get("shortName." + locale)
-                identity.setWorkingParameter("rpShortName", shortName)
+                identity.setWorkingParameter("rpContent", customContent.get("content"))
+                identity.setWorkingParameter("rpShortName.en", customContent.get("shortName.en"))
+                identity.setWorkingParameter("rpShortName.fr", customContent.get("shortName.fr"))
             
             flow = identity.getWorkingParameter("flow")
             if (flow is None):
@@ -226,7 +224,7 @@ class PersonAuthentication(PersonAuthenticationType):
 
         # General Parameters
         parameters = ArrayList(Arrays.asList("userId", "flow", "authenticatorType",
-                                             "nextStep", "rpShortName", "rpContent"))
+                                             "nextStep", "rpShortName.en", "rpShortName.fr", "rpContent"))
         
         # Registration Parameters
         if (flow == "Register"):
@@ -242,8 +240,8 @@ class PersonAuthentication(PersonAuthenticationType):
         return parameters
 
     def getPageForStep(self, configurationAttributes, step):
-#        if REMOTE_DEBUG:
-#            pydevd.settrace('localhost', port=5678, stdoutToServer=True, stderrToServer=True)
+        if REMOTE_DEBUG:
+            pydevd.settrace('localhost', port=5678, stdoutToServer=True, stderrToServer=True)
 
         # Inject dependencies
         languageBean = CdiUtil.bean(LanguageBean)
@@ -281,7 +279,7 @@ class PersonAuthentication(PersonAuthenticationType):
             if (authenticatorType is None): # Aborted recovery
                 # Go back to the user profile to determine the authenticator
                 userId = identity.getWorkingParameter("userId")
-                user = userService.getUser(userId, "oxExternalUid")
+                user = userService.getUser(userId, "oxExternalUid", "secretAnswer")
                 authenticatorType = self.getAuthenticatorType(user, configurationAttributes)
 
         # See ../../i18n/oxauth_[lang].properties
@@ -612,6 +610,7 @@ class PersonAuthentication(PersonAuthenticationType):
         
         # Inject dependencies
         userService = CdiUtil.bean(UserService)
+        languageBean = CdiUtil.bean(LanguageBean)
 
         user = userService.getUser(username, "oxExternalUid")
         if (user is None):
@@ -622,7 +621,9 @@ class PersonAuthentication(PersonAuthenticationType):
         secretKey = self.generateSecretTotpKey()
 
         # Generate enrollment request and add it to the session for the QR code page
-        issuer = identity.getWorkingParameter("rpShortName")
+
+        locale = languageBean.getLocaleCode()[:2]
+        issuer = identity.getWorkingParameter("rpShortName." + locale)
         totpEnrollmentRequest = self.generateTotpSecretKeyUri(secretKey, issuer, username)
         identity.setWorkingParameter("totpEnrollmentRequest", totpEnrollmentRequest)
         if self.customLabel != None:
