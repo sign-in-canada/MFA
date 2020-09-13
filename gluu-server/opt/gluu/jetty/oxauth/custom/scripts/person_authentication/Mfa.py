@@ -208,6 +208,8 @@ class PersonAuthentication(PersonAuthenticationType):
                     self.prepareFidoRegistration(userId, identity)
                 elif (flow == "Authenticate" and step == 1):
                     self.prepareFidoAuthentication(userId, identity)
+            elif (flow == "Register" and authenticatorType == "TOTP" and step == 3):
+                self.prepareTOTPRegistration(userId, identity)
 
             return True
         except Exception as e:
@@ -230,7 +232,7 @@ class PersonAuthentication(PersonAuthenticationType):
         if (flow == "Register"):
             parameters.add("recoveryCode")
             if (authenticatorType == "TOTP" and step == 3):
-                parameters.addAll(Arrays.asList("totpEnrollmentRequest", "qrLabel", "qrOptions"))
+                parameters.addAll(Arrays.asList("totpEnrollmentRequest", "totpSecretKey", "qrLabel", "qrOptions"))
             if (authenticatorType == "FIDO" and step == 2):
                 parameters.add("fido_u2f_registration_request")
 
@@ -365,7 +367,6 @@ class PersonAuthentication(PersonAuthenticationType):
                 if (requestParameters.containsKey("TOTPinfo")):
                     if (requestParameters.containsKey("TOTPinfo:Continue")): # Happy Path
                         if (step != 2): identity.setWorkingParameter("nextStep", 3)
-                        return self.registerTOTP(requestParameters, userId, identity)
                     else: # We've gone off the happy path, restart registration
                         identity.setWorkingParameter("authenticatorType", None)
                         identity.setWorkingParameter("nextStep", 1)
@@ -373,7 +374,8 @@ class PersonAuthentication(PersonAuthenticationType):
                 elif (requestParameters.containsKey("TOTPscanQR")):
                     if (requestParameters.containsKey("TOTPscanQR:Continue")): # Happy Path
                         if (step != 3): identity.setWorkingParameter("nextStep", 4)
-                        return self.registerRecoveryCode(requestParameters, userId, identity)
+                        return (self.registerTOTP(requestParameters, userId, identity)
+                                and self.registerRecoveryCode(requestParameters, userId, identity))
                     elif (requestParameters.containsKey("TOTPscanQR:Back")): # Back Button
                         identity.setWorkingParameter("nextStep", 2)
                     else: # We've gone off the happy path, restart registration
@@ -596,17 +598,11 @@ class PersonAuthentication(PersonAuthenticationType):
 
         return True
         
-    def registerTOTP(self, requestParameters, username, identity):
-        print "MFA. registerTOTP called"
-        
-        # Inject dependencies
-        userService = CdiUtil.bean(UserService)
-        languageBean = CdiUtil.bean(LanguageBean)
+    def prepareTOTPRegistration(self, username, identity):
+        print "MFA. prepateTOTPRegistration called"
 
-        user = userService.getUser(username, "oxExternalUid")
-        if (user is None):
-            print "MFA. Register TOTP. Failed to find user"
-            return False
+        # Inject dependencies
+        languageBean = CdiUtil.bean(LanguageBean)
 
         # Generate a new secret
         secretKey = self.generateSecretTotpKey()
@@ -615,10 +611,23 @@ class PersonAuthentication(PersonAuthenticationType):
         locale = languageBean.getLocaleCode()[:2]
         issuer = identity.getWorkingParameter("rpShortName." + locale)
         totpEnrollmentRequest = self.generateTotpSecretKeyUri(secretKey, issuer, username)
+        
         identity.setWorkingParameter("totpEnrollmentRequest", totpEnrollmentRequest)
+        identity.setWorkingParameter("totpSecretKey", self.toBase64Url(secretKey))
         identity.setWorkingParameter("qrLabel", issuer)
-
         identity.setWorkingParameter("qrOptions", self.customQrOptions)
+
+
+    def registerTOTP(self, requestParameters, username, identity):
+        print "MFA. registerTOTP called"
+        
+        # Inject dependencies
+        userService = CdiUtil.bean(UserService)
+
+        user = userService.getUser(username, "oxExternalUid")
+        if (user is None):
+            print "MFA. Register TOTP. Failed to find user"
+            return False
 
         # Delete any old enrollments
         externalUids = userService.getCustomAttribute(user, "oxExternalUid")
@@ -629,11 +638,12 @@ class PersonAuthentication(PersonAuthenticationType):
                     updatedUser = userService.removeUserAttribute(username, "oxExternalUid", externalUid)
                     if (updatedUser is None):
                         print "MFA. Register TOTP. Failed to remove old enrollment"
-                        identity.setWorkingParameter("nextStep", -1) # Trigger the error page
+                        identity.setWorkingParameter("flow", "Error") # Trigger the error page
                         return False
 
         # Encrypt and add the new one
-        encryptedSecretKey = self.encryptAES(self.aesKey, self.toBase64Url(secretKey))
+        secretKey = identity.getWorkingParameter("totpSecretKey")
+        encryptedSecretKey = self.encryptAES(self.aesKey, secretKey)
         updatedUser = userService.addUserAttribute(username, "oxExternalUid", "totp:" + encryptedSecretKey)
         if (updatedUser is None):
             print "MFA. Register TOTP. Failed to updated user"
