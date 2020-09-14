@@ -281,7 +281,7 @@ class PersonAuthentication(PersonAuthenticationType):
             if (authenticatorType is None): # Aborted recovery
                 # Go back to the user profile to determine the authenticator
                 userId = identity.getWorkingParameter("userId")
-                user = userService.getUser(userId, "oxExternalUid", "secretAnswer")
+                user = userService.getUser(userId, "inum", "oxExternalUid", "secretAnswer")
                 authenticatorType = self.getAuthenticatorType(user, configurationAttributes)
 
         # See ../../i18n/oxauth_[lang].properties
