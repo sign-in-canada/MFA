@@ -160,27 +160,29 @@ class PersonAuthentication(PersonAuthenticationType):
 
         # Inject dependencies
         identity = CdiUtil.bean(Identity)
+        userService = CdiUtil.bean(UserService)
         languageBean = CdiUtil.bean(LanguageBean)
                 
         print "MFA. prepareForStep called for step '%s'" % step
         
         try:
             # Set up working parameters if needed
-            authenticatorType = identity.getWorkingParameter("authenticatorType")
             userId = identity.getWorkingParameter("userId")
             if (userId is None): # Session was just created. Initialize the working parameters
                 # Parse the login hint to get the paiwiseId
                 pairwiseId, relyingParty = self.parseLoginHint()
+                identity.setWorkingParameter("relyingParty", relyingParty)
     
                 # Retrieve the user account (again)
                 user = self.getUser(pairwiseId)
                 userId = user.getUserId()
-                
-                # Check for registered authenticators
-                authenticatorType = self.getAuthenticatorType(user, configurationAttributes)
-                
-                identity.setWorkingParameter("relyingParty", relyingParty)
                 identity.setWorkingParameter("userId", userId)
+                
+            authenticatorType = identity.getWorkingParameter("authenticatorType")
+            if (authenticatorType is None):
+                # Check for registered authenticators
+                user = userService.getUser(userId, "inum", "oxExternalUid", "secretAnswer")
+                authenticatorType = self.getAuthenticatorType(user, configurationAttributes)
                 identity.setWorkingParameter("authenticatorType", authenticatorType)
     
             rpContent = identity.getWorkingParameter("rpContent")
@@ -249,10 +251,12 @@ class PersonAuthentication(PersonAuthenticationType):
         languageBean = CdiUtil.bean(LanguageBean)
         userService = CdiUtil.bean(UserService)
         identity = CdiUtil.bean(Identity)
+        facesResources = CdiUtil.bean(FacesResources)
         
         session = identity.getSessionId()
 
-        locale = languageBean.getLocaleCode()[:2]
+        # Get the locale/language TODO: Redo this when upgrading to Gluu 4.2
+        locale = facesResources.getFacesContext().getViewRoot().getLocale().getLanguage()
         print "MFA: getPageForStep called for step '%s' and locale '%s'" % (step, locale)
         # Make sure it matches "en" or "fr"
         if (locale != "en" and locale != "fr"):
@@ -603,12 +607,14 @@ class PersonAuthentication(PersonAuthenticationType):
 
         # Inject dependencies
         languageBean = CdiUtil.bean(LanguageBean)
+        facesResources = CdiUtil.bean(FacesResources)
 
         # Generate a new secret
         secretKey = self.generateSecretTotpKey()
 
+        # Get the locale/language TODO: Redo this when upgrading to Gluu 4.2
+        locale = facesResources.getFacesContext().getViewRoot().getLocale().getLanguage()
         # Generate enrollment request and add it to the session for the QR code page
-        locale = languageBean.getLocaleCode()[:2]
         issuer = identity.getWorkingParameter("rpShortName." + locale)
         totpEnrollmentRequest = self.generateTotpSecretKeyUri(secretKey, issuer, username)
         
@@ -973,5 +979,3 @@ class PersonAuthentication(PersonAuthenticationType):
 
 class MFAError(Exception):
     pass
-
-    
