@@ -255,8 +255,7 @@ class PersonAuthentication(PersonAuthenticationType):
         
         session = identity.getSessionId()
 
-        # Get the locale/language TODO: Redo this when upgrading to Gluu 4.2
-        locale = facesResources.getFacesContext().getViewRoot().getLocale().getLanguage()
+        locale = languageBean.getLocaleCode()[:2]
         print "MFA: getPageForStep called for step '%s' and locale '%s'" % (step, locale)
         # Make sure it matches "en" or "fr"
         if (locale != "en" and locale != "fr"):
@@ -612,8 +611,7 @@ class PersonAuthentication(PersonAuthenticationType):
         # Generate a new secret
         secretKey = self.generateSecretTotpKey()
 
-        # Get the locale/language TODO: Redo this when upgrading to Gluu 4.2
-        locale = facesResources.getFacesContext().getViewRoot().getLocale().getLanguage()
+        locale = languageBean.getLocaleCode()[:2]
         # Generate enrollment request and add it to the session for the QR code page
         issuer = identity.getWorkingParameter("rpShortName." + locale)
         totpEnrollmentRequest = self.generateTotpSecretKeyUri(secretKey, issuer, username)
