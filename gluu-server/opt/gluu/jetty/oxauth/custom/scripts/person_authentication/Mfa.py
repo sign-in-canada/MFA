@@ -73,7 +73,7 @@ from java.util import Arrays, ArrayList
 from java.security import SecureRandom
 from javax.crypto import Cipher
 from javax.crypto.spec import SecretKeySpec, IvParameterSpec
-from javax.servlet.http import HttpServletResponse
+from javax.ws.rs.core import Response
 from java.util.concurrent import TimeUnit
 from org.bouncycastle.jce.provider import BouncyCastleProvider
 
@@ -785,7 +785,7 @@ class PersonAuthentication(PersonAuthenticationType):
                 break
             except ClientResponseFailure, ex:
                 # Detect if last try or we still get Service Unavailable HTTP error
-                if (attempt == max_attempts) or (ex.getResponse().getResponseStatus() != HttpServletResponse.SC_SERVICE_UNAVAILABLE):
+                if (attempt == max_attempts) or (ex.getResponse().getResponseStatus() != Response.Status.SERVICE_UNAVAILABLE):
                     raise ex
 
                 java.lang.Thread.sleep(3000)
@@ -794,9 +794,6 @@ class PersonAuthentication(PersonAuthenticationType):
                 # Detect if last try or we still get Service Unavailable HTTP error
                 if attempt == max_attempts:
                     raise ex
-
-                java.lang.Thread.sleep(3000)
-                print "Attempting to load metadata: %d" % attempt
 
         print "MFA. U2F Initialized successfully"
         return True
