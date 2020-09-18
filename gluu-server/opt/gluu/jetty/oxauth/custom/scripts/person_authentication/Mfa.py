@@ -134,6 +134,9 @@ class PersonAuthentication(PersonAuthenticationType):
         # Load FIDO Configuration
         self.loadFIDOConfiguration(configurationAttributes)
 
+        # Pool of characters for recovery codes
+        self.recoveryChars = "2346789abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRTUVWXYZ"
+
         print "MFA. Initialized successfully"
         return True
 
@@ -883,10 +886,9 @@ class PersonAuthentication(PersonAuthenticationType):
         # Inject dependencies
         userService = CdiUtil.bean(UserService)
 
-        alphanumeric = string.ascii_lowercase + string.digits
-        code1 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
-        code2 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
-        code3 = ''.join(random.SystemRandom().choice(alphanumeric) for _ in range( 4 ))
+        code1 = ''.join(random.SystemRandom().choice(self.recoveryChars) for _ in range( 4 ))
+        code2 = ''.join(random.SystemRandom().choice(self.recoveryChars) for _ in range( 4 ))
+        code3 = ''.join(random.SystemRandom().choice(self.recoveryChars) for _ in range( 4 ))
         code  = "%s-%s-%s" % (code1, code2, code3)
         identity.setWorkingParameter("recoveryCode", code)
 
