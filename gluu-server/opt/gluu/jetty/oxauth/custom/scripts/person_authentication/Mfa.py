@@ -802,6 +802,9 @@ class PersonAuthentication(PersonAuthenticationType):
                 if attempt == max_attempts:
                     raise ex
 
+                java.lang.Thread.sleep(3000)
+                print "Attempting to load metadata: %d" % attempt
+
         print "MFA. U2F Initialized successfully"
         return True
 
