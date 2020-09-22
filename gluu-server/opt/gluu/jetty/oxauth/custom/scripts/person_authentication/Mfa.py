@@ -60,7 +60,7 @@ from org.gluu.oxauth.i18n import LanguageBean
 from org.gluu.oxauth.model.common import User
 from org.oxauth.persistence.model import PairwiseIdentifier
 
-from org.jboss.resteasy.client import ClientResponseFailure
+from javax.ws.rs import WebApplicationException
 from org.jboss.resteasy.client.exception import ResteasyClientException
 
 from com.google.common.io import BaseEncoding
@@ -790,9 +790,9 @@ class PersonAuthentication(PersonAuthenticationType):
             try:
                 self.metaDataConfiguration = metaDataConfigurationService.getMetadataConfiguration()
                 break
-            except ClientResponseFailure, ex:
+            except WebApplicationException, ex:
                 # Detect if last try or we still get Service Unavailable HTTP error
-                if (attempt == max_attempts) or (ex.getResponse().getResponseStatus() != Response.Status.SERVICE_UNAVAILABLE):
+                if (attempt == max_attempts) or (ex.getResponse().getStatus() != Response.Status.SERVICE_UNAVAILABLE.getStatusCode()):
                     raise ex
 
                 java.lang.Thread.sleep(3000)
