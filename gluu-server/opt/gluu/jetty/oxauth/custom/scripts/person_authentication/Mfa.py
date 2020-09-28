@@ -75,7 +75,6 @@ from javax.crypto import Cipher
 from javax.crypto.spec import SecretKeySpec, IvParameterSpec
 from javax.ws.rs.core import Response
 from java.util.concurrent import TimeUnit
-from org.bouncycastle.jce.provider import BouncyCastleProvider
 
 import sys
 import java
@@ -955,7 +954,7 @@ class PersonAuthentication(PersonAuthenticationType):
         skeySpec = SecretKeySpec(key, "AES")
         ivspec = IvParameterSpec(iv)
         # setup cipher
-        cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", BouncyCastleProvider())
+        cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivspec)
         # encrypt the plaintext
         encryptedBytes = cipher.doFinal( toEncrypt.encode('utf-8') )
@@ -972,7 +971,7 @@ class PersonAuthentication(PersonAuthenticationType):
         skeySpec = SecretKeySpec(key, "AES")
         ivspec = IvParameterSpec(iv)
         # setup cipher
-        cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", BouncyCastleProvider())
+        cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
         cipher.init(Cipher.DECRYPT_MODE, skeySpec, ivspec)
         # decrypt the plaintext
         encodedBytes = base64.b64decode( b'' + encrypted )
