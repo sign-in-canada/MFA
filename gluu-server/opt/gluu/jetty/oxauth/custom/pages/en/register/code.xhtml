@@ -63,13 +63,13 @@
     </section>
 
     <h:messages style="color:red;" />
-    <br />
-    <form horizontal="true" jsf:id="RecoveryCodeConfirm" jsf:action="#{authenticator.authenticate}" class="form-horizontal">
-      <input jsf:id="Confirm" type="checkbox" class="checkmark" style="position:relative !important;" onchange="enableContinue(this)" />
-      <label style="color:#000" for="saved">
-        <strong>Yes, I have written down or printed the recovery code above.</strong>
+    <form jsf:id="RecoveryCodeConfirm" jsf:action="#{authenticator.authenticate}" class="form-horizontal">
+      <div style="font-size: 20px">
+      <label  for="RecoveryCodeConfirm:Confirm">
+        <input jsf:id="Confirm" type="checkbox" style="transform: scale(1.5)" onchange="enableContinue(this)" />
+        <strong>&#160;Yes, I have written down or printed the recovery code above.</strong>
       </label>
-      <br />
+      </div>
       <div class="cddol-lg-12">
         <nav class="mrgn-bttm-lg" role="navigation">
           <h2 class="wb-inv">Document navigation</h2>
