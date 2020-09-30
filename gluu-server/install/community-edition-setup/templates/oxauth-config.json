@@ -212,7 +212,7 @@
     "persistIdTokenInLdap":false,
     "persistRefreshTokenInLdap":true,
     "authenticationFiltersEnabled":false,
-    "invalidateSessionCookiesAfterAuthorizationFlow":true,
+    "invalidateSessionCookiesAfterAuthorizationFlow":false,
     "clientAuthenticationFiltersEnabled":false,
     "authenticationFilters":[
         {
