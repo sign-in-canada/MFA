@@ -6,6 +6,11 @@ systemctl stop httpd oxauth identity
 echo 'Enabling the keyvault service...'
 systemctl enable keyvault
 
+echo 'Installing audit logging patch...'
+pushd /opt/dist/gluu/patch > /dev/null 2>&1
+zip -u /opt/gluu/jetty/oxauth/webapps/oxauth.war WEB-INF/classes/org/gluu/oxauth/audit/ApplicationAuditLogger.class
+popd > /dev/null 2>&1
+
 echo 'Installing the application insights SDK...'
 install -m 644 -o jetty -g jetty /opt/dist/signincanada/applicationinsights-web-auto-2.6.1.jar /opt/gluu/jetty/oxauth/custom/libs
 
