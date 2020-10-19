@@ -4,12 +4,12 @@
         "shortName.en" : "Canada",
         "shortName.fr" : "Canada"
     },
-    "oidc:tbs_aors_uat" : {
+    "oidc:tbs_atip_aors_uat" : {
         "content":"tbs_aors",
         "shortName.en" : "AORS",
         "shortName.fr" : "SDAEL"
     },
-    "oidc:tbs_aomt_uat" : {
+    "oidc:tbs_atip_aomt_uat" : {
         "content":"tbs_aomt",
         "shortName.en" : "AOMT",
         "shortName.fr" : "OGAEL"
