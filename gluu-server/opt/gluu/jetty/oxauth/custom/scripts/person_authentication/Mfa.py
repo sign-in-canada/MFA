@@ -257,7 +257,7 @@ class PersonAuthentication(PersonAuthenticationType):
         
         session = identity.getSessionId()
 
-        locale = languageBean.getLocaleCode()[:2]
+        locale = facesResources.getFacesContext().getViewRoot().getLocale().getLanguage()
         print "MFA: getPageForStep called for step '%s' and locale '%s'" % (step, locale)
         # Make sure it matches "en" or "fr"
         if (locale != "en" and locale != "fr"):
