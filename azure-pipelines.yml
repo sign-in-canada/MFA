@@ -49,7 +49,7 @@ steps:
     wget https://ox.gluu.org/maven/org/gluu/oxauth-server/4.1.3.Final/oxauth-server-4.1.3.Final.war \
       -O $(Agent.TempDirectory)/oxauth.war
     echo 'Checking download integrity'
-    echo "2f8fb580257ed4076291f96fe79eec3fcb303d710eae3cad1500de0e6d189aaf" $(Agent.TempDirectory)/oxauth.war | sha256sum -c
+    echo "657da0181c34041bfceedef9f0f33b923c50de0d5a3c8c6f973b57c8b1b6c937" $(Agent.TempDirectory)/oxauth.war | sha256sum -c
     result=$?
     if [ $result -ne 0 ] ; then
        echo "Failed"
