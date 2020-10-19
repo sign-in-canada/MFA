@@ -190,6 +190,7 @@ class PersonAuthentication(PersonAuthenticationType):
             rpContent = identity.getWorkingParameter("rpContent")
             if (rpContent is None):
                 # Load the UI customization for the RP
+                relyingParty = identity.getWorkingParameter("relyingParty")
                 customContent = self.customPageContent.get("_default")
                 for contentKey in self.customPageContent.keys():
                         if (relyingParty.find(contentKey) == 0):
