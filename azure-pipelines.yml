@@ -81,7 +81,7 @@ steps:
     chmod 755 gluu-server/opt/dist/scripts/notify
     chmod 700 gluu-server/install/community-edition-setup/setup.py
     pushd gluu-server
-    tar -czv --owner=root --group=root -f $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz --exclude='opt/gluu' etc install opt
+    tar -czv --owner=root --group=root -f $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz --exclude='opt/gluu' etc install opt usr
     openssl sha256 $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz > $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz.sha
     popd
   displayName: 'Packaging tarball'
