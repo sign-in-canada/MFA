@@ -49,7 +49,7 @@ steps:
     wget https://ox.gluu.org/maven/org/gluu/oxauth-server/4.1.3.Final/oxauth-server-4.1.3.Final.war \
       -O $(Agent.TempDirectory)/oxauth.war
     echo 'Checking download integrity'
-    echo "657da0181c34041bfceedef9f0f33b923c50de0d5a3c8c6f973b57c8b1b6c937" $(Agent.TempDirectory)/oxauth.war | sha256sum -c
+    echo "2ead69f20ad03be242fc85bfb24583e04ca26f479b7b77a0a3abe0d8d37c08b2" $(Agent.TempDirectory)/oxauth.war | sha256sum -c
     result=$?
     if [ $result -ne 0 ] ; then
        echo "Failed"
@@ -62,15 +62,26 @@ steps:
   displayName: 'Obtaining audit log patch'
   continueOnError: false
 
+- task: DownloadPipelineArtifact@2
+  inputs:
+    buildType: 'specific'
+    project: '7302639f-e704-47c3-9557-99b4e04a75bc'
+    pipeline: '351'
+    buildVersionToDownload: 'latest'
+    artifactName: 'node-services'
+    targetPath: '$(Pipeline.Workspace)/s/gluu-server/opt/dist/signincanada'
+  displayName: 'Downloading node-services tarball'
+ 
 - script: |
     echo 'packaging tarball'
     chmod 755 $(find . -type d -print)
     chmod 644 $(find . -type f -print)
     chmod 700 gluu-server/opt/dist/signincanada/postinstall.sh
     chmod 700 gluu-server/opt/dist/scripts/azure/keyvault.sh
+    chmod 755 gluu-server/opt/dist/scripts/notify
     chmod 700 gluu-server/install/community-edition-setup/setup.py
     pushd gluu-server
-    tar -czv --owner=root --group=root -f $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz --exclude='opt/gluu' etc install opt
+    tar -czv --owner=root --group=root -f $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz --exclude='opt/gluu' etc install opt usr
     openssl sha256 $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz > $(Build.ArtifactStagingDirectory)/SIC-MFA-0.0.$(minor).tgz.sha
     popd
   displayName: 'Packaging tarball'
