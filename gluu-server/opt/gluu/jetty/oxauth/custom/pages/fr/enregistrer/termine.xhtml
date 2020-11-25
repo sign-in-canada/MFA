@@ -23,13 +23,12 @@
     </section>
     <h:messages style="color:red;" />
     <p>Vous pouvez maintenant accéder aux services d’AIPRP en ligne.</p>
-
+    <br />
     <form jsf:id="Success" class="form-horizontal">
       <input jsf:id="mfachoice" type="hidden" value="#{acrname}" class="form-control" autocomplete="off" />
       <nav class="mrgn-bttm-lg" role="navigation">
         <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
-          <br />
           <li class="pull-right">
             <button jsf:id="Continue" class="btn btn-primary" rel="next" type="submit"
               jsf:action="#{authenticator.authenticate}">Accédez aux services d’${identity.getWorkingParameter('rpShortName.fr')}</button>
