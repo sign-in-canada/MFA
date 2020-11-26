@@ -19,7 +19,7 @@
     <h1 property="name" id="wb-cont">Secure your account</h1>
     <h2>Set up your security key</h2>
     <p>Insert your security key and touch the button.</p>
-    <h:messages style="color:red;" />
+    <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
     <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false">
       <input type="hidden" name="FIDOregister"/>
       <input type="hidden" name="tokenResponse" id="tokenResponse" />

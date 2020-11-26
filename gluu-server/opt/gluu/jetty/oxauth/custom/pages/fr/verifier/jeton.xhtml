@@ -17,7 +17,7 @@
     </h1>
     <h2>Authentification à deux facteurs</h2>
     <p>Branchez votre clé de sécurité et appuyez sur le bouton.</p>
-    <h:messages style="color:red;" />
+    <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
     <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false">
       <input type="hidden" name="username" value="${credentials.username}" />
       <input type="hidden" name="authMethod" id="authMethod" />

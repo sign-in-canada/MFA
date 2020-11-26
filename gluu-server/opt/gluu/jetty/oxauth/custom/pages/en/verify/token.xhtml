@@ -25,7 +25,7 @@
     </h1>
     <h2>2-factor authentication</h2>
     <p>Insert your security key and touch the button.</p>
-    <h:messages style="color:red;" />
+    <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
     <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false">
       <input type="hidden" name="username" value="${credentials.username}" />
       <input type="hidden" name="authMethod" id="authMethod" />
