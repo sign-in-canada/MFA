@@ -912,10 +912,7 @@ class PersonAuthentication(PersonAuthenticationType):
         if (authenticationProtectionService.isEnabled()):
             authenticationProtectionService.doDelayIfNeeded(username)
 
-        code1 = ServerUtil.getFirstValue(requestParameters, "Recover:recoveryCode1")
-        code2 = ServerUtil.getFirstValue(requestParameters, "Recover:recoveryCode2")
-        code3 = ServerUtil.getFirstValue(requestParameters, "Recover:recoveryCode3")
-        givenCode = "%s-%s-%s" % (code1, code2, code3)
+        recoveryCode = ServerUtil.getFirstValue(requestParameters, "Recover:recoveryCode")
 
         user = userService.getUser(username, "secretAnswer")
         secretAnswers = userService.getCustomAttribute(user, "secretAnswer")
@@ -923,7 +920,7 @@ class PersonAuthentication(PersonAuthenticationType):
         if (secretAnswers is not None):
             for secretAnswer in secretAnswers.getValues():
                 code = self.decryptAES(self.aesKey, secretAnswer)
-                if (StringHelper.equals(code, givenCode)):
+                if (StringHelper.equals(code, recoveryCode)):
                     if (authenticationProtectionService.isEnabled()):
                         authenticationProtectionService.storeAttempt(username, True)
                     return True
