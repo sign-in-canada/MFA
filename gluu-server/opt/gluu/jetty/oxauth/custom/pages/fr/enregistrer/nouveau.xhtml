@@ -17,32 +17,32 @@
 
   <ui:define name="content">
     <h1 property="name" id="wb-cont">Sécurisez votre compte</h1>
-    <ui:include src="/WEB-INF/incl/content/#{not empty identity.getWorkingParameter('rpContent') ? identity.getWorkingParameter('rpContent') : 'default'}/intro-#{language.localeCode}.xhtml"/>
+    <ui:include src="/WEB-INF/incl/content/#{not empty identity.getWorkingParameter('rpContent') ? identity.getWorkingParameter('rpContent') : 'default'}/intro-#{language.localeCode}.xhtml" />
     <div class="row wb-eqht">
       <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
       <form jsf:id="MFAchooser" class="form-horizontal">
-        <div class="cddol-lg-12">
-          <input jsf:id="mfachoice" type="hidden" value="#{acrname}" class="form-control" autocomplete="off" />
-          <div class="col-md-6">
-            <section class="panel panel-default hght-inhrt">
-              <header class="panel-heading">
-                <h2 class="h3 mrgn-tp-sm text-center">Utilisez votre téléphone intelligent ou tablette</h2>
-              </header>
-              <div class="panel-body">
-                <p class="text-center">
-                  <img src="/oxauth/ext/resources/smartphone.png" alt="téléphone intelligent" />
-                </p>
-                <p class="text-center">
-                  <button jsf:id="TOTP" type="submit" class="btn-primary"
-                          jsf:action="#{authenticator.authenticate}">
+        <input jsf:id="mfachoice" type="hidden" value="#{acrname}" class="form-control" autocomplete="off" />
+        <div class="col-md-5">
+          <section class="panel panel-default hght-inhrt">
+            <header class="panel-heading">
+              <h2 class="h3 mrgn-tp-sm text-center">Utilisez votre téléphone intelligent ou tablette</h2>
+            </header>
+            <div class="panel-body">
+              <p class="text-center">
+                <img src="/oxauth/ext/resources/smartphone.png" alt="téléphone intelligent" />
+              </p>
+              <p class="text-center">
+                <button jsf:id="TOTP" type="submit" class="btn-primary" jsf:action="#{authenticator.authenticate}">
                           Configurez votre appareil mobile
                   </button>
-                </p>
-              </div>
-            </section>
-          </div>
+              </p>
+            </div>
+          </section>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2">
+          <p class="h3 mrgn-tp-sm text-center">OU</p>
+        </div>
+        <div class="col-md-5">
           <section class="panel panel-default hght-inhrt">
             <header class="panel-heading">
               <h2 class="h3 mrgn-tp-sm text-center">Utilisez votre clé de sécurité</h2>
@@ -52,8 +52,7 @@
                 <img src="/oxauth/ext/resources/yubikey.png" alt="clé de sécurité" />
               </p>
               <p class="text-center">
-                <button jsf:id="FIDO" type="submit" class="btn-primary"
-                        jsf:action="#{authenticator.authenticate}">
+                <button jsf:id="FIDO" type="submit" class="btn-primary" jsf:action="#{authenticator.authenticate}">
                         Configurez votre clé de sécurité 
                 </button>
               </p>
@@ -62,7 +61,6 @@
         </div>
       </form>
     </div>
-
   </ui:define>
 
   <ui:define name="scripts">
