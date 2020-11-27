@@ -69,21 +69,19 @@
     <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
     <form jsf:id="RecoveryCodeConfirm" jsf:action="#{authenticator.authenticate}" class="form-horizontal">
       <div style="font-size: 20px">
-      <label  for="RecoveryCodeConfirm:Confirm">
-        <input jsf:id="Confirm" type="checkbox" style="transform: scale(1.5)" onchange="enableContinue(this)" />
-        <strong>&#160;Oui, j’ai pris en note ou imprimé le code de récupération ci-dessus.</strong>
-      </label>
+        <label for="RecoveryCodeConfirm:Confirm">
+          <input jsf:id="Confirm" type="checkbox" style="transform: scale(1.5)" onchange="enableContinue(this)" />
+          <strong>&#160;Oui, j’ai pris en note ou imprimé le code de récupération ci-dessus.</strong>
+        </label>
       </div>
-      <div class="cddol-lg-12">
-        <nav class="mrgn-bttm-lg" role="navigation">
-          <h2 class="wb-inv">Document navigation</h2>
-          <ul class="pager">
-            <li class="pull-right">
-              <button jsf:id="Continue" class="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continuer</button>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      <nav class="mrgn-bttm-lg" role="navigation">
+        <h2 class="wb-inv">Document navigation</h2>
+        <ul class="pager">
+          <li class="pull-right">
+            <button jsf:id="Continue" class="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continuer</button>
+          </li>
+        </ul>
+      </nav>
     </form>
   </ui:define>
 
