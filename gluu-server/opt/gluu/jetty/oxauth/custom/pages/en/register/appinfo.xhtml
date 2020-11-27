@@ -60,15 +60,16 @@
     <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
     <form jsf:id="TOTPinfo" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <nav class="mrgn-bttm-lg" role="navigation">
+        <h2 class="wb-inv">Navigation</h2>
         <ul class="pager">
           <li class="pull-left">
-            <button jsf:id="Back" class="btn btn-default"
+            <button jsf:id="Back" class="btn btn-default" rel="prev"
                     jsf:action="#{authenticator.authenticate}">
               Back
             </button>
           </li>
           <li class="pull-right">
-            <button jsf:id="Continue" class="btn btn-primary"
+            <button jsf:id="Continue" class="btn btn-primary" rel="next"
                     jsf:action="#{authenticator.authenticate}">
               Continue
             </button>
