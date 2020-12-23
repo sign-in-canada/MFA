@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse-pydev version="1.0"?><pydev_project>
+                    
+    
+    
+    
+    <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
+                                        
+        
+        
+        
+        <path>/${PROJECT_DIR_NAME}</path>
+                                    
+    
+    
+    
+    </pydev_pathproperty>
+                    
+    
+    
+    
+    <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">jython interpreter</pydev_property>
+                    
+    
+    
+    
+    <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
+                    
+    
+    
+    
+    <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
+        <path>C:\Users\dharris\Work\Gluu\oxCore\oxModel\target\oxcore-model-4.2.1.Final.jar</path>
+        <path>C:\Users\dharris\Work\Gluu\oxAuth\Server\target\oxauth-server.jar</path>
+        <path>C:\Users\dharris\Work\Gluu\oxAuth\Model\target\oxauth-model.jar</path>
+        <path>C:\Users\dharris\Work\Gluu\oxAuth\common\target\oxauth-common.jar</path>
+        <path>C:\Users\dharris\.m2\repository\com\lochbridge\oath\oath-otp\0.0.1-SNAPSHOT\oath-otp-0.0.1-SNAPSHOT.jar</path>
+        <path>C:\Users\dharris\.m2\repository\com\lochbridge\oath\oath-otp-keyprovisioning\0.0.1-SNAPSHOT\oath-otp-keyprovisioning-0.0.1-SNAPSHOT.jar</path>
+        <path>C:\Users\dharris\Work\Gluu\oxCore\oxService\target\oxcore-service-4.2.1.Final.jar</path>
+        <path>C:\Users\dharris\Work\Gluu\oxCore\oxUtil\target\oxcore-util-4.2.1.Final.jar</path>
+        <path>C:\Users\dharris\Work\Gluu\oxAuth\persistence-model\target\oxauth-persistence-model.jar</path>
+        <path>C:\Users\dharris\.m2\repository\org\bouncycastle\bcprov-jdk15on\1.64\bcprov-jdk15on-1.64.jar</path>
+        <path>C:\Users\dharris\.m2\repository\org\bouncycastle\bcpkix-jdk15on\1.64\bcpkix-jdk15on-1.64.jar</path>
+        <path>C:\Users\dharris\.m2\repository\com\google\guava\guava\19.0\guava-19.0.jar</path>
+        <path>C:\Users\dharris\Work\Gluu\oxCore\oxJsfUtil\target\oxcore-jsf-util-4.2.1.Final.jar</path>
+        <path>C:\Users\dharris\.m2\repository\javax\javaee-api\8.0\javaee-api-8.0.jar</path>
+        <path>C:\Users\dharris\Work\Gluu\oxAuth\Client\target\oxauth-client-jar-with-dependencies.jar</path>
+        <path>C:\Users\dharris\.m2\repository\javax\ws\rs\javax.ws.rs-api\2.1\javax.ws.rs-api-2.1.jar</path>
+        <path>C:\Users\dharris\Work\Gluu\oxCore\core-script\target\oxcore-script-4.2.1.Final.jar</path>
+    </pydev_pathproperty>
+                
+
+
+
+</pydev_project>

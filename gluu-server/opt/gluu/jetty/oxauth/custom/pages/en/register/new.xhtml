@@ -16,44 +16,42 @@
   </ui:define>
 
   <ui:define name="content">
-    <h1>Secure your account</h1>
-    <ui:include src="/WEB-INF/incl/content/#{not empty identity.getWorkingParameter('rpContent') ? identity.getWorkingParameter('rpContent') : 'default'}/intro-#{language.localeCode}.xhtml"/>
+    <h1 property="name" id="wb-cont">Secure your account</h1>
+    <ui:include src="/WEB-INF/incl/content/#{not empty identity.getWorkingParameter('rpContent') ? identity.getWorkingParameter('rpContent') : 'default'}/intro-#{language.localeCode}.xhtml" />
     <div class="row wb-eqht">
-      <h:messages style="color:red;" />
+      <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
       <form jsf:id="MFAchooser" class="form-horizontal">
-        <div class="cddol-lg-12">
-          <input jsf:id="mfachoice" type="hidden" value="#{acrname}" class="form-control" autocomplete="off" />
-          <div class="col-md-6">
-            <section class="panel panel-default hght-inhrt">
-              <header class="panel-heading">
-                <h2 class="h3 mrgn-tp-sm text-center">Use your smartphone or tablet (recommended)</h2>
-              </header>
-              <div class="panel-body">
-                <p class="text-center">
-                  <img src="/oxauth/ext/resources/smartphone.png" alt="Phone" />
-                </p>
-                <p class="text-center">
-                  <button jsf:id="TOTP" type="submit" class="btn-primary"
-                          jsf:action="#{authenticator.authenticate}">
+        <div class="col-md-5">
+          <section class="panel panel-default hght-inhrt">
+            <header class="panel-heading">
+              <h2 class="h3 mrgn-tp-sm text-center">Use your smartphone or tablet (recommended)</h2>
+            </header>
+            <div class="panel-body">
+              <p class="text-center">
+                <img src="/oxauth/ext/resources/smartphone.png" alt="Phone" />
+              </p>
+              <p class="text-center">
+                <button jsf:id="TOTP" type="submit" class="btn-primary" jsf:action="#{authenticator.authenticate}">
                           Set up your mobile device
                   </button>
-                </p>
-              </div>
-            </section>
-          </div>
+              </p>
+            </div>
+          </section>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2">
+          <p class="h3 mrgn-tp-sm text-center">OR</p>
+        </div>
+        <div class="col-md-5">
           <section class="panel panel-default hght-inhrt">
             <header class="panel-heading">
               <h2 class="h3 mrgn-tp-sm text-center">Use your security key</h2>
             </header>
             <div class="panel-body">
               <p class="text-center">
-                <img src="/oxauth/ext/resources/yubikey.png" alt="Token" />
+                <img src="/oxauth/ext/resources/yubikey.png" alt="Security Key" />
               </p>
               <p class="text-center">
-                <button jsf:id="FIDO" type="submit" class="btn-primary"
-                        jsf:action="#{authenticator.authenticate}">
+                <button jsf:id="FIDO" type="submit" class="btn-primary" jsf:action="#{authenticator.authenticate}">
                      Set up your security key
                 </button>
               </p>
@@ -62,7 +60,6 @@
         </div>
       </form>
     </div>
-
   </ui:define>
 
   <ui:define name="scripts">

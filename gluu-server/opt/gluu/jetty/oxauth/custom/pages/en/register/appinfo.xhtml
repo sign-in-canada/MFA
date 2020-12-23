@@ -16,7 +16,7 @@
   </ui:define>
 
   <ui:define name="content">
-    <h1>Secure your account</h1>
+    <h1 property="name" id="wb-cont">Secure your account</h1>
     <h2>Prepare your mobile device</h2>
 
     <p>You can use an app on your mobile device (smartphone or tablet) as a second factor.</p>
@@ -33,7 +33,7 @@
       </li>
     </ul>
 
-    <h3 class="h3">Don’t have an app?</h3>
+    <h3>Don’t have an app?</h3>
     <p>Install a free authenticator app on your mobile device.</p>
     <ul class="list-unstyled">
       <li>
@@ -48,7 +48,7 @@
       </li>
     </ul>
 
-    <h3 class="h3">Already have an authenticator app installed? </h3>
+    <h3>Already have an authenticator app installed? </h3>
     <p>Open the authenticator app on your device and prepare to add your ATIP account:</p>
     <ol>
       <li>On most apps, you tap on a plus (+) sign to add a new account</li>
@@ -56,19 +56,20 @@
     </ol>
 
     <p>Once you are ready to scan a QR code, continue to the next page.</p>
-    <h:messages style="color:red;" />
+    <br />
+    <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
     <form jsf:id="TOTPinfo" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <nav class="mrgn-bttm-lg" role="navigation">
+        <h2 class="wb-inv">Navigation</h2>
         <ul class="pager">
-          <br />
           <li class="pull-left">
-            <button jsf:id="Back" class="btn btn-default"
+            <button jsf:id="Back" class="btn btn-default" rel="prev"
                     jsf:action="#{authenticator.authenticate}">
               Back
             </button>
           </li>
           <li class="pull-right">
-            <button jsf:id="Continue" class="btn btn-primary"
+            <button jsf:id="Continue" class="btn btn-primary" rel="next"
                     jsf:action="#{authenticator.authenticate}">
               Continue
             </button>

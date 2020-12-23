@@ -16,20 +16,19 @@
   </ui:define>
 
   <ui:define name="content">
-    <h1>Sécurisez votre compte</h1>
+    <h1 property="name" id="wb-cont">Sécurisez votre compte</h1>
     <section class="alert alert-success">
-      <h3 property="name" id="wb-cont">Configuration terminée</h3>
+      <h2>Configuration terminée</h2>
       <p>Vous avez configuré avec succès l’authentification à deux facteurs pour sécuriser votre compte.</p>
     </section>
-    <h:messages style="color:red;" />
+    <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
     <p>Vous pouvez maintenant accéder aux services d’AIPRP en ligne.</p>
-
+    <br />
     <form jsf:id="Success" class="form-horizontal">
       <input jsf:id="mfachoice" type="hidden" value="#{acrname}" class="form-control" autocomplete="off" />
       <nav class="mrgn-bttm-lg" role="navigation">
-        <h2 class="wb-inv">Document navigation</h2>
+        <h2 class="wb-inv">Navigation</h2>
         <ul class="pager">
-          <br />
           <li class="pull-right">
             <button jsf:id="Continue" class="btn btn-primary" rel="next" type="submit"
               jsf:action="#{authenticator.authenticate}">Accédez aux services d’${identity.getWorkingParameter('rpShortName.fr')}</button>

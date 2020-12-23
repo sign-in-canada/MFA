@@ -16,7 +16,7 @@
   </ui:define>
 
   <ui:define name="content">
-    <h1>Sécurisez votre compte</h1>
+    <h1 property="name" id="wb-cont">Sécurisez votre compte</h1>
     <h2>Préparez votre appareil mobile</h2>
 
     <p>Vous pouvez utiliser une application sur votre appareil mobile (téléphone intelligent ou tablette) comme second facteur.</p>
@@ -34,7 +34,7 @@
       </li>
     </ul>
 
-    <h3 class="h3">Vous n’avez pas d’application?</h3>
+    <h3>Vous n’avez pas d’application?</h3>
     <p>Installez une application d’authentification gratuite sur votre appareil mobile.</p>
     <ul class="list-unstyled">
       <li>
@@ -49,7 +49,7 @@
       </li>
     </ul>
 
-    <h3 class="h3">Vous avez déjà installé une application d’authentification?</h3>
+    <h3>Vous avez déjà installé une application d’authentification?</h3>
     <p>Ouvrez l’application d’authentification sur votre appareil et ajoutez votre compte d’AIPRP en ligne :</p>
     <ol>
       <li>dans la majorité des applications, appuyez sur le signe « + » pour ajouter un nouveau compte;</li>
@@ -57,19 +57,20 @@
     </ol>
 
     <p>Passez à la page suivante lorsque vous êtes prêt à balayer un code QR.</p>
-    <h:messages style="color:red;" />
+    <br />
+    <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
     <form jsf:id="TOTPinfo" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <nav class="mrgn-bttm-lg" role="navigation">
+        <h2 class="wb-inv">Navigation</h2>
         <ul class="pager">
-          <br />
           <li class="pull-left">
-            <button jsf:id="Back" class="btn btn-default"
+            <button jsf:id="Back" class="btn btn-default" rel="prev"
                     jsf:action="#{authenticator.authenticate}">
                     Précédente
             </button>
           </li>
           <li class="pull-right">
-            <button jsf:id="Continue" class="btn btn-primary"
+            <button jsf:id="Continue" class="btn btn-primary" rel="next"
                     jsf:action="#{authenticator.authenticate}">
                     Continuer 
             </button>

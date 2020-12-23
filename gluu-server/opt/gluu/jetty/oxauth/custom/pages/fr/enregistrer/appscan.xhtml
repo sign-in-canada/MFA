@@ -63,7 +63,7 @@
   </ui:define>
 
   <ui:define name="content">
-    <h1>Sécurisez votre compte</h1>
+    <h1 property="name" id="wb-cont">Sécurisez votre compte</h1>
     <h2>Balayez le code QR</h2>
     <ol>
       <li>Pointez la caméra de votre appareil sur l’image ci-dessous.</li>
@@ -72,7 +72,7 @@
     </ol>
 
     <form jsf:id="TOTPscanQR" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
-      <h:messages style="color:red;" />
+      <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
       <div class="row wb-eqht">
         <section class="panel panel-default">
           <div class="panel-body text-center">
@@ -83,15 +83,15 @@
         </section>
       </div>
 
+      <br />
       <nav class="mrgn-bttm-lg" role="navigation">
-        <h2 class="wb-inv">Document navigation</h2>
+        <h2 class="wb-inv">Navigation</h2>
         <ul class="pager">
-          <br />
           <li class="pull-left">
-            <button jsf:id="Back" class="btn btn-default" jsf:action="#{authenticator.authenticate}" >Précédente</button>
+            <button jsf:id="Back" class="btn btn-default" rel="prev" jsf:action="#{authenticator.authenticate}" >Précédente</button>
           </li>
           <li class="pull-right">
-            <button jsf:id="Continue" class="btn btn-primary" jsf:action="#{authenticator.authenticate}">Continuer</button>
+            <button jsf:id="Continue" class="btn btn-primary" rel="next" jsf:action="#{authenticator.authenticate}">Continuer</button>
           </li>
         </ul>
       </nav>

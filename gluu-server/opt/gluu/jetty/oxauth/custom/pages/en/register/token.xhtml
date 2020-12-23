@@ -16,17 +16,17 @@
   </ui:define>
 
   <ui:define name="content">
-    <h1>Secure your account</h1>
+    <h1 property="name" id="wb-cont">Secure your account</h1>
     <h2>Set up your security key</h2>
     <p>Insert your security key and touch the button.</p>
-    <h:messages style="color:red;" />
+    <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
     <form method="post" action="#{request.contextPath}/postlogin.htm" id="u2f_form" onsubmit="return false">
       <input type="hidden" name="FIDOregister"/>
       <input type="hidden" name="tokenResponse" id="tokenResponse" />
     </form>
     <div class="row">
       <div class="col-md-5">
-        <img src="/oxauth/ext/resources/yubikeyincomputer.png" alt="" />
+        <img src="/oxauth/ext/resources/yubikeyincomputer.png" alt="Inserted Security Key" />
       </div>
       <div class="login-panel">
         <h:panelGroup rendered="#{fido_u2f_authentication_request != 'null'}"></h:panelGroup>
@@ -38,11 +38,11 @@
         <button class="btn btn-default" onclick="startRegistration()">Retry</button>
       </div>
     </div>
+    <br />
     <form jsf:id="FIDOregister" class="form-horizontal" jsf:action="#{authenticator.authenticate}">
       <nav class="mrgn-bttm-lg" role="navigation">
         <h2 class="wb-inv">Document navigation</h2>
         <ul class="pager">
-          <br />
           <li class="pull-left">
             <button jsf:id="Back" class="btn btn-default" jsf:action="#{authenticator.authenticate}">Back</button>
           </li>
