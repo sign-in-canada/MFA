@@ -16,20 +16,19 @@
   </ui:define>
 
   <ui:define name="content">
-    <h1>Secure your account</h1>
+    <h1 property="name" id="wb-cont">Secure your account</h1>
     <section class="alert alert-success">
-      <h3 property="name" id="wb-cont">Setup complete</h3>
+      <h2>Setup complete</h2>
       <p>You have successfully set up 2-factor authentication to secure your account.</p>
     </section>
-    <h:messages style="color:red;" />
+    <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
     <p>You can now continue to ATIP Online.</p>
-
+    <br />
     <form jsf:id="Success" class="form-horizontal">
       <input jsf:id="mfachoice" type="hidden" value="#{acrname}" class="form-control" autocomplete="off" />
       <nav class="mrgn-bttm-lg" role="navigation">
-        <h2 class="wb-inv">Document navigation</h2>
+        <h2 class="wb-inv">Navigation</h2>
         <ul class="pager">
-          <br />
           <li class="pull-right">
             <button jsf:id="Continue" class="btn btn-primary" rel="next" type="submit"
               jsf:action="#{authenticator.authenticate}">Continue to ${identity.getWorkingParameter('rpShortName.en')}</button>

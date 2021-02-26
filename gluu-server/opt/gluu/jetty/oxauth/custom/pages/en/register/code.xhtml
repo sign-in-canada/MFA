@@ -16,13 +16,13 @@
   </ui:define>
 
   <ui:define name="content">
-    <h1>Secure your account</h1>
+    <h1 property="name" id="wb-cont">Secure your account</h1>
     <h2>Record your recovery code</h2>
     <p>You must record this recovery code to protect your account. Keep it somewhere safe but accessible.</p>
     <p><strong>This is your recovery code:</strong></p>
     <div class="row">
       <div class="col-md-4 col-md-offset-3 brdr-lft brdr-rght brdr-tp brdr-bttm">
-        <h2 class="center-text" align="middle">#{identity.getWorkingParameter('recoveryCode')}</h2>
+        <p class="h2 text-center">#{identity.getWorkingParameter('recoveryCode')}</p>
         <br/>
       </div>
     </div>
@@ -62,24 +62,22 @@
       <p>In the wrong hands, this code could be misused to compromise your account. You are responsible for its safekeeping.</p>
     </section>
 
-    <h:messages style="color:red;" />
+    <h:messages styleClass="list-unstyled label label-danger wb-server-error" />
     <form jsf:id="RecoveryCodeConfirm" jsf:action="#{authenticator.authenticate}" class="form-horizontal">
       <div style="font-size: 20px">
-      <label  for="RecoveryCodeConfirm:Confirm">
-        <input jsf:id="Confirm" type="checkbox" style="transform: scale(1.5)" onchange="enableContinue(this)" />
-        <strong>&#160;Yes, I have written down or printed the recovery code above.</strong>
-      </label>
+        <label for="RecoveryCodeConfirm:Confirm">
+          <input jsf:id="Confirm" type="checkbox" style="transform: scale(1.5)" onchange="enableContinue(this)" />
+          <strong>&#160;Yes, I have written down or printed the recovery code above.</strong>
+        </label>
       </div>
-      <div class="cddol-lg-12">
-        <nav class="mrgn-bttm-lg" role="navigation">
-          <h2 class="wb-inv">Document navigation</h2>
-          <ul class="pager">
-            <li class="pull-right">
-              <button jsf:id="Continue" class="btn btn-primary" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      <nav class="mrgn-bttm-lg" role="navigation">
+        <h2 class="wb-inv">Navigation</h2>
+        <ul class="pager">
+          <li class="pull-right">
+            <button jsf:id="Continue" class="btn btn-primary" rel="next" type="submit" jsf:action="#{authenticator.authenticate}">Continue</button>
+          </li>
+        </ul>
+      </nav>
     </form>
   </ui:define>
 
