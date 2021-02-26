@@ -15,3 +15,6 @@ on the same compute node (i.e. via the the localhost loopback network interface)
 |OpenID Provider|NoSQL Database|No|REST (cluster administration)|TLS|yes|client secret|18091|
 |OpenID Provider|NoSQL Database|No|REST (views and XDCR access)|TLS|yes|client secret|18092|
 |OpenID Provider|NoSQL Database|No|REST (query service)|TLS|yes|client secret|18093|
+|OpenID Provider|Azure Key Vault|No|REST|TLS|yes|managed identity|443|
+|OpenID Provider|Azure Monitor|No|REST|TLS|yes|instrumentation key|443|
+|NoSQL Database|Azure Storage|No|HTTP|TLS|yes|managed identity|443|
