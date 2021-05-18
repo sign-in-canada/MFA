@@ -58,8 +58,8 @@ steps:
     gpg2 --verify $(Agent.TempDirectory)/core-io-1.7.19.jar.asc gluu-server/opt/dist/app/core-io-1.7.19.jar
     gpg2 --verify $(Agent.TempDirectory)/java-client-2.7.19.jar.asc gluu-server/opt/dist/app/java-client-2.7.19.jar
     echo 'Passed'
-    displayName: 'Downlaoding the latest Couchbase client'
-    continueOnError: false
+  displayName: 'Downlaoding the latest Couchbase client'
+  continueOnError: false
 
 - task: DownloadPipelineArtifact@2
   inputs:
