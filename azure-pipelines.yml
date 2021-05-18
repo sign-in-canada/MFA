@@ -41,8 +41,8 @@ steps:
     echo 'Checking file integritiy'
     gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys B04F24E3
     gpg2 --verify $(Agent.TempDirectory)/amazon-corretto-11-x64-linux-jdk.tar.gz.sig gluu-server/opt/dist/app/amazon-corretto-11-x64-linux-jdk.tar.gz
-    displayName: 'Downloading Latest Amazon Corretto'
-    continueOnError: false
+  displayName: 'Downloading Latest Amazon Corretto'
+  continueOnError: false
 
 - script: |
     wget https://repo1.maven.org/maven2/com/couchbase/client/core-io/1.7.19/core-io-1.7.19.jar \
