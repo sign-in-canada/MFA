@@ -6,19 +6,25 @@ systemctl stop httpd oxauth identity
 echo 'Enabling the keyvault service...'
 systemctl enable keyvault
 
-echo 'Installing audit logging patch...'
-pushd /opt/dist/gluu/patch > /dev/null 2>&1
-zip -u /opt/gluu/jetty/oxauth/webapps/oxauth.war WEB-INF/classes/org/gluu/oxauth/audit/ApplicationAuditLogger.class
+echo 'Installing the Application Insights SDK to oxAuth...'
+install -m 644 -o jetty -g jetty /opt/dist/signincanada/applicationinsights-core-2.6.2.jar /opt/gluu/jetty/oxauth/custom/libs
+
+echo 'Updating the Couchbase client...'
+mkdir -p /tmp/patch/WEB-INF/lib
+cp /opt/dist/app/core-io-1.7.19.jar /tmp/patch/WEB-INF/lib
+cp /opt/dist/app/java-client-2.7.19.jar /tmp/patch/WEB-INF/lib
+pushd /tmp/patch 2>&1
+zip -d /opt/gluu/jetty/oxauth/webapps/oxauth.war \
+   WEB-INF/lib/core-io-1.7.16.jar \
+   WEB-INF/lib/java-client-2.7.16.jar
+zip -u /opt/gluu/jetty/oxauth/webapps/oxauth.war WEB-INF/lib/*
+if [ -d /opt/gluu/jetty/identity ] ; then
+    zip -d /opt/gluu/jetty/identity/webapps/identity.war \
+    WEB-INF/lib/core-io-1.7.16.jar \
+    WEB-INF/lib/java-client-2.7.16.jar
+    zip -u /opt/gluu/jetty/identity/webapps/identity.war WEB-INF/lib/*
+fi
 popd > /dev/null 2>&1
-
-echo 'Installing the application insights SDK...'
-install -m 644 -o jetty -g jetty /opt/dist/signincanada/applicationinsights-web-auto-2.6.1.jar /opt/gluu/jetty/oxauth/custom/libs
-
-echo 'Updating Corretto...'
-rm -f /opt/jre
-rm -rf /opt/amazon-corretto-*
-tar xf /opt/dist/corretto/amazon-corretto-8-x64-linux-jdk.tar.gz -C /opt
-ln -s /opt/amazon-corretto-* /opt/jre
 
 echo 'Installing the UI...'
 tar xzf /opt/dist/signincanada/custom.tgz -C /opt/gluu/jetty/oxauth/custom
@@ -36,4 +42,10 @@ systemctl enable notify
 echo "Configuring httpd chain certificate..."
 sed -i "22i\ \ \ \ \ \ \ \ SSLCertificateChainFile /etc/certs/httpd.chain" /etc/httpd/conf.d/https_gluu.conf
 
+echo "Updating packages..."
+if grep Red /etc/redhat-release ; then
+   yum remove -y epel-release
+fi
+yum clean all
+yum update -y
 echo 'Done.'
