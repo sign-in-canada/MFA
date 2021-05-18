@@ -1,92 +1,20 @@
 dn: inum=AZS1-MFA1,ou=scripts,o=gluu
 objectClass: oxCustomScript
 objectClass: top
-description: MFA Selection Script, landing page
-displayName: select_mfa
+description: MFA Authentication Script
+displayName: mfa
 oxEnabled: true
 inum: AZS1-MFA1
 oxConfigurationProperty: {"value1":"custom_page_content_file","value2":"/opt/gluu/jetty/oxauth/custom/pages/content.json","description":""}
 oxConfigurationProperty: {"value1":"u2f_application_id","value2":"https://%(hostname)s","description":""}
-oxConfigurationProperty: {"value1":"encryption_key_file","value2":"/run/keyvault/secrets/MFAKey","description":""}
-oxLevel: 50
-oxModuleProperty: {"value1":"usage_type","value2":"interactive","description":""}
-oxModuleProperty: {"value1":"location_type","value2":"file","description":""}
-oxModuleProperty: {"value1":"location_path","value2":"/opt/gluu/jetty/oxauth/custom/scripts/person_authentication/MfaNewSelection.py","description":""}
-oxRevision: 1
-oxScriptType: person_authentication
-programmingLanguage: python
-
-dn: inum=AZS1-MFA2,ou=scripts,o=gluu
-objectClass: oxCustomScript
-objectClass: top
-description: MFA TOTP authentication module
-displayName: mfa_otp
-oxEnabled: true
-inum: AZS1-MFA2
-oxConfigurationProperty: {"value1":"custom_page_content_file","value2":"/opt/gluu/jetty/oxauth/custom/pages/content.json","description":""}
-oxConfigurationProperty: {"value1":"otp_type","value2":"totp","description":""}
-oxConfigurationProperty: {"value1":"otp_conf_file","value2":"/etc/certs/otp_configuration.json","description":""}
-oxConfigurationProperty: {"value1":"issuer","value2":"Sign In Canada MFA","description":""}
-oxConfigurationProperty: {"value1":"label","value2":"Sign In Canada","description":""}
-oxConfigurationProperty: {"value1":"qr_options","value2":"{ size: 300, mSize: 0.05 }","description":""}
-oxConfigurationProperty: {"value1":"registration_uri","value2":"https://%(hostname)s/identity/register","description":""}
-oxConfigurationProperty: {"value1":"encryption_key_file","value2":"/run/keyvault/secrets/MFAKey","description":""}
-oxLevel: 50
-oxModuleProperty: {"value1":"usage_type","value2":"interactive","description":""}
-oxModuleProperty: {"value1":"location_type","value2":"file","description":""}
-oxModuleProperty: {"value1":"location_path","value2":"/opt/gluu/jetty/oxauth/custom/scripts/person_authentication/MfaOtpExternalAuthenticator.py","description":""}
-oxRevision: 1
-oxScriptType: person_authentication
-programmingLanguage: python
-
-dn: inum=AZS1-MFA3,ou=scripts,o=gluu
-objectClass: oxCustomScript
-objectClass: top
-description: MFA Fido U2F authentication module
-displayName: mfa_u2f
-oxEnabled: true
-inum: AZS1-MFA3
-oxConfigurationProperty: {"value1":"custom_page_content_file","value2":"/opt/gluu/jetty/oxauth/custom/pages/content.json","description":""}
-oxConfigurationProperty: {"value1":"u2f_application_id","value2":"https://%(hostname)s","description":""}
 oxConfigurationProperty: {"value1":"u2f_server_uri","value2":"https://%(hostname)s","description":""}
-oxLevel: 50
-oxModuleProperty: {"value1":"usage_type","value2":"interactive","description":""}
-oxModuleProperty: {"value1":"location_type","value2":"file","description":""}
-oxModuleProperty: {"value1":"location_path","value2":"/opt/gluu/jetty/oxauth/custom/scripts/person_authentication/MfaU2FExternalAuthenticator.py","description":""}
-oxRevision: 1
-oxScriptType: person_authentication
-programmingLanguage: python
-
-dn: inum=AZS1-MFA4,ou=scripts,o=gluu
-objectClass: oxCustomScript
-objectClass: top
-description: MFA Generate new recovery codes
-displayName: new_recovery_code
-oxEnabled: true
-inum: AZS1-MFA4
-oxConfigurationProperty: {"value1":"custom_page_content_file","value2":"/opt/gluu/jetty/oxauth/custom/pages/content.json","description":""}
 oxConfigurationProperty: {"value1":"encryption_key_file","value2":"/run/keyvault/secrets/MFAKey","description":""}
+oxConfigurationProperty: {"value1":"otp_conf_file","value2":"/etc/certs/otp_configuration.json","description":""}
+oxConfigurationProperty: {"value1":"qr_options","value2":"{ size: 300, mSize: 0.05 }","description":""}
 oxLevel: 50
 oxModuleProperty: {"value1":"usage_type","value2":"interactive","description":""}
 oxModuleProperty: {"value1":"location_type","value2":"file","description":""}
-oxModuleProperty: {"value1":"location_path","value2":"/opt/gluu/jetty/oxauth/custom/scripts/person_authentication/MfaRecoveryCodeEnrollment.py","description":""}
-oxRevision: 1
-oxScriptType: person_authentication
-programmingLanguage: python
-
-dn: inum=AZS1-MFA5,ou=scripts,o=gluu
-objectClass: oxCustomScript
-objectClass: top
-description: MFA Use Recovery Code
-displayName: recovery_code
-oxEnabled: true
-inum: AZS1-MFA5
-oxConfigurationProperty: {"value1":"custom_page_content_file","value2":"/opt/gluu/jetty/oxauth/custom/pages/content.json","description":""}
-oxConfigurationProperty: {"value1":"encryption_key_file","value2":"/run/keyvault/secrets/MFAKey","description":""}
-oxLevel: 50
-oxModuleProperty: {"value1":"usage_type","value2":"interactive","description":""}
-oxModuleProperty: {"value1":"location_type","value2":"file","description":""}
-oxModuleProperty: {"value1":"location_path","value2":"/opt/gluu/jetty/oxauth/custom/scripts/person_authentication/MfaRecoveryCodeValidation.py","description":""}
+oxModuleProperty: {"value1":"location_path","value2":"/opt/gluu/jetty/oxauth/custom/scripts/person_authentication/Mfa.py","description":""}
 oxRevision: 1
 oxScriptType: person_authentication
 programmingLanguage: python

@@ -20,3 +20,4 @@ oxAuthTrustedClient: true
 oxAuthSubjectType: pairwise
 oxPersistClientAuthorizations: false
 oxAuthLogoutSessionRequired: false
+oxAuthDefaultAcrValues: mfa
