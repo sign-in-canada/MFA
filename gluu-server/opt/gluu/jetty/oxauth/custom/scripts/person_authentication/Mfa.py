@@ -781,7 +781,7 @@ class PersonAuthentication(PersonAuthenticationType):
             print "MFA. Initialization. Property u2f_server_uri is mandatory"
             return False
         u2f_server_uri = configurationAttributes.get("u2f_server_uri").getValue2()
-        u2f_server_metadata_uri = u2f_server_uri + "/.well-known/fido-u2f-configuration"
+        u2f_server_metadata_uri = u2f_server_uri + "/.well-known/fido-configuration"
 
         metaDataConfigurationService = FidoU2fClientFactory.instance().createMetaDataConfigurationService(u2f_server_metadata_uri)
 
